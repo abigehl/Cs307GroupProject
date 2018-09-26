@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('templates/main.html');
+    return render_template('main.html');
     #return "<h2>First Main Deploy!</h2>"
     
 if __name__ == '__main__':
