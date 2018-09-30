@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
   <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='scripts/facebook-google.js') }}"></script>
   <meta name="google-signin-client_id" content="640840633381-8rrcgg5r9hru2al5e853jq95valimmd5.apps.googleusercontent.com">
-  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+  <!--div class="g-signin2" data-onsuccess="onSignIn"></div>
   <a href="#" onclick="signOut();">Sign out</a>
 
-
+  <button name = "google" type="button">Google</button>
+  <button name = "facebook" type="button">Facebook</button-->
+  <a href="{{ url_for('googleSignin') }}">google log in</a>
 </html>
