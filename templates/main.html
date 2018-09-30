@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+	
 <head>
+	<div style="background-image: url(Images/navbar.png); ">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Complete Bootstrap 4 Website Layout</title>
+	<title>Help Me Recipe</title>
 
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/css/mdb.min.css" rel="stylesheet">
 
@@ -25,18 +27,21 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
 
 	<link href="style.css" rel="stylesheet">
+	</div>
 </head>
 <body>
-
+		<div style="height: 100vh; background-image: url(Images/bg.png); ">
 	<!-- Navigation -->
-	<div class="jumbotron">
-		<h1 class="display-4 text-center">Help Me Recipe</h1>
+	<div class="jumbotron " style="background-image:url(Images/navbar.jpg); background-size:100%">
+		<div style="background-image: url(Images/navbar.png); background-size: cover; ">
+		<h1 class="display-4 text-center text-light font-weight-bold">Help Me Recipe</h1>
+		</div>
 	</div>
 
 	<div class="container">
 
 	    <div class="login-popup-heading text-center">
-	        <h4><i class="fa fa-lock" aria-hidden="true"></i> Login </h4>         
+	        <h4 class= "text-light"><i class="fa fa-lock" aria-hidden="true"></i> Login </h4>         
 	    </div>             
 
 	    <form id="loginMember" role="form" action="" method="post">
@@ -51,11 +56,11 @@
 
 	    <div class="form-group text-center">
 
-	    <a class="pwd-forget" href="javascript:void(0)" id="open_forgotPassword">Forgot Password</a>
+	    <a class="pwd-forget grey-text" href="javascript:void(0)" id="open_forgotPassword">Forgot Password</a>
 	    </div>
-	    <div class="text-center">Not registered yet? <a href="http://192.168.50.34/abcc/membership-application">click here</a></div>
+	    <div class="text-center text-light">Not registered yet? <a href="http://192.168.50.34/abcc/membership-application" class="grey-text">click here</a></div>
 
 	</div>
-
+</div>
 </body>
 </html>

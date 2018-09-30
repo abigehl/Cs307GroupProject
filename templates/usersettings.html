@@ -17,16 +17,64 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
 </head>
-
+<nav style="background-image: url(Images/navbar.jpg)">
+    <nav class="navbar navbar-expand-lg navbar-dark transparent">
+    
+      <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+          aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="basicExampleNav">
+          <!-- Links -->
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"> 
+                <h3 class="text-white">Help Me Recipe</h3>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="OurMission.html">Our Mission</a>
+              </li>
+              
+          </ul>
+          
+               
+            
+          <!-- Links -->
+        </div>
+       
+        <!-- Collapsible content -->
+        <form class="form-inline">
+            <div class="md-form my-0">
+              <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            </div>
+            <ul class="navbar-nav mr-auto"> 
+                <li class="nav-item">
+                    <a class="nav-link" href="main.html">Login</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="main.html">Register</a>
+                  </li>
+            </ul>
+    
+          </form>
+      </nav>
+      </nav>
 <body>
 
     <!-- Start your project here-->
     <div class="card" style="height: 100vh">
-        <h4 style="text-align: left;">User Settings</h4>
+            <div style="background-image: url(Images/bg.png); ">
+       <h1 class="text-white flex-center"><br>User Settings</h1>
         <br>
         <div class="d-flex flex-center flex-column bd-highlight mb-3">
             <div class="card w-50">
-                <div class="card-header red lighten-1 white-text">Display Information</div>
+                <div class="card-header  lighten-1 white-text" style="background-image: url(Images/navbar.jpg);">Display Information</div>
                 <div class="card-body">
                     <!-- Default horizontal form -->
                     <form>
@@ -334,13 +382,13 @@
                                 <option value="ZW">Zimbabwe</option>
                             </select>
                         </div>
-                        <a href="#" class="btn btn-danger">Save</a>
+                        <a href="#" class="btn " style="background-image: url(Images/navbar.jpg);">Save</a>
                     </form>
                 </div>
             </div>
             <br>
             <div class="card w-50">
-                <div class="card-header red lighten-1 white-text">Account Settings</div>
+                <div class="card-header  lighten-1 white-text" style="background-image: url(Images/navbar.jpg);">Account Settings</div>
                 <div class="card-body">
                     <form>
                         <div class="form-group row">
@@ -350,11 +398,12 @@
                             </div>
                         </div>
                     </form>
-                    <a href="#" class="btn btn-danger">Save</a>
+                    <a href="#" class="btn " style="background-image: url(Images/navbar.jpg);">Save</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
     <!-- /Start your project here-->
 </body>
 
