@@ -30,48 +30,48 @@ Sign In
 	<!-- popper -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 
-	<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
 
-	<link href="style.css" rel="stylesheet">
+
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
 
 	</div>
 </head>
 
 <body>
 
-
-		<div style="height: 100vh; background-image: url(Images/bg.png); ">
-	<!-- Navigation -->
-	<div class="jumbotron " style="background-image:url(Images/navbar.jpg); background-size:100%">
-		<div style="background-image: url(Images/navbar.png); background-size: cover; ">
-		<h1 class="display-4 text-center text-light font-weight-bold">Help Me Recipe</h1>
-		</div>
-	</div>
-
-	<div class="container">
-
-	    <div class="login-popup-heading text-center">
-	        <h4 class= "text-light"><i class="fa fa-lock" aria-hidden="true"></i> Login </h4>         
-	    </div>             
-
-	    <form id="loginMember" role="form" action="/" method="post">
-	        <div class="form-group">
-                {{ form.hidden_tag() }}
-                {{ wtf.form_field(form.username) }}
-                {{ wtf.form_field(form.password) }}
-	        <button type="submit" class="btn btn-default login-popup-btn" name="submit" value="1">Login</button>
-	    </form>
-
-	    <div class="form-group text-center">
-
-	    <a class="pwd-forget grey-text" href="javascript:void(0)" id="open_forgotPassword">Forgot Password</a>
-	    </div>
-	    <div class="text-center text-light">Not registered yet? <a href="http://192.168.50.34/abcc/membership-application" class="grey-text">click here</a></div>
-
-	</div>
+<div class="header_background"></div>
+<div class="jumbotron">
+	<h1 class="display-4 text-center">Help Me Recipe</h1>
 </div>
+
+<div class="container padding">
+    <div class="login-popup-heading text-center">
+        <h4><i class="fa fa-lock" aria-hidden="true"></i> Login </h4>         
+    </div>                     
+
+    <form id="loginMember" role="form" action="" method="post">
+        <div class="form-group">
+            <input type="text" class="form-control" id="user_id" placeholder="Username" name="username">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+        </div>
+        <button type="submit" class="btn btn-default login-popup-btn" name="submit" value="1">Login</button>
+    </form>
+
+    <div class="form-group text-center">
+
+    <a class="pwd-forget" href="javascript:void(0)" id="open_forgotPassword">Forgot Password</a>
+    </div>
+    <div class="text-center">Not registered yet? <a href="http://192.168.50.34/abcc/membership-application">click here</a></div>
+</div>
+<div class="container padding"></div>
+<div class="container padding">
+	<hr>
+</div>
+
 </body>
 </html>
 {% endblock %}
