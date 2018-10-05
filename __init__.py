@@ -39,6 +39,15 @@ blueprint = make_google_blueprint(
     offline=True,
 )
 
+facebook_blueprint = make_facebook_blueprint(
+    client_id="1145745515594684",
+    client_secret="350d8feaa14aa1a37212a8b3d4dd2694",
+    scope=[
+        "public_profile",
+        "email"
+    ],
+)
+
 
 class LoginForm(FlaskForm):
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=30)])
@@ -122,7 +131,7 @@ def signup():
 
 
 @app.route('/homepage')
-@login_required
+#@login_required
 def homepage():
     return render_template('homepage.html')
 
@@ -136,20 +145,61 @@ def fglogin():
 def googleSignin():
     # print(session)
     if not google.authorized:
+        print("new user")
         return redirect(url_for("google.login"))
     try:
         # print(session)
         resp = google.get("/oauth2/v2/userinfo")
         assert resp.ok, resp.text
-        post = users(name=resp.json()["name"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
+
+
+<< << << < HEAD
+    post = users(name=resp.json()["name"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
+    print(post)
+    db.session.add(post)
+    db.session.commit()
+== == == =
+    post = users.query.filter_by(email=resp.json()["email"]).first()
+    if not post:
+        post = users(username=resp.json()["name"], password=resp.json()["id"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
         print(post)
         db.session.add(post)
         db.session.commit()
+>>>>>> > 11276077d1ce6654878059ce2d81fef1cee91655
     except InvalidClientIdError:
         session.clear()
-        return render_template('main.html')
+        return render_template('facebook-google.html')
+    print("return to homepage")
+    return render_template('homepage.html')
 
-    return render_template('facebook-google.html')
+<< << << < HEAD
+== == == =
+
+
+@app.route('/facebookSignin', methods=['GET', 'POST'])
+def facebookSignin():
+    #form = LoginForm()
+    if not facebook.authorized:
+        print("new user")
+        return redirect(url_for("facebook.login"))
+    try:
+        # print(session)
+        resp = facebook.get('/me?fields=id,name,email')
+        post = users.query.filter_by(email=resp.json()["email"]).first()
+        if not post:
+            post = users(username=resp.json()["name"], password=resp.json()["id"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
+            print(post)
+            db.session.add(post)
+            db.session.commit()
+    except InvalidClientIdError:
+        session.clear()
+        print("error")
+        return render_template('facebook-google.html')
+    print("return to homepage")
+    return render_template('homepage.html')
+
+
+>>>>>> > 11276077d1ce6654878059ce2d81fef1cee91655
 
 
 @app.route('/logout')

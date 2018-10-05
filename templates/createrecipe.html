@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/css/mdb.min.css" rel="stylesheet">
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
+</head>
+<nav style="background-image: url(../static/Images/navbar.jpg)">
+    <nav class="navbar navbar-expand-lg navbar-dark transparent">
+
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+            aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="basicExampleNav">
+            <!-- Links -->
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <h3 class="text-white">Help Me Recipe</h3>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="OurMission.html">Our Mission</a>
+                </li>
+
+            </ul>
+
+
+
+            <!-- Links -->
+        </div>
+
+        <!-- Collapsible content -->
+        <form class="form-inline">
+            <div class="md-form my-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            </div>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="main.html">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="main.html">Register</a>
+                </li>
+            </ul>
+
+        </form>
+    </nav>
+</nav>
+<div style="background-image: url(../static/Images/bg.png">
+<main class=" pt-4">
+    <h5 class="text-center text-light">Create a Recipe</h5>
+    <div class="container text-light mt-5">
+
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+
+            <!--Grid column-->
+            <div class="col-md-6 mb-4">
+
+                <img src="Images/lasagna.jpg" class="img-fluid" alt="">
+
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-md-6 mb-4">
+
+                <!--Content-->
+                <div class="p-4">
+
+                    <!-- <div class="mb-3">
+                        <a href="">
+                            <span class="badge purple mr-1">Italian</span>
+                        </a>
+                        <a href="">
+                            <span class="badge blue mr-1">Hot</span>
+                        </a>
+                        <a href="">
+                            <span class="badge red mr-1">Trash</span>
+                        </a>
+                    </div>
+                     -->
+
+                    <p class="lead font-weight-bold">
+                        <input class="form-control" type="text" placeholder="Enter Recipe Name">
+                        <div class="btn-group">
+                            <button class="btn btn-dark-green dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">Cooking Experience Level</button>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Beginner</a>
+                                <a class="dropdown-item" href="#">Experienced</a>
+                                <a class="dropdown-item" href="#">Expert</a>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <input class="form-control" type="text" placeholder="Enter Prep Time">
+                        <br>
+                        <input class="form-control" type="text" placeholder="Enter Cook Time">
+                    </p>
+
+                    <!--<p class="lead font-weight-bold">Description</p>-->
+                    <!--<input class="form-control" type="text" placeholder="Recipe Description">-->
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Recipe Description</label>
+                        <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>
+                    </div>
+                    <!--<p>I like lasagna</p>-->
+
+                    <form class="d-flex justify-content-left">
+                        <!-- Default input -->
+                        <!--<input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">-->
+                        <!--<button class="btn btn-dark-green btn-md my-0 p" type="submit">Favorite-->
+                        <!--<i class="fa fa-shopping-cart ml-1"></i>-->
+                        </button>
+
+                    </form>
+
+                </div>
+                <!--Content-->
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+        <hr>
+
+        <!--Grid row-->
+        <div class="row d-flex justify-content-left wow fadeIn">
+
+            <!--Grid column-->
+            <div class="col-md-6 text-left">
+
+                <h4 class="my-4 h4">Enter Ingredients</h4>
+
+                <input class="form-control" type="text" placeholder="Ingredient 1">
+                <br>
+                <input class="form-control" type="text" placeholder="Ingredient 2">
+                <br>
+                <input class="form-control" type="text" placeholder="Ingredient 3">
+                <br>
+                <input class="form-control" type="text" placeholder="Ingredient 4">
+                <br>
+                <input class="form-control" type="text" placeholder="Ingredient 5">
+                <br>
+                <input class="form-control" type="text" placeholder="Ingredient 6">
+                <br>
+                <input class="form-control" type="text" placeholder="Ingredient 7">
+                <br>
+                <input class="form-control" type="text" placeholder="Ingredient 8">
+                <br>
+                <input class="form-control" type="text" placeholder="Ingredient 9">
+                <br>
+                <input class="form-control" type="text" placeholder="Ingredient 10">
+
+                <br>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Enter your instructions</label>
+                    <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>
+                </div>
+                <h4 class="my-4 h4">Enter Nutritional Facts (Optional)</h4>
+                <br>
+                <input class="form-control" type="text" placeholder="Calories">
+                <br>
+                <input class="form-control" type="text" placeholder="Fat">
+                <br>
+                <input class="form-control" type="text" placeholder="Cholesterol">
+                <br>
+                <input class="form-control" type="text" placeholder="Sodium">
+                <br>
+                <button type="submit" class="btn btn-dark-green">Save</button>
+
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+        <!--Grid row-->
+
+        <div class="row wow fadeIn">
+
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-12 mb-4">
+
+                <!--  <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid"
+                    alt=""> -->
+
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-6 mb-4">
+
+                <!-- <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid"
+                    alt=""> -->
+
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-6 mb-4">
+
+                <!-- <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid"
+                    alt=""> -->
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+    </div>
+</div>
+</main>
