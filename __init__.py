@@ -195,15 +195,9 @@ def signup():
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/')
 #@login_required
 def homepage():
-    if(request.method == 'POST'):
-        postDescription = request.form["post_desc"]
-        post = posts(status=postDescription)
-
-        db.session.add(post)
-        db.session.commit()
     if current_user.is_authenticated:
         return redirect(url_for('homepageloggedin'))
     
@@ -280,8 +274,14 @@ def logout():
     logout_user()
     return redirect(url_for('homepage'))
 
-@app.route('/homepageloggedin')
+@app.route('/homepageloggedin' , methods=['GET','POST'])
 def homepageloggedin():
+    if(request.method == 'POST'):
+        postDescription = request.form["post_desc"]
+        post = posts(status=postDescription)
+
+        db.session.add(post)
+        db.session.commit()
     return render_template('homepageloggedin.html')
 
 @app.route('/ProfilePage')
