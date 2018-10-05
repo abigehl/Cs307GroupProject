@@ -13,6 +13,7 @@ from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
 import os
 from datetime import datetime
+import time
 #from django.db import IntegrityError
 
 
@@ -53,7 +54,8 @@ facebook_blueprint = make_facebook_blueprint(
 
 
 class rec(db.Model):
-    rec_name = db.Column('rec_name', db.String(100),primary_key=True)      
+   
+    rec_name = db.Column('rec_name', db.String(100), primary_key=True)      
     prep_time = db.Column('prep_time', db.String(50))
     cook_time = db.Column('cook_time', db.String(50)) 
     rec_description = db.Column('rec_description',db.String(1000))
@@ -189,7 +191,7 @@ def signup():
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
-        return redirect(url_for('homepage'))
+        return redirect(url_for('homepageloggedin'))
     return render_template('register.html', title='Register', form=form)
 
 
@@ -217,10 +219,6 @@ def fglogin():
 def settings():
     return render_template('usersettings.html')
 
-    
-@app.route('/createrecipe')
-def create_recipe():
-    return render_template('createrecipe.html')
 
 @app.route('/usersettings')
 def updateUserSettings():

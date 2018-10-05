@@ -39,13 +39,12 @@
                 <li class="nav-item"> 
                     <h3 class="text-white">Help Me Recipe</h3>
                 </li>
-                <li class="nav-item active">
-                  <a class="nav-link">Home
-                    <span class="sr-only">(current)</span>
-                  </a>
+                
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('homepage') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="OurMission.html">About us</a>
+                    <a class="nav-link" href="{{ url_for('homepage') }}">About us</a>
                   </li>
               </ul>
               <!-- Links -->
@@ -56,12 +55,12 @@
                   <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
                 </div>
                 <ul class="navbar-nav mr-auto"> 
-                    <li class="nav-item">
-                        <a class="nav-link" href="main.html">Login</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="main.html">Register</a>
-                      </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('profile') }}"> My profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                  </li>
                 </ul>
         
               </form>
