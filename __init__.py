@@ -39,7 +39,7 @@ facebook_blueprint = make_facebook_blueprint(
     client_id="1145745515594684",
     client_secret="350d8feaa14aa1a37212a8b3d4dd2694",
     scope=[
-        "public profile",
+        "public_profile",
         "email"
     ],
 )
@@ -120,7 +120,7 @@ def signup():
     return render_template('register.html', form=form)
 
 @app.route('/homepage')
-@login_required
+#@login_required
 def homepage():
     return render_template('homepage.html')
 
@@ -152,7 +152,7 @@ def googleSignin():
         session.clear()
         return render_template('facebook-google.html')
 
-    return redirect(url_for('homepage'))
+    return render_template('homepage.html')
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
 def facebookSignin():
@@ -172,7 +172,7 @@ def facebookSignin():
         session.clear()
         print("error");
         return render_template('facebook-google.html')
-    return redirect(url_for('homepage'))
+    return render_template('homepage.html')
 
 @app.route('/logout')
 @login_required
