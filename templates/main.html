@@ -7,7 +7,7 @@
 Sign In
 {% endblock %}
 
-{% block content %}
+
 {% block styles %}
 <head>
 	<div style="background-image: url(Images/navbar.png); ">
@@ -38,7 +38,8 @@ Sign In
 
 	</div>
 </head>
-
+{% endblock %}
+{% block content %}
 <body>
 
 <div class="header_background"></div>
@@ -52,12 +53,9 @@ Sign In
     </div>                     
 
     <form id="loginMember" role="form" action="" method="post">
-        <div class="form-group">
-            <input type="text" class="form-control" id="user_id" placeholder="Username" name="username">
-        </div>
-        <div class="form-group">
-            <input type="password" class="form-control" id="password" placeholder="Password" name="password">
-        </div>
+                {{ form.hidden_tag() }}
+                {{ wtf.form_field(form.username) }}
+                {{ wtf.form_field(form.password) }}
         <button type="submit" class="btn btn-default login-popup-btn" name="submit" value="1">Login</button>
     </form>
 
@@ -67,12 +65,8 @@ Sign In
     </div>
     <div class="text-center">Not registered yet? <a href="http://192.168.50.34/abcc/membership-application">click here</a></div>
 </div>
-<div class="container padding"></div>
-<div class="container padding">
-	<hr>
-</div>
 
 </body>
 </html>
-{% endblock %}
+
 {% endblock %}

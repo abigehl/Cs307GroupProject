@@ -4,6 +4,8 @@ from flask_wtf import FlaskForm
 from flask_bootstrap import Bootstrap
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_dance.contrib.google import make_google_blueprint, google
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
 import os
@@ -16,6 +18,10 @@ Bootstrap(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://helpmerecipe:passpass@helpmerecipe.coy90uyod5ue.us-east-2.rds.amazonaws.com/helpmerecipe'
 db = SQLAlchemy(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = '/'
+
 
 app.secret_key = "helpmerecipe"
 blueprint = make_google_blueprint(
@@ -36,9 +42,22 @@ class LoginForm(FlaskForm):
     remember = BooleanField('remember me')
 
 
-class users(db.Model):
-    name = db.Column(db.Unicode, primary_key=True)
-    email = db.Column(db.Unicode)
+class ResgisterForm(FlaskForm):
+    email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
+    username = StringField('username', validators=[InputRequired(), Length(min=4, max=30)])
+    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
+
+
+class users(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.Unicode, unique=True)
+    email = db.Column(db.Unicode, unique=True)
+    password = db.Column(db.String(80))
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return users.query.get(int(user_id))
 
 
 app.register_blueprint(blueprint, url_prefix="/login")
@@ -47,10 +66,39 @@ app.register_blueprint(blueprint, url_prefix="/login")
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
-    #################################################
     form = LoginForm()
     if form.validate_on_submit():
-        return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
+        user = users.query.filter_by(username=form.username.data).first()
+        if user:
+            if user.password == form.password.data:
+                login_user(user, remember=form.remember.data)
+                # if check_password_hash(user.password, form.password.data):
+                return redirect(url_for('homepage'))
+        return '<h1>Invalid username or password</h1>'
+
+    # if request.method == 'POST':
+      #  username = request.form['username']
+       # password = request.form['password']
+
+       # post = users(name=username, email=password)
+
+       # db.session.add(post)
+        # db.session.commit()
+
+    return render_template('main.html', form=form)
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+
+    form = RegisterForm()
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data, method='sha256')
+        new_user = User(username=form.username.date, email=form.email.data, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commi()
+
+        # return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
     #################################################
 
     # if request.method == 'POST':
@@ -63,6 +111,12 @@ def index():
         # db.session.commit()
 
     return render_template('main.html', form=form)
+
+
+@app.route('/homepage')
+@login_required
+def homepage():
+    return render_template('homepage.html')
 
 
 @app.route('/facebook-google')
@@ -88,6 +142,13 @@ def googleSignin():
         return render_template('main.html')
 
     return render_template('facebook-google.html')
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
