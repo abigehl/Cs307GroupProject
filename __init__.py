@@ -216,11 +216,8 @@ def fglogin():
 def ourmission():
 	return render_template('OurMission.html')
 
-@app.route('/createrecipe')
-def create_recipe():
-	return render_template('createrecipe.html')
 
-@app.route('/settings')
+@app.route('/settings' , methods=['GET', 'POST'])
 def settings():
     if(request.method == 'POST'):
         current_user.firstName = request.form["firstname"]
@@ -232,7 +229,7 @@ def settings():
 
     return render_template('usersettings.html')
 
-@app.route('/usersettings')
+@app.route('/usersettings') 
 def updateUserSettings():
     
         return render_template('usersettings.html')
