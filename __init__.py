@@ -12,6 +12,7 @@ from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
 import os
 from datetime import datetime
+#from django.db import IntegrityError
 
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -177,10 +178,13 @@ def facebookSignin():
         resp = facebook.get('/me?fields=id,name,email')
         post = users.query.filter_by(email=resp.json()["email"]).first()
         if not post:
-            post = users(username=resp.json()["name"], password=resp.json()["id"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
-            print(post)
-            db.session.add(post)
-            db.session.commit()
+            try:
+                post = users(username=resp.json()["name"], password=resp.json()["id"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
+                print(post)
+                db.session.add(post)
+                db.session.commit()
+            except sqlalchemy.exc.IntegrityError:
+                db.session.rollback()
     except InvalidClientIdError:
         session.clear()
         print("error")
