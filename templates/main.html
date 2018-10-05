@@ -60,13 +60,13 @@ Sign In
     </div>
 
     <div class="container padding text-center">
-	    <div class="login-popup-heading text-center">
-	        <h4><i class="fa fa-lock" aria-hidden="true"></i> Login </h4>
+	    <div class="login-popup-heading text-center text-light">
+	        <h4 class="text-light"><i class="fa fa-lock text-light" aria-hidden="true"></i> Login </h4>
 	    </div>
 	</div>
 
     <form id="loginMember" role="form" action="" method="post">
-    	<div class="container padding text-center" style="width: 30%">
+    	<div class="container  text-center" style="width: 30%">
     		{{ form.hidden_tag() }}
             {{ wtf.form_field(form.username) }}
             {{ wtf.form_field(form.password) }}
@@ -79,9 +79,9 @@ Sign In
 	<div class="mb-4"></div>
 
     <div class="form-group text-center">
-    <a class="pwd-forget" href="javascript:void(0)" id="open_forgotPassword">Forgot Password</a>
+    <a class="pwd-forget text-light" href="javascript:void(0)" id="open_forgotPassword">Forgot Password</a>
 
-    <div class="text-center">Not registered yet? <a href="{{ url_for('signup') }}">click here</a></div>
+    <div class="text-center text-light">Not registered yet? <a href="{{ url_for('signup') }}" class="text-light">click here</a></div>
 	</div>
 
 
