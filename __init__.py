@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from flask_bootstrap import Bootstrap
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import InputRequired, Email, Length, EqualTo
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask_dance.contrib.google import make_google_blueprint, google
@@ -20,9 +21,10 @@ os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
 app = Flask(__name__)
 Bootstrap(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://helpmerecipe:passpass@helpmerecipe.coy90uyod5ue.us-east-2.rds.amazonaws.com/helpmerecipe'
 app.config['SECRET_KEY'] = 'THIS_IS_SECRET'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = '/'
@@ -62,13 +64,13 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=80)])
     confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password')])
 
-    submit = SubmitField('Sign up')
+   # submit = SubmitField('Sign Up')
 
 
 class users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.Unicode, unique=True)
-    email = db.Column(db.Unicode, unique=True)
+    username = db.Column(db.Unicode)
+    email = db.Column(db.Unicode)
     password = db.Column(db.String(80))
 
 
@@ -80,65 +82,48 @@ def load_user(user_id):
 app.register_blueprint(google_blueprint, url_prefix="/google_login")
 app.register_blueprint(facebook_blueprint, url_prefix="/facebook_login")
 
+
 @app.route('/login/forgot/newpass')
 def newpass():
-	form = RegisterForm()
-	return render_template('forgotPassCode.html', form=form)
+    form = RegisterForm()
+    return render_template('forgotPassCode.html', form=form)
+
 
 @app.route('/login/forgot')
 def forgotp():
-	form = RegisterForm()
-	return render_template('forgotPass.html', form=form)
+    form = RegisterForm()
+    return render_template('forgotPass.html', form=form)
 
-@app.route('/login', methods=['GET', 'POST'])
-def index():
 
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('homepage'))
     form = LoginForm()
     if form.validate_on_submit():
         user = users.query.filter_by(username=form.username.data).first()
-        if user:
-            if check_password_hash(user.password, form.password.data):
-                login_user(user, remember=form.remember.data)
-
-                return redirect(url_for('homepage'))
-        return '<h1>Invalid username or password</h1>'
-
-    # if request.method == 'POST':
-      #  username = request.form['username']
-       # password = request.form['password']
-
-       # post = users(name=username, email=password)
-
-       # db.session.add(post)
-        # db.session.commit()
-
-    return render_template('main.html', form=form)
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('homepage'))
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+    return render_template('main.html', title='Login', form=form)
 
 
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route("/register", methods=['GET', 'POST'])
 def signup():
-
+    if current_user.is_authenticated:
+        return redirect(url_for('homepage'))
     form = RegisterForm()
     if form.validate_on_submit():
-        hashed_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = users(username=form.username.data, email=form.email.data, password=hashed_password)
-        db.session.add(new_user)
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = users(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
         db.session.commit()
+        flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('homepage'))
-
-        # return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
-    #################################################
-
-    # if request.method == 'POST':
-      #  username = request.form['username']
-       # password = request.form['password']
-
-       # post = users(name=username, email=password)
-
-       # db.session.add(post)
-        # db.session.commit()
-
-    return render_template('register.html', title='Login', form=form)
+    return render_template('register.html', title='Register', form=form)
 
 
 @app.route('/')
@@ -151,9 +136,11 @@ def homepage():
 def fglogin():
     return render_template('facebook-google.html')
 
+
 @app.route('/createrecipe')
 def create_recipe():
-	return render_template('createrecipe.html')
+    return render_template('createrecipe.html')
+
 
 @app.route('/googleSignin', methods=['GET', 'POST'])
 def googleSignin():
@@ -206,10 +193,10 @@ def facebookSignin():
 
 
 @app.route('/logout')
-@login_required
+#@login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('homepage'))
 
 
 if __name__ == '__main__':
