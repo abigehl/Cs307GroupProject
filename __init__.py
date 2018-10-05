@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from flask_bootstrap import Bootstrap
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import InputRequired, Email, Length, EqualTo
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask_dance.contrib.google import make_google_blueprint, google
@@ -12,6 +13,7 @@ from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
 import os
 from datetime import datetime
+#from django.db import IntegrityError
 
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -19,9 +21,10 @@ os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
 app = Flask(__name__)
 Bootstrap(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://helpmerecipe:passpass@helpmerecipe.coy90uyod5ue.us-east-2.rds.amazonaws.com/helpmerecipe'
 app.config['SECRET_KEY'] = 'THIS_IS_SECRET'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = '/'
@@ -88,14 +91,23 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=80)])
     confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password')])
 
-    submit = SubmitField('Sign up')
+   # submit = SubmitField('Sign Up')
 
 
 class users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.Unicode, unique=True)
-    email = db.Column(db.Unicode, unique=True)
+    username = db.Column(db.Unicode)
+    email = db.Column(db.Unicode)
     password = db.Column(db.String(80))
+    profilePic= db.Column(db.String(40), default="../static/Images/emptyProf.png", nullable=False)
+    firstName= db.Column(db.String(20), default="", nullable=False)
+    lastName= db.Column(db.String(20), default="", nullable=False)
+    displayName= db.Column(db.String(20), default="", nullable=False)
+    cookingExperience= db.Column(db.String(12), default="Beginner", nullable=False)
+    country= db.Column(db.String(30), default="", nullable=False)
+
+
+
 
 
 @login_manager.user_loader
@@ -107,29 +119,32 @@ app.register_blueprint(google_blueprint, url_prefix="/google_login")
 app.register_blueprint(facebook_blueprint, url_prefix="/facebook_login")
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def index():
+@app.route('/login/forgot/newpass')
+def newpass():
+    form = RegisterForm()
+    return render_template('forgotPassCode.html', form=form)
 
+
+@app.route('/login/forgot')
+def forgotp():
+    form = RegisterForm()
+    return render_template('forgotPass.html', form=form)
+
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('homepageloggedin'))
     form = LoginForm()
     if form.validate_on_submit():
         user = users.query.filter_by(username=form.username.data).first()
-        if user:
-            if check_password_hash(user.password, form.password.data):
-                login_user(user, remember=form.remember.data)
-
-                return redirect(url_for('homepage'))
-        return '<h1>Invalid username or password</h1>'
-
-    # if request.method == 'POST':
-      #  username = request.form['username']
-       # password = request.form['password']
-
-       # post = users(name=username, email=password)
-
-       # db.session.add(post)
-        # db.session.commit()
-
-    return render_template('main.html', form=form)
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('homepageloggedin'))
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+    return render_template('main.html', title='Login', form=form)
 
 #@app.route('/profil', methods=['GET','POST']) 
 #def profile_page():
@@ -163,30 +178,19 @@ def create_recipe():
     return render_template('createrecipe.html')
 
 
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route("/register", methods=['GET', 'POST'])
 def signup():
-
+    if current_user.is_authenticated:
+        return redirect(url_for('homepageloggedin'))
     form = RegisterForm()
     if form.validate_on_submit():
-        hashed_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = users(username=form.username.data, email=form.email.data, password=hashed_password)
-        db.session.add(new_user)
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = users(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
         db.session.commit()
+        flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('homepage'))
-
-        # return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
-    #################################################
-
-    # if request.method == 'POST':
-      #  username = request.form['username']
-       # password = request.form['password']
-
-       # post = users(name=username, email=password)
-
-       # db.session.add(post)
-        # db.session.commit()
-
-    return render_template('register.html', title='Login', form=form)
+    return render_template('register.html', title='Register', form=form)
 
 
 @app.route('/', methods=['GET','POST'])
@@ -198,14 +202,29 @@ def homepage():
 
         db.session.add(post)
         db.session.commit()
-
+    if current_user.is_authenticated:
+        return redirect(url_for('homepageloggedin'))
+    
     return render_template('homepage.html')
+
 
 
 @app.route('/facebook-google')
 def fglogin():
     return render_template('facebook-google.html')
 
+@app.route('/settings')
+def settings():
+    return render_template('usersettings.html')
+
+    
+@app.route('/createrecipe')
+def create_recipe():
+    return render_template('createrecipe.html')
+
+@app.route('/usersettings')
+def updateUserSettings():
+        return render_template('usersettings.html')
 
 @app.route('/googleSignin', methods=['GET', 'POST'])
 def googleSignin():
@@ -242,10 +261,13 @@ def facebookSignin():
         resp = facebook.get('/me?fields=id,name,email')
         post = users.query.filter_by(email=resp.json()["email"]).first()
         if not post:
-            post = users(username=resp.json()["name"], password=resp.json()["id"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
-            print(post)
-            db.session.add(post)
-            db.session.commit()
+            try:
+                post = users(username=resp.json()["name"], password=resp.json()["id"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
+                print(post)
+                db.session.add(post)
+                db.session.commit()
+            except sqlalchemy.exc.IntegrityError:
+                db.session.rollback()
     except InvalidClientIdError:
         session.clear()
         print("error")
@@ -255,11 +277,18 @@ def facebookSignin():
 
 
 @app.route('/logout')
-@login_required
+#@login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('homepage'))
 
+@app.route('/homepageloggedin')
+def homepageloggedin():
+    return render_template('homepageloggedin.html')
+
+@app.route('/ProfilePage')
+def profile():
+    return render_template('ProfilePage.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
