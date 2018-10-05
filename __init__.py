@@ -98,7 +98,7 @@ def forgotp():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('homepage'))
+        return redirect(url_for('homepageloggedin'))
     form = LoginForm()
     if form.validate_on_submit():
         user = users.query.filter_by(username=form.username.data).first()
@@ -114,7 +114,7 @@ def login():
 @app.route("/register", methods=['GET', 'POST'])
 def signup():
     if current_user.is_authenticated:
-        return redirect(url_for('homepage'))
+        return redirect(url_for('homepageloggedin'))
     form = RegisterForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
