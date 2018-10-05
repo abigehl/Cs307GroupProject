@@ -149,12 +149,13 @@ def googleSignin():
     except InvalidClientIdError:
         print("error");
         session.clear()
-        return render_template('main.html')
+        return render_template('facebook-google.html')
 
-    return render_template('facebook-google.html')
+    return redirect(url_for('homepage'))
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
 def facebookSignin():
+    #form = LoginForm()
     if not facebook.authorized:
         return redirect(url_for("facebook.login"))
     try:
@@ -169,8 +170,8 @@ def facebookSignin():
     except InvalidClientIdError:
         session.clear()
         print("error");
-        return render_template('main.html')
-    return render_template('facebook-google.html')
+        return render_template('facebook-google.html')
+    return redirect(url_for('homepage'))
 
 @app.route('/logout')
 @login_required

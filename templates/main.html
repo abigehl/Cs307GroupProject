@@ -3,7 +3,10 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/facebook-google.js') }}"></script>
+<meta name="google-signin-client_id" content="640840633381-8rrcgg5r9hru2al5e853jq95valimmd5.apps.googleusercontent.com">
 {% block title %}
 Sign In
 {% endblock %}
@@ -81,16 +84,8 @@ Sign In
 
 
     <div class="form-group text-center">
-      <form  method=POST action="{{ url_for('facebookSignin') }}">
-    	<button type="button" class="btn btn-default loginBtn--facebook">
-		  Login with Facebook
-		</button>
-  </form>
-    <form  method=POST action="{{ url_for('googleSignin') }}">
-		    <button type="button" class="btn btn-default loginBtn--google">
-		  Login with Google
-		  </button>
-    </form>
+      <a href="{{ url_for('googleSignin') }}" type="button">Google Login</a>
+      <a href="{{ url_for('facebookSignin') }}" type="button">Facebook Login</a>
     </div>
 
 </body>
