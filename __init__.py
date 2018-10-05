@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from flask_bootstrap import Bootstrap
-from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import InputRequired, Email, Length, EqualTo
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -20,6 +20,7 @@ app = Flask(__name__)
 Bootstrap(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://helpmerecipe:passpass@helpmerecipe.coy90uyod5ue.us-east-2.rds.amazonaws.com/helpmerecipe'
+app.config['SECRET_KEY'] = 'THIS_IS_SECRET'
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -46,10 +47,12 @@ class LoginForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
-    email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
-    username = StringField('username', validators=[InputRequired(), Length(min=4, max=30)])
-    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
-    confirm_password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
+    email = StringField('Email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
+    username = StringField('Username', validators=[InputRequired(), Length(min=4, max=30)])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=80)])
+    confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password')])
+
+    submit = SubmitField('Sign up')
 
 
 class users(UserMixin, db.Model):
@@ -74,9 +77,9 @@ def index():
     if form.validate_on_submit():
         user = users.query.filter_by(username=form.username.data).first()
         if user:
-            if user.password == form.password.data:
+            if check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
-                # if check_password_hash(user.password, form.password.data):
+
                 return redirect(url_for('homepage'))
         return '<h1>Invalid username or password</h1>'
 
@@ -98,9 +101,10 @@ def signup():
     form = RegisterForm()
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = User(username=form.username.date, email=form.email.data, password=hashed_password)
+        new_user = users(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
+        return redirect(url_for('homepage'))
 
         # return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
     #################################################
@@ -114,7 +118,7 @@ def signup():
        # db.session.add(post)
         # db.session.commit()
 
-    return render_template('register.html', form=form)
+    return render_template('register.html', title='Login', form=form)
 
 
 @app.route('/homepage')
