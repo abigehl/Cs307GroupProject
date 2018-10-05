@@ -45,7 +45,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="OurMission.html">Our Mission</a>
+                    <a class="nav-link" href="OurMission.html">About us</a>
                   </li>
               </ul>
               <!-- Links -->
@@ -84,9 +84,9 @@
                   <div class="col-6 col-lg-4" style="width: 50vh; height:35vh">
                         <h5 class="font-weight-bold text-light" style="margin-top: 25px">
                           <div class="row">
-                            <a class="nav-link text-light mr-3" href="usersettings.html">Settings</a>
+                            <a class="nav-link text-light mr-3" href="{{ url_for('settings') }}">Settings</a>
                             <a class="nav-link text-light" href="favorites.html">Favorites</a>
-                            <a class="nav-link text-light" href="createrecipe.html">Post Recipe</a>
+                            <a class="nav-link text-light" href="{{ url_for('create_recipe') }}">Post Recipe</a>
                           </div>
                         </h5> 
                   </div>

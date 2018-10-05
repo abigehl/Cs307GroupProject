@@ -139,6 +139,9 @@ def homepage():
 def fglogin():
     return render_template('facebook-google.html')
 
+@app.route('/settings')
+def settings():
+    return render_template('usersettings.html')
 
 @app.route('/createrecipe')
 def create_recipe():
