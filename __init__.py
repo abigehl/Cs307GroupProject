@@ -105,7 +105,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('homepage'))
+            return redirect(next_page) if next_page else redirect(url_for('homepageloggedin'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('main.html', title='Login', form=form)
@@ -129,6 +129,9 @@ def signup():
 @app.route('/')
 #@login_required
 def homepage():
+    if current_user.is_authenticated:
+        return redirect(url_for('homepageloggedin'))
+   
     return render_template('homepage.html')
 
 
@@ -201,6 +204,13 @@ def logout():
     logout_user()
     return redirect(url_for('homepage'))
 
+@app.route('/homepageloggedin')
+def homepageloggedin():
+    return render_template('homepageloggedin.html')
+
+@app.route('/ProfilePage')
+def profile():
+    return render_template('ProfilePage.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
