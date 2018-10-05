@@ -8,9 +8,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask_dance.contrib.google import make_google_blueprint, google
+from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
 import os
-############
 from datetime import datetime
 
 
@@ -28,7 +28,7 @@ login_manager.login_view = '/'
 
 
 app.secret_key = "helpmerecipe"
-blueprint = make_google_blueprint(
+google_blueprint = make_google_blueprint(
     client_id="640840633381-8rrcgg5r9hru2al5e853jq95valimmd5.apps.googleusercontent.com",
     client_secret="YvDSgKVfGEM_nLblFbBPESZp",
     scope=[
@@ -76,7 +76,8 @@ def load_user(user_id):
     return users.query.get(int(user_id))
 
 
-app.register_blueprint(blueprint, url_prefix="/login")
+app.register_blueprint(google_blueprint, url_prefix="/google_login")
+app.register_blueprint(facebook_blueprint, url_prefix="/facebook_login")
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -152,28 +153,17 @@ def googleSignin():
         resp = google.get("/oauth2/v2/userinfo")
         assert resp.ok, resp.text
 
-
-<< << << < HEAD
-    post = users(name=resp.json()["name"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
-    print(post)
-    db.session.add(post)
-    db.session.commit()
-== == == =
-    post = users.query.filter_by(email=resp.json()["email"]).first()
-    if not post:
-        post = users(username=resp.json()["name"], password=resp.json()["id"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
-        print(post)
-        db.session.add(post)
-        db.session.commit()
->>>>>> > 11276077d1ce6654878059ce2d81fef1cee91655
+        post = users.query.filter_by(email=resp.json()["email"]).first()
+        if not post:
+            post = users(username=resp.json()["name"], password=resp.json()["id"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
+            print(post)
+            db.session.add(post)
+            db.session.commit()
     except InvalidClientIdError:
         session.clear()
         return render_template('facebook-google.html')
     print("return to homepage")
     return render_template('homepage.html')
-
-<< << << < HEAD
-== == == =
 
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
@@ -197,9 +187,6 @@ def facebookSignin():
         return render_template('facebook-google.html')
     print("return to homepage")
     return render_template('homepage.html')
-
-
->>>>>> > 11276077d1ce6654878059ce2d81fef1cee91655
 
 
 @app.route('/logout')
