@@ -32,14 +32,12 @@
                 <li class="nav-item">
                     <h3 class="text-white">Help Me Recipe</h3>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="OurMission.html">Our Mission</a>
-                </li>
+                    <a class="nav-link" href="{{ url_for('homepage') }}">Home</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('homepage') }}">About us</a>
+                    </li>
 
             </ul>
 
@@ -55,11 +53,11 @@
             </div>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="main.html">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="main.html">Register</a>
-                </li>
+                    <a class="nav-link" href="{{ url_for('profile') }}"> My profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                  </li>
             </ul>
 
         </form>
@@ -99,31 +97,58 @@
                         </a>
                     </div>
                      -->
+                     <form action="{{ url_for('create_recipe') }}" method = "POST" >
+                            <input class="form-control" type="text" placeholder="Enter Recipe Name" name='food'>
+                            <br>
+                            <input class="form-control" type="text" placeholder="Enter Prep Time" name='prep-time'>
+                            <br>
+                            <input class="form-control" type="text" placeholder="Enter Cook Time" name='cook-time'>
+                            <br>
+                            <input class="form-control" type="text" placeholder="Enter Description" name='description'>
+                            <br>
+                            <label for="exampleFormControlTextarea1">Cooking Instructions</label>
+                            <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name ="instruction"></textarea>
+                            <br>
 
-                    <p class="lead font-weight-bold">
-                        <input class="form-control" type="text" placeholder="Enter Recipe Name">
-                        <div class="btn-group">
-                            <button class="btn btn-dark-green dropdown-toggle" type="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">Cooking Experience Level</button>
+                            <div class="row d-flex justify-content-left wow fadeIn">
 
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Beginner</a>
-                                <a class="dropdown-item" href="#">Experienced</a>
-                                <a class="dropdown-item" href="#">Expert</a>
+                                <div class="col-md-6 text-left">
+
+                                    <h4 class="my-4 h4">Enter Ingredients</h4>
+                                    <input class="form-control" type="text" placeholder="Ingredient 1" name = "ing1">
+                                    <br>
+                                    <input class="form-control" type="text" placeholder="Ingredient 2" name = "ing2">
+                                    <br>
+                                    <input class="form-control" type="text" placeholder="Ingredient 3" name = "ing3">
+                                    <br>
+                                    <input class="form-control" type="text" placeholder="Ingredient 4" name = "ing4">
+                                    <br>
+                                    <input class="form-control" type="text" placeholder="Ingredient 5" name = "ing5">
+                                    <br>
+                                    <input class="form-control" type="text" placeholder="Ingredient 6" name = "ing6">
+                                    <br>
+                                    <input class="form-control" type="text" placeholder="Ingredient 7" name = "ing7">
+                                    <br>
+                                    <input class="form-control" type="text" placeholder="Ingredient 8" name = "ing8">
+                                    <br>
+                                    <input class="form-control" type="text" placeholder="Ingredient 9" name = "ing9">
+                                    <br>
+                                    <input class="form-control" type="text" placeholder="Ingredient 10" name = "ing10">
+                                    <br>
+                                    <button type="submit" class="btn btn-dark-green" value="Submit">Save</button>
+                                </div>
                             </div>
-                        </div>
-                        <br>
-                        <br>
-                        <input class="form-control" type="text" placeholder="Enter Prep Time">
-                        <br>
-                        <input class="form-control" type="text" placeholder="Enter Cook Time">
-                    </p>
+                        </form>
 
-                    <!--<p class="lead font-weight-bold">Description</p>-->
-                    <!--<input class="form-control" type="text" placeholder="Recipe Description">-->
+
+
+
+
+                   
+
+
                     <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Recipe Description</label>
-                        <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>
+                        
                     </div>
                     <!--<p>I like lasagna</p>-->
 
@@ -134,7 +159,6 @@
                         <!--<i class="fa fa-shopping-cart ml-1"></i>-->
                         </button>
 
-                    </form>
 
                 </div>
                 <!--Content-->
@@ -148,32 +172,9 @@
         <hr>
 
         <!--Grid row-->
-        <div class="row d-flex justify-content-left wow fadeIn">
 
             <!--Grid column-->
             <div class="col-md-6 text-left">
-
-                <h4 class="my-4 h4">Enter Ingredients</h4>
-
-                <input class="form-control" type="text" placeholder="Ingredient 1">
-                <br>
-                <input class="form-control" type="text" placeholder="Ingredient 2">
-                <br>
-                <input class="form-control" type="text" placeholder="Ingredient 3">
-                <br>
-                <input class="form-control" type="text" placeholder="Ingredient 4">
-                <br>
-                <input class="form-control" type="text" placeholder="Ingredient 5">
-                <br>
-                <input class="form-control" type="text" placeholder="Ingredient 6">
-                <br>
-                <input class="form-control" type="text" placeholder="Ingredient 7">
-                <br>
-                <input class="form-control" type="text" placeholder="Ingredient 8">
-                <br>
-                <input class="form-control" type="text" placeholder="Ingredient 9">
-                <br>
-                <input class="form-control" type="text" placeholder="Ingredient 10">
 
                 <br>
                 <div class="form-group">
@@ -182,15 +183,15 @@
                 </div>
                 <h4 class="my-4 h4">Enter Nutritional Facts (Optional)</h4>
                 <br>
-                <input class="form-control" type="text" placeholder="Calories">
+                <input class="form-control" type="text" placeholder="Calories" name=Calories>
                 <br>
-                <input class="form-control" type="text" placeholder="Fat">
+                <input class="form-control" type="text" placeholder="Fat" name=Fat>
                 <br>
-                <input class="form-control" type="text" placeholder="Cholesterol">
+                <input class="form-control" type="text" placeholder="Cholesterol" name=Cholesterol>
                 <br>
-                <input class="form-control" type="text" placeholder="Sodium">
+                <input class="form-control" type="text" placeholder="Sodium" name=Sodium>
                 <br>
-                <button type="submit" class="btn btn-dark-green">Save</button>
+                <button type="submit" class="btn btn-dark-green" value="Submit">Save</button>
 
 
             </div>
@@ -199,6 +200,7 @@
         </div>
         <!--Grid row-->
         <!--Grid row-->
+    </form>
 
         <div class="row wow fadeIn">
 

@@ -32,14 +32,12 @@
                 <li class="nav-item">
                     <h3 class="text-white">Help Me Recipe</h3>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="OurMission.html">Our Mission</a>
-                </li>
+                    <a class="nav-link" href="{{ url_for('homepage') }}">Home</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('homepage') }}">About us</a>
+                    </li>
 
             </ul>
 
@@ -75,7 +73,7 @@
             <br>
             <div class="d-flex flex-center flex-column bd-highlight mb-3">
                 <div class="card w-50">
-                    <div class="card-header  lighten-1 white-text" style="background-image: url(Images/navbar.jpg);">Display
+                    <div class="card-header  lighten-1 white-text" style="background-image: url(../static/Images/navbar.jpg);">Display
                         Information</div>
                     <div class="card-body">
                         <!-- Default horizontal form -->
@@ -390,7 +388,7 @@
                 </div>
                 <br>
                 <div class="card w-50">
-                    <div class="card-header  lighten-1 white-text" style="background-image: url(Images/navbar.jpg);">Account
+                    <div class="card-header  lighten-1 white-text" style="background-image: url(../static/Images/navbar.jpg);">Account
                         Settings</div>
                     <div class="card-body">
                         <form>
