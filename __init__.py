@@ -242,9 +242,9 @@ def googleSignin():
             db.session.commit()
     except InvalidClientIdError:
         session.clear()
-        return render_template('facebook-google.html')
+        return redirect(url_for('login'))
     print("return to homepage")
-    return render_template('homepage.html')
+    return redirect(url_for('homepageloggedin'))
 
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
@@ -265,9 +265,9 @@ def facebookSignin():
     except InvalidClientIdError:
         session.clear()
         print("error")
-        return render_template('facebook-google.html')
+        return redirect(url_for('login'))
     print("return to homepage")
-    return render_template('homepage.html')
+    return redirect(url_for('homepageloggedin'))
 
 
 @app.route('/logout')
