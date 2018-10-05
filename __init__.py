@@ -66,12 +66,6 @@ class users(UserMixin, db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return users.query.get(int(user_id))
-=======
-class users(db.Model):
-    username = db.Column(db.Unicode, primary_key=True)
-    email = db.Column(db.Unicode)
->>>>>>> 05a6344d4649d562d71ed18bb4870ee189aa94f0
-
 
 app.register_blueprint(google_blueprint, url_prefix="/google_login")
 app.register_blueprint(facebook_blueprint, url_prefix="/facebook_login")
