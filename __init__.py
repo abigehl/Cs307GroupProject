@@ -224,6 +224,7 @@ def settings():
         current_user.lastName = request.form["lastname"]
         current_user.displayName = request.form["displayname"]
         current_user.cookingExperience = request.form["cooking_experience"]
+        current_user.profilePic=request.form["url"]
          
         db.session.commit()
 
