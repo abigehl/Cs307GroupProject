@@ -3,111 +3,86 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 {% block title %}
 Sign In
 {% endblock %}
 
-
 {% block styles %}
 <head>
-	<div style="background-image: url(Images/navbar.png); ">
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<title>Help Me Recipe</title>
-
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/css/mdb.min.css" rel="stylesheet">
-
-	<!-- bootstrap -->
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
-	<!-- css -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	
-	<!-- jquery -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-	<!-- popper -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
+    <div style="background-image: url(../static/Images/navbar.png); ">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
-	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+    <title>Help Me Recipe</title>
 
-	</div>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/css/mdb.min.css" rel="stylesheet">
 
-	<meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="858848611313-b855vink9p4dclkpjgafb87224lrlbog.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- bootstrap -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!-- css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">  
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <!-- popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+
+    </div>
+
 </head>
 {% endblock %}
 {% block content %}
 <body>
 
-<div class="header_background"></div>
-<div class="jumbotron">
-	<h1 class="display-4 text-center">Help Me Recipe</h1>
-</div>
+    <div style="height: 100vh; background-image: url(../static/Images/bg.png); ">
 
-<div class="container padding">
-    <div class="login-popup-heading text-center">
-        <h4><i class="fa fa-lock" aria-hidden="true"></i> Login </h4>         
-    </div>                     
-    <div class="mb-4"></div>
+    <!-- Navigation -->
+    <div class="jumbotron " style="background-image:url(../static/Images/navbar.jpg); background-size:100%">
+
+        <div style="background-image: url(../static/Images/navbar.png); background-size: cover; ">
+
+        <h1 class="display-4 text-center text-light font-weight-bold">Help Me Recipe</h1>
+
+        </div>
+
+    </div>
+
+
+    <div class="container padding text-center">
+	    <div class="login-popup-heading text-center">
+	        <h4><i class="fa fa-lock" aria-hidden="true"></i> Login </h4>  
+	    </div>                     
+	
+
     <form id="loginMember" role="form" action="" method="post">
-        <div class="form-group">
-            <input type="text" class="form-control" id="user_id" placeholder="Username" name="username">
-        </div>
-        <div class="form-group">
-            <input type="password" class="form-control" id="password" placeholder="Password" name="password">
-        </div>
-        <div class="form-group text-center">
-        	<button type="submit" class="btn btn-default login-popup-btn" name="submit" value="1">Login</button>
-        </div>
-
                 {{ form.hidden_tag() }}
                 {{ wtf.form_field(form.username) }}
                 {{ wtf.form_field(form.password) }}
         <button type="submit" class="btn btn-default login-popup-btn" name="submit" value="1">Login</button>
     </form>
+	</div>
+
+	<div class="mb-4"></div>
 
     <div class="form-group text-center">
 
     <a class="pwd-forget" href="javascript:void(0)" id="open_forgotPassword">Forgot Password</a>
-    </div>
     <div class="text-center">Not registered yet? <a href="http://192.168.50.34/abcc/membership-application">click here</a></div>
-</div>
-
-<div class="container padding"></div>
-
-
-<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-    <script>
-      function onSignIn(googleUser) {
-        // Useful data for your client-side scripts:
-        var profile = googleUser.getBasicProfile();
-        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-        console.log('Full Name: ' + profile.getName());
-        console.log('Given Name: ' + profile.getGivenName());
-        console.log('Family Name: ' + profile.getFamilyName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail());
-
-        // The ID token you need to pass to your backend:
-        var id_token = googleUser.getAuthResponse().id_token;
-        console.log("ID Token: " + id_token);
-      };
-    </script>
-
-<div class="container padding">
-	<hr>
-</div>
-=======
->>>>>>> acd27f0b14782eee80e0da12dc4b2cea23ec9520
+	</div>
+    </div>
 
 </body>
-</html>
 
+</html>
 {% endblock %}
+
