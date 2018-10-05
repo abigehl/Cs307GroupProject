@@ -117,84 +117,97 @@
               <!--Here is trending stuff-->
             </div>
           </div>
-          <div style="height: 20vh w-50" class="flex-end flex-center" >
-              <div class="md-form">
-                <i class="fa fa-pencil prefix text-light"></i>
-                <textarea type="text" id="textareaPrefix" class="form-control md-textarea text-light" rows="3" style="width:110vh"></textarea>
-                <button type="button" class="btn btn-elegant">Post</button>
-                <label for="textareaPrefix" class="text-light">Share your thoughts</label>
-              </div>
-          </div>
-          <div style="height: 100vh w-50" >
-            <div class="flex-end flex-center" >
-              <div class="card flex bg-dark">
-                <h4 class="animated fadeIn mb-4 flex-center text-light mt-2 " >Trending</h4>
-                <div class="card-body flex-center">
-                  <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe" height="100" width="115" class="left">
-                  <!--description needs to show a certain length of description-->
-                  <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                  <a href="#" class="card-link text-light">Take me there</a>
+          <form action="{{ url_for('homepage') }}" method = "POST" >
+            <div style="height: 20vh w-50" class="flex-end flex-center" >
+                <div class="md-form">
+                  <i class="fa fa-pencil prefix text-light"></i>
+                  <textarea type="text" id="textareaPrefix" class="form-control md-textarea text-light" rows="3" style="width:110vh", name='post_desc'></textarea>
+                  <button type="submit" class="btn btn-elegant" value = 'Submit'>Post</button>
+                  <label for="textareaPrefix" class="text-light">Share your thoughts</label>
                 </div>
-                <div class="card-body flex-center">
-                  <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                  <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                  <a href="#" class="card-link text-light">Take me there</a>
-                </div> 
-                <div class="card-body flex-center">
+            </div>
+            </form>
+            <div style="height: 100vh w-50" >
+              <div class="flex-end flex-center" >
+                <div class="card flex bg-dark">
+                  <h4 class="animated fadeIn mb-4 flex-center text-light mt-2 " >Trending</h4>
+                  <!--<table class="table">
+                    <thread>
+                      <tr>
+                          <th>pic</th>
+                          <th>description</th>                
+                      </tr>
+                    </thread>
+                    <tbody>
+                     
+                    </tbody>
+                  </table>-->
+                  <div class="card-body flex-center">
+                    <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe" height="100" width="115" class="left">
+                    <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                    <a href="#" class="card-link text-light">Take me there</a>
+                  </div>
+                  <div class="card-body flex-center">
                     <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
                     <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
                     <a href="#" class="card-link text-light">Take me there</a>
-                </div> 
-                <div class="card-body flex-center">
-                    <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                    <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                    <a href="#" class="card-link text-light">Take me there</a>
+                  </div> 
+                  <div class="card-body flex-center">
+                      <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
+                      <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                      <a href="#" class="card-link text-light">Take me there</a>
+                  </div> 
+                  <div class="card-body flex-center">
+                      <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
+                      <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                      <a href="#" class="card-link text-light">Take me there</a>
+                  </div>
+                  <div class="card-body flex-center">
+                      <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
+                      <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                      <a href="#" class="card-link text-light">Take me there</a>
+                  </div>
+                  <div class="card-body flex-center">
+                      <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
+                      <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ....</p>
+                      <a href="#" class="card-link text-light">Take me there</a>
+                  </div>
+                  <div class="card-body flex-center">
+                      <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
+                      <p class="card-text mr-2 ml-2 ">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                      <a href="#" class="card-link text-light">Take me there</a>
+                  </div>
+                  <div class="card-body flex-center">
+                      <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
+                      <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                      <a href="#" class="card-link text-light">Take me there</a>
+                  </div>
+                  <div class="card-body flex-center">
+                      <a href="#" class="card-link text-light">More trending >></a>
+                  </div> 
+                      
                 </div>
-                <div class="card-body flex-center">
-                    <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                    <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                    <a href="#" class="card-link text-light">Take me there</a>
-                </div>
-                <div class="card-body flex-center">
-                    <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                    <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ....</p>
-                    <a href="#" class="card-link text-light">Take me there</a>
-                </div>
-                <div class="card-body flex-center">
-                    <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                    <p class="card-text mr-2 ml-2 ">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                    <a href="#" class="card-link text-light">Take me there</a>
-                </div>
-                <div class="card-body flex-center">
-                    <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                    <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                    <a href="#" class="card-link text-light">Take me there</a>
-                </div>
-                <div class="card-body flex-center">
-                    <a href="#" class="card-link text-light">More trending >></a>
-                </div>        
               </div>
             </div>
+            <!-- /Start your project here-->
+           
+          
+          
+          
+          
+          
+          
+            <!-- SCRIPTS -->
+            <!-- JQuery -->
+            <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+            <!-- Bootstrap tooltips -->
+            <script type="text/javascript" src="js/popper.min.js"></script>
+            <!-- Bootstrap core JavaScript -->
+            <script type="text/javascript" src="js/bootstrap.min.js"></script>
+            <!-- MDB core JavaScript -->
+            <script type="text/javascript" src="js/mdb.min.js"></script>
+          </body>
           </div>
-          <!-- /Start your project here-->
-         
-        
-        
-        
-        
-        
-        
-          <!-- SCRIPTS -->
-          <!-- JQuery -->
-          <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-          <!-- Bootstrap tooltips -->
-          <script type="text/javascript" src="js/popper.min.js"></script>
-          <!-- Bootstrap core JavaScript -->
-          <script type="text/javascript" src="js/bootstrap.min.js"></script>
-          <!-- MDB core JavaScript -->
-          <script type="text/javascript" src="js/mdb.min.js"></script>
-        </body>
-        </div>
-        
-        </html>
-        
+          
+          </html>
+          

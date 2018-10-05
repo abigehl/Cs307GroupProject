@@ -13,6 +13,7 @@ from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
 import os
 from datetime import datetime
+import time
 #from django.db import IntegrityError
 
 
@@ -53,7 +54,8 @@ facebook_blueprint = make_facebook_blueprint(
 
 
 class rec(db.Model):
-    rec_name = db.Column('rec_name', db.String(100),primary_key=True)      
+   
+    rec_name = db.Column('rec_name', db.String(100), primary_key=True)      
     prep_time = db.Column('prep_time', db.String(50))
     cook_time = db.Column('cook_time', db.String(50)) 
     rec_description = db.Column('rec_description',db.String(1000))
@@ -72,11 +74,9 @@ class rec(db.Model):
 
 
 class posts(db.Model):
-    status = db.Column('status', db.String(5000),primary_key=True)      
+    status = db.Column('status', db.String(5000),primary_key=True)     
 
 
-
- 
 
 
 class LoginForm(FlaskForm):
@@ -189,19 +189,13 @@ def signup():
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
-        return redirect(url_for('homepage'))
+        return redirect(url_for('homepageloggedin'))
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/')
 #@login_required
 def homepage():
-    if(request.method == 'POST'):
-        postDescription = request.form["post_desc"]
-        post = posts(status=postDescription)
-
-        db.session.add(post)
-        db.session.commit()
     if current_user.is_authenticated:
         return redirect(url_for('homepageloggedin'))
     
@@ -213,12 +207,21 @@ def homepage():
 def fglogin():
     return render_template('facebook-google.html')
 
-@app.route('/settings')
+@app.route('/settings',methods=['GET','POST'])
 def settings():
+    if(request.method == 'POST'):
+        current_user.firstName = request.form["firstname"]
+        current_user.lastName = request.form["lastname"]
+        current_user.displayName = request.form["displayname"]
+        current_user.cookingExperience = request.form["cooking_experience"]
+         
+        db.session.commit()
+
     return render_template('usersettings.html')
 
 @app.route('/usersettings')
 def updateUserSettings():
+    
         return render_template('usersettings.html')
 
 @app.route('/googleSignin', methods=['GET', 'POST'])
@@ -277,8 +280,14 @@ def logout():
     logout_user()
     return redirect(url_for('homepage'))
 
-@app.route('/homepageloggedin')
+@app.route('/homepageloggedin' , methods=['GET','POST'])
 def homepageloggedin():
+    if(request.method == 'POST'):
+        postDescription = request.form["post_desc"]
+        post = posts(status=postDescription)
+
+        db.session.add(post)
+        db.session.commit()
     return render_template('homepageloggedin.html')
 
 @app.route('/ProfilePage')
