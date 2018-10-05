@@ -39,7 +39,7 @@ facebook_blueprint = make_facebook_blueprint(
     client_id="1145745515594684",
     client_secret="350d8feaa14aa1a37212a8b3d4dd2694",
     scope=[
-        "public profile",
+        "public_profile",
         "email"
     ],
 )
@@ -120,7 +120,7 @@ def signup():
     return render_template('register.html', form=form)
 
 @app.route('/homepage')
-@login_required
+#@login_required
 def homepage():
     return render_template('homepage.html')
 
@@ -143,19 +143,20 @@ def googleSignin():
         assert resp.ok, resp.text
         post = users.query.filter_by(email=resp.json()["email"]).first()
         if not post:
-            post = users(username=resp.json()["name"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
+            post = users(username=resp.json()["name"], password=resp.json()["id"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
             print(post)
             db.session.add(post)
             db.session.commit()
     except InvalidClientIdError:
         print("error");
         session.clear()
-        return render_template('main.html')
+        return render_template('facebook-google.html')
 
-    return render_template('facebook-google.html')
+    return render_template('homepage.html')
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
 def facebookSignin():
+    #form = LoginForm()
     if not facebook.authorized:
         return redirect(url_for("facebook.login"))
     try:
@@ -163,15 +164,15 @@ def facebookSignin():
         resp=facebook.get('/me?fields=id,name,email')
         post = users.query.filter_by(email=resp.json()["email"]).first()
         if not post:
-            post = users(username=resp.json()["name"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
+            post = users(username=resp.json()["name"], password=resp.json()["id"],email=resp.json()["email"])  # (name="Annie", email="something@gmail")
             print(post)
             db.session.add(post)
             db.session.commit()
     except InvalidClientIdError:
         session.clear()
         print("error");
-        return render_template('main.html')
-    return render_template('facebook-google.html')
+        return render_template('facebook-google.html')
+    return render_template('homepage.html')
 
 @app.route('/logout')
 @login_required
