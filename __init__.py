@@ -136,6 +136,7 @@ def fglogin():
 def googleSignin():
     # print(session)
     if not google.authorized:
+        print("new user")
         return redirect(url_for("google.login"))
     try:
         # print(session)
@@ -151,13 +152,14 @@ def googleSignin():
         print("error");
         session.clear()
         return render_template('facebook-google.html')
-
+    print("return to homepage")
     return render_template('homepage.html')
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
 def facebookSignin():
     #form = LoginForm()
     if not facebook.authorized:
+        print("new user")
         return redirect(url_for("facebook.login"))
     try:
         # print(session)
@@ -172,6 +174,7 @@ def facebookSignin():
         session.clear()
         print("error");
         return render_template('facebook-google.html')
+    print("return to homepage")
     return render_template('homepage.html')
 
 @app.route('/logout')
