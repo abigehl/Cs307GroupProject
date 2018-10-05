@@ -1,0 +1,54 @@
+.top5 { margin-top:5px; }
+.top7 { margin-top:7px; }
+.top10 { margin-top:10px; }
+.top15 { margin-top:15px; }
+.top17 { margin-top:17px; }
+.top30 { margin-top:30px; }
+
+.login-popup-heading>h4 {
+    color: #258b47;
+    font-size: 18px;
+    line-height: 30px;
+}
+
+.new_reg_popup, .new_login_popup {
+    border-radius: 2px;
+    min-height: 332px;
+    width: 500px;
+    margin: 0px auto;
+}
+.login-popup-btn {
+    background: #258b47;
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    display: block;
+    font-size: 18px;
+    height: 38px;
+    line-height: 28px;
+    margin: 20px auto 5px;
+    width: 150px;
+    -webkit-transition: all 700ms ease;
+    -moz-transition: all 700ms ease;
+    -ms-transition: all 700ms ease;
+    -o-transition: all 700ms ease;
+}
+
+.header_background {
+	background: url('https://images.unsplash.com/photo-1524182576066-1bb979e25342?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fdd66ce8c595d2f8883284a6b47b1506&auto=format&fit=crop&w=1650&q=80') no-repeat center center;
+	position: fixed;
+	width: 100%;
+	height: 200px;
+	opacity: 0.65;
+	z-index: -1;
+}
+
+.jumbotron {
+    background: transparent;
+    color: white;
+}	
+
+a{
+     color: #258b47;
+     font-size: 18px;
+}
