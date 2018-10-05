@@ -9,6 +9,7 @@ Sign In
 
 {% block content %}
 {% block styles %}
+
 <head>
 	<div style="background-image: url(Images/navbar.png); ">
 	<meta charset="utf-8">
@@ -37,10 +38,6 @@ Sign In
 	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
 
 	</div>
-
-	<meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 
 <body>
@@ -52,52 +49,35 @@ Sign In
 
 <div class="container padding">
     <div class="login-popup-heading text-center">
-        <h4><i class="fa fa-lock" aria-hidden="true"></i> Login </h4>         
+        <h4><i aria-hidden="true"></i> Register </h4>         
     </div>                     
-    <div class="mb-4"></div>
+   <div class="mb-4"></div>
     <form id="loginMember" role="form" action="" method="post">
         <div class="form-group">
-            <input type="text" class="form-control" id="user_id" placeholder="Username" name="username">
+        	<input type="text" class="form-control" id="user_id" placeholder="New Username" name="username">
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+            <input type="password" class="form-control" id="password" placeholder="New Password" name="password">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="password" placeholder="New Password" name="password">
         </div>
         <div class="form-group text-center">
-        	<button type="submit" class="btn btn-default login-popup-btn" name="submit" value="1">Login</button>
+        	<button type="submit" class="btn btn-default login-popup-btn" name="submit" value="1">Create</button>
         </div>
-     
     </form>
 
+    <!--
     <div class="form-group text-center">
 
     <a class="pwd-forget" href="javascript:void(0)" id="open_forgotPassword">Forgot Password</a>
     </div>
     <div class="text-center">Not registered yet? <a href="http://192.168.50.34/abcc/membership-application">click here</a></div>
+    -->
 </div>
 <div class="container padding"></div>
-
-
-<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-    <script>
-      function onSignIn(googleUser) {
-        // Useful data for your client-side scripts:
-        var profile = googleUser.getBasicProfile();
-        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-        console.log('Full Name: ' + profile.getName());
-        console.log('Given Name: ' + profile.getGivenName());
-        console.log('Family Name: ' + profile.getFamilyName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail());
-
-        // The ID token you need to pass to your backend:
-        var id_token = googleUser.getAuthResponse().id_token;
-        console.log("ID Token: " + id_token);
-      };
-    </script>
-
 <div class="container padding">
 	<hr>
-	
 </div>
 
 </body>
