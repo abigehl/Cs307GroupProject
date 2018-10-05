@@ -72,6 +72,11 @@ class rec(db.Model):
     ing_9 = db.Column('ing_9',db.String(50))
     ing_10 = db.Column('ing_10',db.String(50))
 
+    Calories = db.Column('Calories',db.String(50))
+    Fat = db.Column('Fat',db.String(50))
+    Cholesterol = db.Column('Cholesterol',db.String(50))
+    Sodium = db.Column('Sodium',db.String(50))
+
 
 class posts(db.Model):
     status = db.Column('status', db.String(5000),primary_key=True)      
