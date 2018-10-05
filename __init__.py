@@ -50,7 +50,7 @@ class LoginForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
     remember = BooleanField('remember me')
 
-class ResgisterForm(FlaskForm):
+class RegisterForm(FlaskForm):
     email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=30)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
@@ -103,7 +103,7 @@ def signup():
         hashed_password = generate_password_hash(form.password.data, method='sha256')
         new_user = User(username=form.username.date, email=form.email.data, password=hashed_password)
         db.session.add(new_user)
-        db.session.commi()
+        db.session.commit()
 
         # return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
     #################################################
@@ -117,13 +117,14 @@ def signup():
        # db.session.add(post)
         # db.session.commit()
 
-    return render_template('main.html', form=form)
-
+    return render_template('register.html', form=form)
 
 @app.route('/homepage')
 @login_required
 def homepage():
     return render_template('homepage.html')
+
+
 
 
 @app.route('/facebook-google')
