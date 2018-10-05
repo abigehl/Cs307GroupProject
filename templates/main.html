@@ -63,16 +63,18 @@ Sign In
 	    <div class="login-popup-heading text-center">
 	        <h4><i class="fa fa-lock" aria-hidden="true"></i> Login </h4>
 	    </div>
-
+	</div>
 
     <form id="loginMember" role="form" action="" method="post">
-                {{ form.hidden_tag() }}
-                {{ wtf.form_field(form.username) }}
-                {{ wtf.form_field(form.password) }}
+    	<div class="container padding text-center" style="width: 30%">
+    		{{ form.hidden_tag() }}
+            {{ wtf.form_field(form.username) }}
+            {{ wtf.form_field(form.password) }}
 
-        <button type="submit" class="btn btn-default login-popup-btn" name="submit" value="1">Login</button>
+        	<button type="submit" class="btn btn-default login-popup-btn" name="submit" 
+        value="1">Login</button>
+        </div>
     </form>
-	</div>
 
 	<div class="mb-4"></div>
 
@@ -87,12 +89,9 @@ Sign In
       <a href="{{ url_for('googleSignin') }}" type="button">Google Login</a>
       <a href="{{ url_for('facebookSignin') }}" type="button">Facebook Login</a>
     </div>
-<<<<<<< HEAD
 	
 	</div>
-=======
 
->>>>>>> 2de80d57e82a27977e7d66239b71a95776896cb3
 </body>
 
 </html>
