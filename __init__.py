@@ -244,7 +244,7 @@ def googleSignin():
         session.clear()
         return render_template('facebook-google.html')
     print("return to homepage")
-    return render_template('homepage.html')
+    return render_template('homepageloggedin.html')
 
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
@@ -267,7 +267,7 @@ def facebookSignin():
         print("error")
         return render_template('facebook-google.html')
     print("return to homepage")
-    return render_template('homepage.html')
+    return render_template('homepageloggedin.html')
 
 
 @app.route('/logout')
