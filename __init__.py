@@ -80,7 +80,7 @@ app.register_blueprint(google_blueprint, url_prefix="/google_login")
 app.register_blueprint(facebook_blueprint, url_prefix="/facebook_login")
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def index():
 
     form = LoginForm()
@@ -131,7 +131,7 @@ def signup():
     return render_template('register.html', title='Login', form=form)
 
 
-@app.route('/homepage')
+@app.route('/')
 #@login_required
 def homepage():
     return render_template('homepage.html')
