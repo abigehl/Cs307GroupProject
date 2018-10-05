@@ -49,6 +49,33 @@ facebook_blueprint = make_facebook_blueprint(
 )
 
 
+class rec(db.Model):
+    rec_name = db.Column('rec_name', db.String(100),primary_key=True)      
+    prep_time = db.Column('prep_time', db.String(50))
+    cook_time = db.Column('cook_time', db.String(50)) 
+    rec_description = db.Column('rec_description',db.String(1000))
+    rec_instruction = db.Column('rec_instruction',db.String(10000))
+    ing_1 = db.Column('ing_1',db.String(50))
+    ing_2 = db.Column('ing_2',db.String(50))
+
+    ing_3 = db.Column('ing_3',db.String(50))
+    ing_4 = db.Column('ing_4',db.String(50))
+    ing_5 = db.Column('ing_5',db.String(50))
+    ing_6 = db.Column('ing_6',db.String(50))
+    ing_7 = db.Column('ing_7',db.String(50))
+    ing_8 = db.Column('ing_8',db.String(50))
+    ing_9 = db.Column('ing_9',db.String(50))
+    ing_10 = db.Column('ing_10',db.String(50))
+
+
+class posts(db.Model):
+    status = db.Column('status', db.String(5000),primary_key=True)      
+
+
+
+ 
+
+
 class LoginForm(FlaskForm):
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=30)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
@@ -104,6 +131,37 @@ def index():
 
     return render_template('main.html', form=form)
 
+#@app.route('/profil', methods=['GET','POST']) 
+#def profile_page():
+ #   return render_template('ProfilePage.html')
+
+
+@app.route('/createrecipe', methods=['GET','POST']) 
+def create_recipe():
+    if(request.method == 'POST'):
+        food_name = request.form["food"]
+        prepTime = request.form["prep-time"]
+        cookTime = request.form["cook-time"]
+        recDescription = request.form["description"]
+        recInstruction = request.form["instruction"]
+        ingr1 = request.form["ing1"]
+        ingr2 = request.form["ing2"]
+        ingr3 = request.form["ing3"]
+        ingr4 = request.form["ing4"]
+        ingr5 = request.form["ing5"]
+        ingr6 = request.form["ing6"]
+        ingr7 = request.form["ing7"]
+        ingr8 = request.form["ing8"]
+        ingr9 = request.form["ing9"]
+        ingr10 = request.form["ing10"]
+
+        post = rec(rec_name=food_name, prep_time=prepTime,cook_time = cookTime, rec_description=recDescription, rec_instruction=recInstruction,ing_1=ingr1,ing_2=ingr2,ing_3=ingr3,ing_4=ingr4,ing_5=ingr5,ing_6=ingr6,ing_7=ingr7,ing_8=ingr8,ing_9=ingr9,ing_10=ingr10)
+
+        db.session.add(post)
+        db.session.commit()
+
+    return render_template('createrecipe.html')
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -131,9 +189,16 @@ def signup():
     return render_template('register.html', title='Login', form=form)
 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 #@login_required
 def homepage():
+    if(request.method == 'POST'):
+        postDescription = request.form["post_desc"]
+        post = posts(status=postDescription)
+
+        db.session.add(post)
+        db.session.commit()
+
     return render_template('homepage.html')
 
 
