@@ -79,6 +79,15 @@ def load_user(user_id):
 app.register_blueprint(google_blueprint, url_prefix="/google_login")
 app.register_blueprint(facebook_blueprint, url_prefix="/facebook_login")
 
+@app.route('/login/forgot/newpass')
+def newpass():
+	form = RegisterForm()
+	return render_template('forgotPassCode.html', form=form)
+
+@app.route('/login/forgot')
+def forgotp():
+	form = RegisterForm()
+	return render_template('forgotPass.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def index():
@@ -141,6 +150,9 @@ def homepage():
 def fglogin():
     return render_template('facebook-google.html')
 
+@app.route('/createrecipe')
+def create_recipe():
+	return render_template('createrecipe.html')
 
 @app.route('/googleSignin', methods=['GET', 'POST'])
 def googleSignin():
