@@ -143,7 +143,7 @@ def googleSignin():
         assert resp.ok, resp.text
         post = users.query.filter_by(email=resp.json()["email"]).first()
         if not post:
-            post = users(username=resp.json()["name"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
+            post = users(username=resp.json()["name"], password=resp.json()["id"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
             print(post)
             db.session.add(post)
             db.session.commit()
@@ -164,7 +164,7 @@ def facebookSignin():
         resp=facebook.get('/me?fields=id,name,email')
         post = users.query.filter_by(email=resp.json()["email"]).first()
         if not post:
-            post = users(username=resp.json()["name"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
+            post = users(username=resp.json()["name"], password=resp.json()["id"],email=resp.json()["email"])  # (name="Annie", email="something@gmail")
             print(post)
             db.session.add(post)
             db.session.commit()
