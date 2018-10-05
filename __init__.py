@@ -6,8 +6,8 @@ from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask_dance.contrib.google import make_google_blueprint, google
-from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
 import os
 
@@ -25,7 +25,7 @@ login_manager.login_view = '/'
 
 
 app.secret_key = "helpmerecipe"
-google_blueprint = make_google_blueprint(
+blueprint = make_google_blueprint(
     client_id="640840633381-8rrcgg5r9hru2al5e853jq95valimmd5.apps.googleusercontent.com",
     client_secret="YvDSgKVfGEM_nLblFbBPESZp",
     scope=[
@@ -35,14 +35,6 @@ google_blueprint = make_google_blueprint(
     ],
     offline=True,
 )
-facebook_blueprint = make_facebook_blueprint(
-    client_id="1145745515594684",
-    client_secret="350d8feaa14aa1a37212a8b3d4dd2694",
-    scope=[
-        "public profile",
-        "email"
-    ],
-)
 
 
 class LoginForm(FlaskForm):
@@ -51,7 +43,6 @@ class LoginForm(FlaskForm):
     remember = BooleanField('remember me')
 
 
-<<<<<<< HEAD
 class ResgisterForm(FlaskForm):
     email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=30)])
@@ -68,15 +59,10 @@ class users(UserMixin, db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return users.query.get(int(user_id))
-=======
-class users(db.Model):
-    username = db.Column(db.Unicode, primary_key=True)
-    email = db.Column(db.Unicode)
->>>>>>> 05a6344d4649d562d71ed18bb4870ee189aa94f0
 
 
-app.register_blueprint(google_blueprint, url_prefix="/google_login")
-app.register_blueprint(facebook_blueprint, url_prefix="/facebook_login")
+app.register_blueprint(blueprint, url_prefix="/login")
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -148,37 +134,16 @@ def googleSignin():
         # print(session)
         resp = google.get("/oauth2/v2/userinfo")
         assert resp.ok, resp.text
-        post = users.query.filter_by(email=resp.json()["email"]).first()
-        if not post:
-            post = users(username=resp.json()["name"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
-            print(post)
-            db.session.add(post)
-            db.session.commit()
+        post = users(name=resp.json()["name"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
+        print(post)
+        db.session.add(post)
+        db.session.commit()
     except InvalidClientIdError:
-        print("error");
         session.clear()
         return render_template('main.html')
 
     return render_template('facebook-google.html')
 
-@app.route('/facebookSignin', methods=['GET', 'POST'])
-def facebookSignin():
-    if not facebook.authorized:
-        return redirect(url_for("facebook.login"))
-    try:
-        # print(session)
-        resp=facebook.get('/me?fields=id,name,email')
-        post = users.query.filter_by(email=resp.json()["email"]).first()
-        if not post:
-            post = users(username=resp.json()["name"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
-            print(post)
-            db.session.add(post)
-            db.session.commit()
-    except InvalidClientIdError:
-        session.clear()
-        print("error");
-        return render_template('main.html')
-    return render_template('facebook-google.html')
 
 @app.route('/logout')
 @login_required
