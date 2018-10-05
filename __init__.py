@@ -145,6 +145,9 @@ def signup():
 def homepage():
     return render_template('homepage.html')
 
+@app.route('/realhomepage')
+def realhomepage():
+	return render_template("homepageloggedin.html")
 
 @app.route('/facebook-google')
 def fglogin():
