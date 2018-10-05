@@ -72,6 +72,15 @@ class users(UserMixin, db.Model):
     username = db.Column(db.Unicode)
     email = db.Column(db.Unicode)
     password = db.Column(db.String(80))
+    profilePic= db.Column(db.String(40), default="../static/Images/emptyProf.png", nullable=False)
+    firstName= db.Column(db.String(20), default="", nullable=False)
+    lastName= db.Column(db.String(20), default="", nullable=False)
+    displayName= db.Column(db.String(20), default="", nullable=False)
+    cookingExperience= db.Column(db.String(12), default="Beginner", nullable=False)
+    country= db.Column(db.String(30), default="", nullable=False)
+
+
+
 
 
 @login_manager.user_loader
@@ -143,6 +152,7 @@ def fglogin():
 def settings():
     return render_template('usersettings.html')
 
+    
 @app.route('/createrecipe')
 def create_recipe():
     return render_template('createrecipe.html')
