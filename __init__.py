@@ -153,6 +153,10 @@ def realhomepage():
 def fglogin():
     return render_template('facebook-google.html')
 
+@app.route('/ourmission')
+def ourmission():
+	return render_template('OurMission.html')
+
 @app.route('/createrecipe')
 def create_recipe():
 	return render_template('createrecipe.html')
@@ -179,7 +183,6 @@ def googleSignin():
         return render_template('facebook-google.html')
     print("return to homepage")
     return render_template('homepage.html')
-
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
 def facebookSignin():
