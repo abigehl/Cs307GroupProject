@@ -54,10 +54,10 @@ facebook_blueprint = make_facebook_blueprint(
 
 
 class rec(db.Model):
-   
-    rec_name = db.Column('rec_name', db.String(100), primary_key=True)      
+
+    rec_name = db.Column('rec_name', db.String(100), primary_key=True)
     prep_time = db.Column('prep_time', db.String(50))
-    cook_time = db.Column('cook_time', db.String(50)) 
+    cook_time = db.Column('cook_time', db.String(50))
     rec_description = db.Column('rec_description',db.String(1000))
     rec_instruction = db.Column('rec_instruction',db.String(10000))
     ing_1 = db.Column('ing_1',db.String(50))
@@ -79,11 +79,11 @@ class rec(db.Model):
 
 
 class posts(db.Model):
-    status = db.Column('status', db.String(5000),primary_key=True)      
+    status = db.Column('status', db.String(5000),primary_key=True)
 
 
 
- 
+
 
 
 class LoginForm(FlaskForm):
@@ -153,12 +153,12 @@ def login():
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('main.html', title='Login', form=form)
 
-#@app.route('/profil', methods=['GET','POST']) 
+#@app.route('/profil', methods=['GET','POST'])
 #def profile_page():
  #   return render_template('ProfilePage.html')
 
 
-@app.route('/createrecipe', methods=['GET','POST']) 
+@app.route('/createrecipe', methods=['GET','POST'])
 def create_recipe():
     if(request.method == 'POST'):
         food_name = request.form["food"]
@@ -205,7 +205,7 @@ def signup():
 def homepage():
     if current_user.is_authenticated:
         return redirect(url_for('homepageloggedin'))
-    
+
     return render_template('homepage.html')
 
 
@@ -258,13 +258,10 @@ def facebookSignin():
         resp = facebook.get('/me?fields=id,name,email')
         post = users.query.filter_by(email=resp.json()["email"]).first()
         if not post:
-            try:
-                post = users(username=resp.json()["name"], password=resp.json()["id"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
-                print(post)
-                db.session.add(post)
-                db.session.commit()
-            except sqlalchemy.exc.IntegrityError:
-                db.session.rollback()
+            post = users(username=resp.json()["name"], password=resp.json()["id"], email=resp.json()["email"])  # (name="Annie", email="something@gmail")
+            print(post)
+            db.session.add(post)
+            db.session.commit()
     except InvalidClientIdError:
         session.clear()
         print("error")
