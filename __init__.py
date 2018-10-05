@@ -141,6 +141,9 @@ def fglogin():
 def create_recipe():
     return render_template('createrecipe.html')
 
+@app.route('/usersettings')
+def updateUserSettings():
+        return render_template('usersettings.html')
 
 @app.route('/googleSignin', methods=['GET', 'POST'])
 def googleSignin():
