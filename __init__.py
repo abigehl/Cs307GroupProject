@@ -217,11 +217,6 @@ def fglogin():
 def settings():
     return render_template('usersettings.html')
 
-    
-@app.route('/createrecipe')
-def create_recipe():
-    return render_template('createrecipe.html')
-
 @app.route('/usersettings')
 def updateUserSettings():
         return render_template('usersettings.html')
