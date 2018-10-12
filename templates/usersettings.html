@@ -75,6 +75,9 @@
                 <div class="card w-50">
                     <div class="card-header  lighten-1 white-text" style="background-image: url(../static/Images/navbar.jpg);">Display
                         Information</div>
+
+
+                <form action="{{ url_for('settings') }}" method = "POST" > 
                     <div class="card-body">
                         <!-- Default horizontal form -->
                         <form id="displayinfo" action="">
@@ -83,7 +86,7 @@
                                 <!-- Default input -->
                                 <label for="inputfirstname" class="col-sm-4 col-form-label">First Name</label>
                                 <div class="col-sm-8">
-                                    <input type="firstname" class="form-control" id="firstname" placeholder="First Name">
+                                    <input type="firstname" class="form-control" id="firstname" placeholder="First Name" name = 'firstname'>
                                 </div>
                             </div>
                             <!-- Grid row -->
@@ -92,7 +95,7 @@
                                 <!-- Default input -->
                                 <label for="inputlastname" class="col-sm-4 col-form-label">Last Name</label>
                                 <div class="col-sm-8">
-                                    <input type="lastname" class="form-control" id="inputlastname" placeholder="Last Name">
+                                    <input type="lastname" class="form-control" id="inputlastname" placeholder="Last Name", name = 'lastname'>
                                 </div>
                             </div>
                             <!-- Grid row -->
@@ -101,7 +104,7 @@
                                 <!-- Default input -->
                                 <label for="inputdisplayname" class="col-sm-4 col-form-label">Display Name</label>
                                 <div class="col-sm-8">
-                                    <input type="displayname" class="form-control" id="inputdisplayname" placeholder="Display Name">
+                                    <input type="displayname" class="form-control" id="inputdisplayname" placeholder="Display Name", name = 'displayname'>
                                 </div>
                             </div>
                             <!-- Grid row -->
@@ -110,20 +113,11 @@
                                 <!-- Default input -->
                                 <label for="inputexperience" class="col-sm-12 col-form-label">Cooking Experience Level</label>
                             </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="Beginner" name="experience">
-                                <label class="custom-control-label" for="Beginner">Beginner</label><br>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="Experienced" name="experience">
-                                <label class="custom-control-label" for="Experienced">Experienced</label><br>
-                            </div>
-
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="Expert" name="experience">
-                                <label class="custom-control-label" for="Expert">Expert</label><br>
-                            </div>
-                            <br>
+                            <form action="{{ url_for('settings') }}" method="post">
+                                <input type="radio" id = "Beginner" name="cooking_experience" value="Beginner"> Novice </input><br>
+                                <input type="radio" id = "Intermediate" name="cooking_experience" value = "Intermediate"> Intermediate </input><br>
+                                <input type="radio" id = "Expert" name="cooking_experience" value = "Expert"> Expert </input><br>
+                            </form>
                             <!-- Grid row -->
                             <!-- Default horizontal form -->
                             <!--<h1 class="animated fadeIn mb-4">Material Design for Bootstrap</h1>-->
@@ -382,9 +376,10 @@
                                     <option value="ZW">Zimbabwe</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-dark-green">Save</button>
+                            <button type="submit" class="btn btn-dark-green" value = "Submit4">Save</button>
                         </form>
                     </div>
+                </form>
                 </div>
                 <br>
                 <div class="card w-50">
@@ -398,6 +393,19 @@
                                     <input type="email" class="form-control" id="inputemail" placeholder="Email">
                                 </div>
                             </div>
+                            <div>
+ 
+                                <h3>Profile image</h3>
+                                 
+                                <form action="/action_page.php">
+                                 
+                                <input type="file" name="pic" accept="image/*">
+                                 
+                                <input type="submit">
+                                 
+                                </form>
+                                 
+                             </div>
                             <button type="submit" class="btn btn-dark-green">Save</button>
                         </form>
                     </div>

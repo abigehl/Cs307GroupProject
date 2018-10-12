@@ -81,11 +81,6 @@ class rec(db.Model):
 class posts(db.Model):
     status = db.Column('status', db.String(5000),primary_key=True)
 
-
-
-
-
-
 class LoginForm(FlaskForm):
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=30)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
@@ -208,19 +203,38 @@ def homepage():
 
     return render_template('homepage.html')
 
+@app.route('/realhomepage')
+def realhomepage():
+	return render_template("homepageloggedin.html")
 
 
 @app.route('/facebook-google')
 def fglogin():
     return render_template('facebook-google.html')
 
+@app.route('/ourmission')
+def ourmission():
+	return render_template('OurMission.html')
+
+@app.route('/createrecipe')
+def create_recipe():
+	return render_template('createrecipe.html')
+
 @app.route('/settings')
 def settings():
-    return render_template('usersettings.html')
+    if(request.method == 'POST'):
+        current_user.firstName = request.form["firstname"]
+        current_user.lastName = request.form["lastname"]
+        current_user.displayName = request.form["displayname"]
+        current_user.cookingExperience = request.form["cooking_experience"]
 
+        db.session.commit()
+
+    return render_template('usersettings.html')
 
 @app.route('/usersettings')
 def updateUserSettings():
+
         return render_template('usersettings.html')
 
 @app.route('/googleSignin', methods=['GET', 'POST'])
@@ -244,8 +258,7 @@ def googleSignin():
         session.clear()
         return redirect(url_for('login'))
     print("return to homepage")
-    return redirect(url_for('homepageloggedin'))
-
+    return render_template('homepageloggedin.html')
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
 def facebookSignin():
@@ -267,7 +280,7 @@ def facebookSignin():
         print("error")
         return redirect(url_for('login'))
     print("return to homepage")
-    return redirect(url_for('homepageloggedin'))
+    return render_template('homepageloggedin.html')
 
 
 @app.route('/logout')
