@@ -216,17 +216,15 @@ def fglogin():
 def ourmission():
 	return render_template('OurMission.html')
 
-@app.route('/createrecipe')
-def create_recipe():
-	return render_template('createrecipe.html')
 
-@app.route('/settings')
+@app.route('/settings' , methods=['GET', 'POST'])
 def settings():
     if(request.method == 'POST'):
         current_user.firstName = request.form["firstname"]
         current_user.lastName = request.form["lastname"]
         current_user.displayName = request.form["displayname"]
         current_user.cookingExperience = request.form["cooking_experience"]
+        current_user.profilePic=request.form["url"]
 
         db.session.commit()
 

@@ -57,12 +57,11 @@
                 </div>
                 <ul class="navbar-nav mr-auto"> 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                        <a class="nav-link" href="{{ url_for('profile') }}"> My profile</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('signup') }}">Register</a>
-
-                      </li>
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
                 </ul>
         
               </form>
@@ -88,26 +87,7 @@
                   </div>
                   <div class="col-sm ">
                     <div class="card background-color:transparent;">
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Breakfast</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Lunch</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Dinner</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Soup</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Salad</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Vegan</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Cheap</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Quick</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Spicy</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Snack</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Dessert</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Vegetarian</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Cold</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Hot</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">College</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Asian</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">BBQ</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Mexican</a></li>
-                      </ul>
+                      
                     </div>
                   </div>
                 </div>
@@ -122,7 +102,7 @@
           <div style="height: 100vh w-50" >
             <div class="flex-end flex-center" >
               <div class="card flex bg-dark">
-                <h4 class="animated fadeIn mb-4 flex-center text-light mt-2 " >Trending</h4>
+                <h4 class="animated fadeIn mb-4 flex-center text-light mt-2 " >Favorites</h4>
                 <!--<table class="table">
                   <thread>
                     <tr>
@@ -175,7 +155,7 @@
                     <a href="#" class="card-link text-light">Take me there</a>
                 </div>
                 <div class="card-body flex-center">
-                    <a href="#" class="card-link text-light">More trending >></a>
+                    <a href="#" class="card-link text-light">More favorites >></a>
                 </div> 
                     
               </div>

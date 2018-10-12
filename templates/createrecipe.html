@@ -34,10 +34,10 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('homepage') }}">Home</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="{{ url_for('homepage') }}">About us</a>
-                    </li>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('homepage') }}">About us</a>
+                </li>
 
             </ul>
 
@@ -54,38 +54,44 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('profile') }}"> My profile</a>
-                  </li>
-                  <li class="nav-item">
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                  </li>
+                </li>
             </ul>
 
         </form>
     </nav>
 </nav>
 <div style="background-image: url(../static/Images/bg.png">
-<main class=" pt-4">
-    <h5 class="text-center text-light">Create a Recipe</h5>
-    <div class="container text-light mt-5">
+    <main class=" pt-4">
+        <form action="{{ url_for('create_recipe') }}" method="POST">
 
-        <!--Grid row-->
-        <div class="row wow fadeIn">
+            <h5 class="text-center text-light">Create a Recipe</h5>
+            <div class="container text-light mt-5">
 
-            <!--Grid column-->
-            <div class="col-md-6 mb-4">
+                <!--Grid row-->
+                <div class="row wow fadeIn">
 
-                <img src="../static/Images/lasagna.jpg" class="img-fluid" alt="">
+                    <!--Grid column-->
+                    <div class="col-md-6 mb-4">
 
-            </div>
-            <!--Grid column-->
+                       <!-- <img src="../static/Images/lasagna.jpg" class="img-fluid" alt="">-->
+                       <label for="inputurl" class="col-sm-4 col-form-label">Recipe Thumbnail</label>
+                       <div class="col-sm-8">
+                           <input type="displayname" class="form-control" id="inputurl" placeholder="Input Image Url", name = 'url'>
+                       </div>
 
-            <!--Grid column-->
-            <div class="col-md-6 mb-4">
+                    </div>
+                    <!--Grid column-->
 
-                <!--Content-->
-                <div class="p-4">
+                    <!--Grid column-->
+                    <div class="col-md-6 mb-4">
 
-                    <!-- <div class="mb-3">
+                        <!--Content-->
+                        <div class="p-4">
+
+                            <!-- <div class="mb-3">
                         <a href="">
                             <span class="badge purple mr-1">Italian</span>
                         </a>
@@ -97,17 +103,22 @@
                         </a>
                     </div>
                      -->
-                     <form action="{{ url_for('create_recipe') }}" method = "POST" >
+                            <!--<form action="{{ url_for('create_recipe') }}" method = "POST" >-->
                             <input class="form-control" type="text" placeholder="Enter Recipe Name" name='food'>
                             <br>
                             <input class="form-control" type="text" placeholder="Enter Prep Time" name='prep-time'>
                             <br>
                             <input class="form-control" type="text" placeholder="Enter Cook Time" name='cook-time'>
                             <br>
-                            <input class="form-control" type="text" placeholder="Enter Description" name='description'>
+                            <!--<input class="form-control" type="text" placeholder="Enter Description" name='description'>
+                            <br>-->
+                            Price Range
+                            <input class="form-control" type="text" placeholder="Minimum Price" name="min-price">
                             <br>
-                            <label for="exampleFormControlTextarea1">Cooking Instructions</label>
-                            <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name ="instruction"></textarea>
+                            <input class="form-control" type="text" placeholder="Maximum Price" name="max-price">
+                            <br>
+                            <label for="exampleFormControlTextarea1">Recipe Description</label>
+                            <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name="instruction"></textarea>
                             <br>
 
                             <div class="row d-flex justify-content-left wow fadeIn">
@@ -115,125 +126,71 @@
                                 <div class="col-md-6 text-left">
 
                                     <h4 class="my-4 h4">Enter Ingredients</h4>
-                                    <input class="form-control" type="text" placeholder="Ingredient 1" name = "ing1">
+                                    <input class="form-control" type="text" placeholder="Ingredient 1" name="ing1">
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 2" name = "ing2">
+                                    <input class="form-control" type="text" placeholder="Ingredient 2" name="ing2">
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 3" name = "ing3">
+                                    <input class="form-control" type="text" placeholder="Ingredient 3" name="ing3">
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 4" name = "ing4">
+                                    <input class="form-control" type="text" placeholder="Ingredient 4" name="ing4">
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 5" name = "ing5">
+                                    <input class="form-control" type="text" placeholder="Ingredient 5" name="ing5">
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 6" name = "ing6">
+                                    <input class="form-control" type="text" placeholder="Ingredient 6" name="ing6">
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 7" name = "ing7">
+                                    <input class="form-control" type="text" placeholder="Ingredient 7" name="ing7">
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 8" name = "ing8">
+                                    <input class="form-control" type="text" placeholder="Ingredient 8" name="ing8">
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 9" name = "ing9">
+                                    <input class="form-control" type="text" placeholder="Ingredient 9" name="ing9">
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 10" name = "ing10">
+                                    <input class="form-control" type="text" placeholder="Ingredient 10" name="ing10">
                                     <br>
-                                    <button type="submit" class="btn btn-dark-green" value="Submit">Save</button>
+                                    <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
                                 </div>
                             </div>
-                        </form>
+                            <!--</form>-->
 
+                        </div>
+                        <!--Content-->
 
-
-
-
-                   
-
-
-                    <div class="form-group">
-                        
                     </div>
-                    <!--<p>I like lasagna</p>-->
-
-                    <form class="d-flex justify-content-left">
-                        <!-- Default input -->
-                        <!--<input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">-->
-                        <!--<button class="btn btn-dark-green btn-md my-0 p" type="submit">Favorite-->
-                        <!--<i class="fa fa-shopping-cart ml-1"></i>-->
-                        </button>
-
+                    <!--Grid column-->
 
                 </div>
-                <!--Content-->
+                <!--Grid row-->
 
-            </div>
-            <!--Grid column-->
+                <hr>
 
-        </div>
-        <!--Grid row-->
+                <!--Grid row-->
 
-        <hr>
+                <!--Grid column-->
+                <div class="col-md-6 text-left">
 
-        <!--Grid row-->
+                    <br>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Enter your instructions</label>
+                        <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>
+                    </div>
+                    <h4 class="my-4 h4">Enter Nutritional Facts (Optional)</h4>
+                    <br>
+                    <input class="form-control" type="text" placeholder="Calories" name=Calories>
+                    <br>
+                    <input class="form-control" type="text" placeholder="Fat" name=Fat>
+                    <br>
+                    <input class="form-control" type="text" placeholder="Cholesterol" name=Cholesterol>
+                    <br>
+                    <input class="form-control" type="text" placeholder="Sodium" name=Sodium>
+                    <br>
+                    <button type="submit" class="btn btn-dark-green" value="Submit">Save</button>
 
-            <!--Grid column-->
-            <div class="col-md-6 text-left">
-
-                <br>
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Enter your instructions</label>
-                    <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>
                 </div>
-                <h4 class="my-4 h4">Enter Nutritional Facts (Optional)</h4>
-                <br>
-                <input class="form-control" type="text" placeholder="Calories" name=Calories>
-                <br>
-                <input class="form-control" type="text" placeholder="Fat" name=Fat>
-                <br>
-                <input class="form-control" type="text" placeholder="Cholesterol" name=Cholesterol>
-                <br>
-                <input class="form-control" type="text" placeholder="Sodium" name=Sodium>
-                <br>
-                <button type="submit" class="btn btn-dark-green" value="Submit">Save</button>
-
+                <!--Grid column-->
 
             </div>
-            <!--Grid column-->
-
-        </div>
-        <!--Grid row-->
-        <!--Grid row-->
-    </form>
-
-        <div class="row wow fadeIn">
-
-            <!--Grid column-->
-            <div class="col-lg-4 col-md-12 mb-4">
-
-                <!--  <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid"
-                    alt=""> -->
-
-            </div>
-            <!--Grid column-->
-
-            <!--Grid column-->
-            <div class="col-lg-4 col-md-6 mb-4">
-
-                <!-- <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid"
-                    alt=""> -->
-
-            </div>
-            <!--Grid column-->
-
-            <!--Grid column-->
-            <div class="col-lg-4 col-md-6 mb-4">
-
-                <!-- <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid"
-                    alt=""> -->
-
-            </div>
-            <!--Grid column-->
-
-        </div>
-        <!--Grid row-->
-
-    </div>
+            <!--Grid row-->
+            <!--Grid row-->
+            <!--Grid row-->
+        </form>
+    </main>
 </div>
-</main>
