@@ -9,8 +9,9 @@ from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
 import os
 from datetime import datetime
 import time
-from python.form import *
-from python.models import *
+from form import *
+from models import *
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 #from django.db import IntegrityError
 
 
@@ -20,7 +21,7 @@ app = Flask(__name__)
 Bootstrap(app)
 
 app.config['SECRET_KEY'] = 'THIS_IS_SECRET'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://helpmerecipe:passpass@helpmerecipe.coy90uyod5ue.us-east-2.rds.amazonaws.com/helpmerecipe'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager()
@@ -50,6 +51,9 @@ facebook_blueprint = make_facebook_blueprint(
 )
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return users.query.get(int(user_id))
 
 app.register_blueprint(google_blueprint, url_prefix="/google_login")
 app.register_blueprint(facebook_blueprint, url_prefix="/facebook_login")
@@ -70,14 +74,14 @@ def forgotp():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('homepageloggedin'))
+        return redirect(url_for('homepage'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = users.query.filter_by(username=form.username.data).first()
+        user = users.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('homepageloggedin'))
+            return redirect(next_page) if next_page else redirect(url_for('homepage'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('main.html', title='Login', form=form)
@@ -86,38 +90,10 @@ def login():
 #def profile_page():
  #   return render_template('ProfilePage.html')
 
-
-@app.route('/createrecipe', methods=['GET','POST'])
-def create_recipe():
-    if(request.method == 'POST'):
-        food_name = request.form["food"]
-        prepTime = request.form["prep-time"]
-        cookTime = request.form["cook-time"]
-        recDescription = request.form["description"]
-        recInstruction = request.form["instruction"]
-        ingr1 = request.form["ing1"]
-        ingr2 = request.form["ing2"]
-        ingr3 = request.form["ing3"]
-        ingr4 = request.form["ing4"]
-        ingr5 = request.form["ing5"]
-        ingr6 = request.form["ing6"]
-        ingr7 = request.form["ing7"]
-        ingr8 = request.form["ing8"]
-        ingr9 = request.form["ing9"]
-        ingr10 = request.form["ing10"]
-
-        post = rec(rec_name=food_name, prep_time=prepTime,cook_time = cookTime, rec_description=recDescription, rec_instruction=recInstruction,ing_1=ingr1,ing_2=ingr2,ing_3=ingr3,ing_4=ingr4,ing_5=ingr5,ing_6=ingr6,ing_7=ingr7,ing_8=ingr8,ing_9=ingr9,ing_10=ingr10)
-
-        db.session.add(post)
-        db.session.commit()
-
-    return render_template('createrecipe.html')
-
-
 @app.route("/register", methods=['GET', 'POST'])
 def signup():
     if current_user.is_authenticated:
-        return redirect(url_for('homepageloggedin'))
+        return redirect(url_for('homepage'))
     form = RegisterForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -125,15 +101,15 @@ def signup():
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
-        return redirect(url_for('homepageloggedin'))
+        return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
 
 @app.route('/')
 #@login_required
 def homepage():
-    if current_user.is_authenticated:
-        return redirect(url_for('homepageloggedin'))
+    # if current_user.is_authenticated:
+    #     return redirect(url_for('homepageloggedin'))
 
     return render_template('homepage.html')
 
@@ -141,10 +117,6 @@ def homepage():
 def realhomepage():
 	return render_template("homepageloggedin.html")
 
-
-@app.route('/facebook-google')
-def fglogin():
-    return render_template('facebook-google.html')
 
 @app.route('/ourmission')
 def ourmission():
@@ -190,7 +162,7 @@ def googleSignin():
         session.clear()
         return redirect(url_for('login'))
     print("return to homepage")
-    return render_template('homepageloggedin.html')
+    return redirect(url_for('homepage'))
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
 def facebookSignin():
@@ -212,7 +184,7 @@ def facebookSignin():
         print("error")
         return redirect(url_for('login'))
     print("return to homepage")
-    return render_template('homepageloggedin.html')
+    return redirect(url_for('homepage'))
 
 
 @app.route('/logout')
@@ -221,19 +193,48 @@ def logout():
     logout_user()
     return redirect(url_for('homepage'))
 
-@app.route('/homepageloggedin' , methods=['GET','POST'])
-def homepageloggedin():
-    if(request.method == 'POST'):
-        postDescription = request.form["post_desc"]
-        post = posts(status=postDescription)
-
-        db.session.add(post)
-        db.session.commit()
-    return render_template('homepageloggedin.html')
+# @app.route('/homepageloggedin' , methods=['GET','POST'])
+# def homepageloggedin():
+#     if(request.method == 'POST'):
+#         postDescription = request.form["post_desc"]
+#         post = posts(status=postDescription)
+#
+#         db.session.add(post)
+#         db.session.commit()
+#     return render_template('homepageloggedin.html')
 
 @app.route('/ProfilePage')
 def profile():
     return render_template('ProfilePage.html')
+
+
+@app.route('/createrecipe', methods=['GET','POST'])
+def create_recipe():
+    if(request.method == 'POST'):
+        food_name = request.form["food"]
+        prepTime = request.form["prep-time"]
+        cookTime = request.form["cook-time"]
+        recDescription = request.form["description"]
+        recInstruction = request.form["instruction"]
+        ingr1 = request.form["ing1"]
+        ingr2 = request.form["ing2"]
+        ingr3 = request.form["ing3"]
+        ingr4 = request.form["ing4"]
+        ingr5 = request.form["ing5"]
+        ingr6 = request.form["ing6"]
+        ingr7 = request.form["ing7"]
+        ingr8 = request.form["ing8"]
+        ingr9 = request.form["ing9"]
+        ingr10 = request.form["ing10"]
+
+        post = rec(rec_name=food_name, prep_time=prepTime,cook_time = cookTime, rec_description=recDescription, rec_instruction=recInstruction,ing_1=ingr1,ing_2=ingr2,ing_3=ingr3,ing_4=ingr4,ing_5=ingr5,ing_6=ingr6,ing_7=ingr7,ing_8=ingr8,ing_9=ingr9,ing_10=ingr10)
+
+        db.session.add(post)
+        db.session.commit()
+
+    return render_template('createrecipe.html')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
