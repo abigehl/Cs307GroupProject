@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired, ValidationError
+from flask_wtf.file import FileField, FileAllowed
 from models import users
 
 class LoginForm(FlaskForm):
@@ -26,3 +27,7 @@ class RegisterForm(FlaskForm):
         user = users.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('That email is taken. Please choose a different one.')
+
+# class UpdateAccountForm(FlaskForm):
+#     profilePic = FileField('Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+#     submit = SubmitField('Save')

@@ -3,9 +3,9 @@
 <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
         <title>Help Me Recipe</title>
-    
+
         <!-- Font Awesome -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Bootstrap core CSS -->
@@ -26,7 +26,7 @@
         <!--Navbar-->
         <nav style="background-image: url(../static/Images/navbar.jpg)">
         <nav class="navbar navbar-expand-lg navbar-dark transparent">
-        
+
           <!-- Collapse button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
               aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,10 +36,10 @@
             <div class="collapse navbar-collapse" id="basicExampleNav">
               <!-- Links -->
               <ul class="navbar-nav mr-auto">
-                <li class="nav-item"> 
+                <li class="nav-item">
                     <h3 class="text-white">Help Me Recipe</h3>
                 </li>
-                
+
                 <li class="nav-item">
                   <a class="nav-link" href="{{ url_for('homepage') }}">Home</a>
                 </li>
@@ -54,7 +54,7 @@
                 <div class="md-form my-0">
                   <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
                 </div>
-                <ul class="navbar-nav mr-auto"> 
+                <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('profile') }}"> My profile</a>
                   </li>
@@ -62,13 +62,13 @@
                     <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                   </li>
                 </ul>
-        
+
               </form>
           </nav>
           </nav>
           <!--/.Navbar-->
         <body>
-        
+
           <!-- Start your project here-->
           <div class="container">
                 <div class="row">
@@ -76,7 +76,7 @@
                         <div class="media">
                                 <img class="d-flex mr-3 p-4" src="{{current_user.profilePic}}" alt="Generic placeholder image" style="width: 200px; height: 200px ;">
                                 <div class="media-body p-4">
-                                        <h3 class="font-weight-bold text-light" style="margin-top: 125px">{{ current_user.displayName }}: {{ current_user.cookingExperience }}</h3>  
+                                        <h3 class="font-weight-bold text-light" style="margin-top: 125px">{{ current_user.displayName }}: {{ current_user.cookingExperience }}</h3>
                                 </div>
                             </div>
                     </div>
@@ -84,10 +84,10 @@
                         <h5 class="font-weight-bold text-light" style="margin-top: 25px">
                           <div class="row">
                             <a class="nav-link text-light mr-3" href="{{ url_for('settings') }}">Settings</a>
-                            <a class="nav-link text-light" href="favorites.html">Favorites</a>
+                            <a class="nav-link text-light" href="{{ url_for('favorites') }}">Favorites</a>
                             <a class="nav-link text-light" href="{{ url_for('create_recipe') }}">Post Recipe</a>
                           </div>
-                        </h5> 
+                        </h5>
                   </div>
                 </div>
                 <div class="row">
@@ -140,12 +140,12 @@
                             <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
                             <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
                             <a href="#" class="card-link text-light">Take me there</a>
-                          </div> 
+                          </div>
                           <div class="card-body flex-center">
                               <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
                               <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
                               <a href="#" class="card-link text-light">Take me there</a>
-                          </div> 
+                          </div>
                           <div class="card-body flex-center">
                               <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
                               <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
@@ -171,25 +171,25 @@
                               <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
                               <a href="#" class="card-link text-light">Take me there</a>
                           </div>
-                             
+
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-6 col-sm-3" style="width: 25vh; height:50vh">
-                    
+
                   </div>
                 </div>
               </div>
-          
+
           <!-- /Start your project here-->
-         
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
           <!-- SCRIPTS -->
           <!-- JQuery -->
           <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
@@ -201,6 +201,5 @@
           <script type="text/javascript" src="js/mdb.min.js"></script>
         </body>
         </div>
-        
+
         </html>
-        

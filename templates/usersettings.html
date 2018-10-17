@@ -1,3 +1,5 @@
+
+{% import "bootstrap/wtf.html" as wtf %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,7 +79,7 @@
                         Information</div>
 
 
-                <form action="{{ url_for('settings') }}" method = "POST" > 
+                <form action="{{ url_for('settings') }}" method = "POST" >
                     <div class="card-body">
                         <!-- Default horizontal form -->
                         <form id="displayinfo" action="">
@@ -97,9 +99,9 @@
                                 <div class="col-sm-8">
                                     <input type="lastname" class="form-control" id="inputlastname" placeholder="Last Name", name = 'lastname'>
                                 </div>
-                                
+
                             </div>
-                            
+
                             <!-- Grid row -->
                             <!-- Grid row -->
                             <div class="form-group row">
@@ -395,7 +397,8 @@
                     <div class="card-header  lighten-1 white-text" style="background-image: url(../static/Images/navbar.jpg);">Account
                         Settings</div>
                     <div class="card-body">
-                        <form>
+                        <form id="updateUser" role="form" action="{{ url_for('settings') }}" method="post">
+                              {{ form.hidden_tag() }}
                             <div class="form-group row">
                                 <label for="inputemail" class="col-sm-4 col-form-label">Email</label>
                                 <div class="col-sm-8">
@@ -403,17 +406,19 @@
                                 </div>
                             </div>
                             <div>
- 
+
                                 <h3>Profile image</h3>
-                                 
-                                <form action="/action_page.php">
-                                 
-                                <input type="file" name="pic" accept="image/*">
-                                 
-                                <input type="submit">
-                                 
-                                </form>
-                                 
+
+                                <div class="form-group">
+                                  {{ form.profilePic(class="form-control-file") }}
+                                  {% if form.profilePic.errors %}
+                                    {% for error in form.profilePic.errors %}
+                                    <span class="text-danger">{{ error }}</span></br>
+                                    {% endfor %}
+                                  {% endif %}
+
+                              </div>
+
                              </div>
                             <button type="submit" class="btn btn-dark-green">Save</button>
                         </form>

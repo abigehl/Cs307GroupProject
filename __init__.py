@@ -50,6 +50,19 @@ facebook_blueprint = make_facebook_blueprint(
     ],
 )
 
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    print("save profile pic")
+    return picture_fn
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -108,23 +121,42 @@ def signup():
 @app.route('/')
 #@login_required
 def homepage():
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('homepageloggedin'))
-
     return render_template('homepage.html')
-
-@app.route('/realhomepage')
-def realhomepage():
-	return render_template("homepageloggedin.html")
 
 
 @app.route('/ourmission')
 def ourmission():
 	return render_template('OurMission.html')
 
+@app.route('/favorites')
+def favorites():
+	return render_template('favoritesPage.html')
 
 @app.route('/settings' , methods=['GET', 'POST'])
+@login_required
 def settings():
+    # form = UpdateAccountForm()
+    # print("something")
+    # if form.validate_on_submit():
+    #     print("submit")
+    #     print(form.profilePic.data)
+    #     if form.profilePic.data:
+    #         picture_file = save_picture(form.profilePic.data)
+    #         print("get profile pic")
+    #         current_user.profilePic = picture_file
+    #     print("first Name")
+    #     current_user.firstName = request.form["firstname"]
+    #     current_user.lastName = request.form["lastname"]
+    #     current_user.displayName = request.form["displayname"]
+    #     current_user.cookingExperience = request.form["cooking_experience"]
+    #     db.session.commit()
+    #     flash('Your account has been updated!', 'success')
+    #     return redirect(url_for('ProfilePage'))
+    # else:
+    #     print(form)
+    #     print(form.errors)
+    # image_file = url_for('static', filename='profile_pics/' + current_user.profilePic)
+    # return render_template('usersettings.html', title='usersettings', form=form)
     if(request.method == 'POST'):
         current_user.firstName = request.form["firstname"]
         current_user.lastName = request.form["lastname"]
@@ -135,6 +167,7 @@ def settings():
         db.session.commit()
 
     return render_template('usersettings.html')
+
 
 @app.route('/usersettings')
 def updateUserSettings():
@@ -193,15 +226,6 @@ def logout():
     logout_user()
     return redirect(url_for('homepage'))
 
-# @app.route('/homepageloggedin' , methods=['GET','POST'])
-# def homepageloggedin():
-#     if(request.method == 'POST'):
-#         postDescription = request.form["post_desc"]
-#         post = posts(status=postDescription)
-#
-#         db.session.add(post)
-#         db.session.commit()
-#     return render_template('homepageloggedin.html')
 
 @app.route('/ProfilePage')
 def profile():
