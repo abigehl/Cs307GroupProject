@@ -1,5 +1,3 @@
-
-{% import "bootstrap/wtf.html" as wtf %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -397,8 +395,7 @@
                     <div class="card-header  lighten-1 white-text" style="background-image: url(../static/Images/navbar.jpg);">Account
                         Settings</div>
                     <div class="card-body">
-                        <form id="updateUser" role="form" action="{{ url_for('settings') }}" method="post">
-                              {{ form.hidden_tag() }}
+                        <form>
                             <div class="form-group row">
                                 <label for="inputemail" class="col-sm-4 col-form-label">Email</label>
                                 <div class="col-sm-8">
@@ -409,15 +406,13 @@
 
                                 <h3>Profile image</h3>
 
-                                <div class="form-group">
-                                  {{ form.profilePic(class="form-control-file") }}
-                                  {% if form.profilePic.errors %}
-                                    {% for error in form.profilePic.errors %}
-                                    <span class="text-danger">{{ error }}</span></br>
-                                    {% endfor %}
-                                  {% endif %}
+                                <form action="/action_page.php">
 
-                              </div>
+                                <input type="file" name="pic" accept="image/*">
+
+                                <input type="submit">
+
+                                </form>
 
                              </div>
                             <button type="submit" class="btn btn-dark-green">Save</button>

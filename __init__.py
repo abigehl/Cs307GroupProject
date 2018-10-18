@@ -12,6 +12,7 @@ import time
 from form import *
 from models import *
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_uploads import UploadSet, configure_uploads, IMAGES
 #from django.db import IntegrityError
 
 
@@ -27,7 +28,9 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = '/'
-
+photos = UploadSet('photos', IMAGES)
+app.config['UPLOADED_PHOTOS_DEST'] = 'static/Images'
+configure_uploads(app, photos)
 
 app.secret_key = "helpmerecipe"
 google_blueprint = make_google_blueprint(
@@ -158,13 +161,17 @@ def settings():
     # image_file = url_for('static', filename='profile_pics/' + current_user.profilePic)
     # return render_template('usersettings.html', title='usersettings', form=form)
     if(request.method == 'POST'):
-        current_user.firstName = request.form["firstname"]
-        current_user.lastName = request.form["lastname"]
-        current_user.displayName = request.form["displayname"]
-        current_user.cookingExperience = request.form["cooking_experience"]
-        current_user.profilePic=request.form["url"]
-
-        db.session.commit()
+        # current_user.firstName = request.form["firstname"]
+        # current_user.lastName = request.form["lastname"]
+        # current_user.displayName = request.form["displayname"]
+        # current_user.cookingExperience = request.form["cooking_experience"]
+        #current_user.profilePic=request.form["url"]
+        print("post")
+        if len(request.files) != 0:
+            #filename = photos.save(request.files['photo'])
+            file = request.files['photo']
+            print(file)
+        #db.session.commit()
 
     return render_template('usersettings.html')
 
