@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_bcrypt import Bcrypt
+from flask_mail import Mail, Message
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
@@ -22,6 +23,14 @@ Bootstrap(app)
 
 app.config['SECRET_KEY'] = 'THIS_IS_SECRET'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://helpmerecipe:passpass@helpmerecipe.coy90uyod5ue.us-east-2.rds.amazonaws.com/helpmerecipe'
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'helpmerecipe@gmail.com'
+app.config['MAIL_PASSWORD'] = 'FMNBUFa5Dp8ysmJ'
+mail = Mail(app)
+
+
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager()
@@ -55,20 +64,63 @@ facebook_blueprint = make_facebook_blueprint(
 def load_user(user_id):
     return users.query.get(int(user_id))
 
+
 app.register_blueprint(google_blueprint, url_prefix="/google_login")
 app.register_blueprint(facebook_blueprint, url_prefix="/facebook_login")
 
 
-@app.route('/login/forgot/newpass')
-def newpass():
-    form = RegisterForm()
-    return render_template('forgotPassCode.html', form=form)
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password reset Request',
+                  sender='helpmerecipe@gmail.com',
+                  recipients=[user.email])
+    msg.body = f''' To reset your password, visit the following link 
+{url_for('reset_token', token = token, _external = True)}
+
+If you did not make this request then simply ignore this email and no changes will be made.
+'''
+    mail.send(msg)
 
 
-@app.route('/login/forgot')
-def forgotp():
-    form = RegisterForm()
-    return render_template('forgotPass.html', form=form)
+@app.route("/reset_password", methods=['GET', 'POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('homepage'))
+    form = RequestResetForm()
+    # if form was submited and validated
+    if form.validate_on_submit():
+        user = users.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent with instructions to reset your password. ', 'info')
+        return redirect(url_for('login'))
+
+    return render_template('reset_request.html', title='Reset Password', form=form)
+
+
+@app.route("/reset_password/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('homepage'))
+
+    user = users.verify_reset_token(token)
+    #token is invalid or expired
+    print(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('reset_request'))
+    # token is valid -> let change password
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        print("USER ID", user.id)
+        print("USER PASSWORD", form.password.data)
+        #user.password = hashed_password
+
+        db.engine.execute("UPDATE users SET password = %s WHERE ID = %s", (hashed_password, user.id))
+        db.session.commit()
+        flash('Your password has been updated', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_token.html', title='Reset Password', form=form)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -87,8 +139,9 @@ def login():
     return render_template('main.html', title='Login', form=form)
 
 #@app.route('/profil', methods=['GET','POST'])
-#def profile_page():
+# def profile_page():
  #   return render_template('ProfilePage.html')
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def signup():
@@ -113,33 +166,36 @@ def homepage():
 
     return render_template('homepage.html')
 
+
 @app.route('/realhomepage')
 def realhomepage():
-	return render_template("homepageloggedin.html")
+    return render_template("homepageloggedin.html")
 
 
 @app.route('/ourmission')
 def ourmission():
-	return render_template('OurMission.html')
+    return render_template('OurMission.html')
 
 
-@app.route('/settings' , methods=['GET', 'POST'])
+@app.route('/settings', methods=['GET', 'POST'])
 def settings():
     if(request.method == 'POST'):
         current_user.firstName = request.form["firstname"]
         current_user.lastName = request.form["lastname"]
         current_user.displayName = request.form["displayname"]
         current_user.cookingExperience = request.form["cooking_experience"]
-        current_user.profilePic=request.form["url"]
+        current_user.profilePic = request.form["url"]
 
         db.session.commit()
 
     return render_template('usersettings.html')
 
+
 @app.route('/usersettings')
 def updateUserSettings():
 
-        return render_template('usersettings.html')
+    return render_template('usersettings.html')
+
 
 @app.route('/googleSignin', methods=['GET', 'POST'])
 def googleSignin():
@@ -163,6 +219,7 @@ def googleSignin():
         return redirect(url_for('login'))
     print("return to homepage")
     return redirect(url_for('homepage'))
+
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
 def facebookSignin():
@@ -203,12 +260,13 @@ def logout():
 #         db.session.commit()
 #     return render_template('homepageloggedin.html')
 
+
 @app.route('/ProfilePage')
 def profile():
     return render_template('ProfilePage.html')
 
 
-@app.route('/createrecipe', methods=['GET','POST'])
+@app.route('/createrecipe', methods=['GET', 'POST'])
 def create_recipe():
     if(request.method == 'POST'):
         food_name = request.form["food"]
@@ -227,13 +285,12 @@ def create_recipe():
         ingr9 = request.form["ing9"]
         ingr10 = request.form["ing10"]
 
-        post = rec(rec_name=food_name, prep_time=prepTime,cook_time = cookTime, rec_description=recDescription, rec_instruction=recInstruction,ing_1=ingr1,ing_2=ingr2,ing_3=ingr3,ing_4=ingr4,ing_5=ingr5,ing_6=ingr6,ing_7=ingr7,ing_8=ingr8,ing_9=ingr9,ing_10=ingr10)
+        post = rec(rec_name=food_name, prep_time=prepTime, cook_time=cookTime, rec_description=recDescription, rec_instruction=recInstruction, ing_1=ingr1, ing_2=ingr2, ing_3=ingr3, ing_4=ingr4, ing_5=ingr5, ing_6=ingr6, ing_7=ingr7, ing_8=ingr8, ing_9=ingr9, ing_10=ingr10)
 
         db.session.add(post)
         db.session.commit()
 
     return render_template('createrecipe.html')
-
 
 
 if __name__ == '__main__':
