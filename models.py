@@ -35,11 +35,11 @@ class rec(db.Model):
 
 
 class posts(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    status = db.Column('status', db.String(5000),primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, nullable=False)
+    #id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(5000), primary_key=True)
+    #title = db.Column(db.String(100), nullable=False)
+    #content = db.Column(db.Text, nullable=False)
+    #user_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return "posts('{self.status}', '{self.title}', '{self.content}', '{self.user_id}')"

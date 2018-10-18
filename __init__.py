@@ -105,11 +105,16 @@ def signup():
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 #@login_required
-def homepage():
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('homepageloggedin'))
+def homepage(): 
+    if(request.method=='POST'):
+        written_post = request.form["post_desc"]
+
+        post = posts(description = written_post)
+
+        db.session.add(post)
+        db.session.commit()
 
     return render_template('homepage.html')
 
@@ -126,20 +131,20 @@ def ourmission():
 @app.route('/settings' , methods=['GET', 'POST'])
 def settings():
     if(request.method == 'POST'):
-        current_user.firstName = request.form["firstname"]
-        current_user.lastName = request.form["lastname"]
-        current_user.displayName = request.form["displayname"]
-        current_user.cookingExperience = request.form["cooking_experience"]
+        current_user.firstName=request.form["firstname"]
+        current_user.lastName=request.form["lastname"]
+        current_user.displayName=request.form["displayname"]
+        current_user.cookingExperience=request.form["cooking_experience"]
         current_user.profilePic=request.form["url"]
+        
+        currentId = current_user.id
 
+        db.engine.execute("UPDATE users SET firstName = %s, lastName = %s, displayName =  %s, cookingExperience = %s, profilePic = %s WHERE id = %s", (current_user.firstName, current_user.lastName, current_user.displayName, current_user.cookingExperience, current_user.profilePic, current_user.id))
         db.session.commit()
 
+
+
     return render_template('usersettings.html')
-
-@app.route('/usersettings')
-def updateUserSettings():
-
-        return render_template('usersettings.html')
 
 @app.route('/googleSignin', methods=['GET', 'POST'])
 def googleSignin():
@@ -193,7 +198,7 @@ def logout():
     logout_user()
     return redirect(url_for('homepage'))
 
-# @app.route('/homepageloggedin' , methods=['GET','POST'])
+#@app.route('/homepageloggedin' , methods=['GET','POST'])
 # def homepageloggedin():
 #     if(request.method == 'POST'):
 #         postDescription = request.form["post_desc"]
