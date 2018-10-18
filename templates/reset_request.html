@@ -5,7 +5,7 @@
 <html lang="en">
 
 {% block title %}
-Sign In
+Password Reset
 {% endblock %}
 
 {% block styles %}
@@ -59,15 +59,17 @@ Sign In
 
     <div class="container  text-center">
         <div class="login-popup-heading text-center">
-            <h4><i class="fas fa-user" aria-hidden="true"></i> New Password </h4>  
+            <h4><i class="fas fa-user" aria-hidden="true"></i> Enter your email </h4>  
         </div>                     
     </div>
 
-    <form id="loginMember" role="form" action="{{ url_for('reset_request') }}" method="post">
+    <form id="loginMember" role="form" action="{{ reset_request }}" method="post">
         <div class="container  text-center" style="width: 30%">
+
                 {{ form.hidden_tag() }}
                 {{ wtf.form_field(form.email) }}
-        <button type="submit" class="btn btn-default login-popup-btn" name="submit" value="1">Update</button>
+                {{ wtf.form_field(form.submit)}}
+
         </div>
     </form>
 
