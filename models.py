@@ -34,7 +34,8 @@ class rec(db.Model):
 
 class posts(db.Model):
     #id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String(5000), primary_key=True)
+    uName = db.Column(db.String(100))
+    description = db.Column(db.String(3000), primary_key=True)
     #title = db.Column(db.String(100), nullable=False)
     #content = db.Column(db.Text, nullable=False)
     #user_id = db.Column(db.Integer, nullable=False)

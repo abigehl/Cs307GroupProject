@@ -12,6 +12,7 @@ from datetime import datetime
 import time
 from form import *
 from models import *
+import sqlite3
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 #from django.db import IntegrityError
 
@@ -162,9 +163,10 @@ def signup():
 #@login_required
 def homepage(): 
     if(request.method=='POST'):
+
         written_post = request.form["post_desc"]
 
-        post = posts(description = written_post)
+        post = posts(uName=current_user.username, description = written_post)
 
         db.session.add(post)
         db.session.commit()
@@ -194,12 +196,7 @@ def settings():
         db.engine.execute("UPDATE users SET firstName = %s, lastName = %s, displayName =  %s, cookingExperience = %s, profilePic = %s WHERE id = %s", (current_user.firstName, current_user.lastName, current_user.displayName, current_user.cookingExperience, current_user.profilePic, current_user.id))
         db.session.commit()
 
-
-
-@app.route('/usersettings')
-def updateUserSettings():
     return render_template('usersettings.html')
-
 
 @app.route('/googleSignin', methods=['GET', 'POST'])
 def googleSignin():
@@ -267,7 +264,9 @@ def logout():
 
 @app.route('/ProfilePage')
 def profile():
-    return render_template('ProfilePage.html')
+    data = db.engine.execute("SELECT description FROM posts WHERE uName=%s",(current_user.username))
+
+    return render_template('ProfilePage.html',data=data)
 
 
 @app.route('/createrecipe', methods=['GET', 'POST'])

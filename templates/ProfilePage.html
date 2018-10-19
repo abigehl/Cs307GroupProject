@@ -77,6 +77,10 @@
                                 <img class="d-flex mr-3 p-4" src="{{current_user.profilePic}}" alt="Generic placeholder image" style="width: 200px; height: 200px ;">
                                 <div class="media-body p-4">
                                         <h3 class="font-weight-bold text-light" style="margin-top: 125px">{{ current_user.displayName }}: {{ current_user.cookingExperience }}</h3>  
+                                        {% for item in data %}
+                                        <option>{{item}}</option>
+                                        {% endfor %}
+                                
                                 </div>
                             </div>
                     </div>
