@@ -5,8 +5,8 @@ from __init__ import db, login_manager, app
 
 
 class rec(db.Model):
-
-    rec_name = db.Column('rec_name', db.String(100), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    rec_name = db.Column('rec_name', db.String(100))
     prep_time = db.Column('prep_time', db.String(50))
     cook_time = db.Column('cook_time', db.String(50))
     rec_description = db.Column('rec_description', db.Text)
@@ -23,10 +23,11 @@ class rec(db.Model):
     ing_9 = db.Column('ing_9', db.String(50))
     ing_10 = db.Column('ing_10', db.String(50))
 
-    Calories = db.Column('Calories', db.String(50))
-    Fat = db.Column('Fat', db.String(50))
-    Cholesterol = db.Column('Cholesterol', db.String(50))
-    Sodium = db.Column('Sodium', db.String(50))
+    calories = db.Column('Calories', db.String(50))
+    fat = db.Column('Fat', db.String(50))
+    cholesterol = db.Column('Cholesterol', db.String(50))
+    sodium = db.Column('Sodium', db.String(50))
+    user_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return 'rec({self.rec_name}, {self.prep_time}, {self.cook_time}, {self.rec_instruction}, {self.rec_description}, {self.Fat}, {self.Cholesterol}, {self.Sodium}, {self.Calories})'
