@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired, ValidationError
 from flask_wtf.file import FileField, FileAllowed
 from models import users
@@ -30,11 +30,6 @@ class RegisterForm(FlaskForm):
         if user:
             raise ValidationError('That email is taken. Please choose a different one.')
 
-<<<<<<< HEAD
-# class UpdateAccountForm(FlaskForm):
-#     profilePic = FileField('Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
-#     submit = SubmitField('Save')
-=======
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -50,4 +45,9 @@ class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
->>>>>>> 8643f505f4c4d9258a6d006b2ace5897d335e470
+
+
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Post')

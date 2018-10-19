@@ -13,7 +13,7 @@ import time
 from form import *
 from models import *
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from flask_uploads import UploadSet, configure_uploads, IMAGES
+from posts.route import posts
 #from django.db import IntegrityError
 
 
@@ -37,9 +37,8 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = '/'
-photos = UploadSet('photos', IMAGES)
-app.config['UPLOADED_PHOTOS_DEST'] = 'static/Images'
-configure_uploads(app, photos)
+
+app.register_blueprint(posts)
 
 app.secret_key = "helpmerecipe"
 google_blueprint = make_google_blueprint(
@@ -62,20 +61,6 @@ facebook_blueprint = make_facebook_blueprint(
     ],
 )
 
-def save_picture(form_picture):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = random_hex + f_ext
-    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
-
-    output_size = (125, 125)
-    i = Image.open(form_picture)
-    i.thumbnail(output_size)
-    i.save(picture_path)
-    print("save profile pic")
-    return picture_fn
-
-
 @login_manager.user_loader
 def load_user(user_id):
     return users.query.get(int(user_id))
@@ -90,11 +75,7 @@ def send_reset_email(user):
     msg = Message('Password reset Request',
                   sender='helpmerecipe@gmail.com',
                   recipients=[user.email])
-    msg.body = f''' To reset your password, visit the following link
-{url_for('reset_token', token = token, _external = True)}
-
-If you did not make this request then simply ignore this email and no changes will be made.
-'''
+    #msg.body = f'To reset your password, visit the following link' {url_for('reset_token', token = token, _external = True)} 'If you did not make this request then simply ignore this email and no changes will be made.'
     mail.send(msg)
 
 
@@ -204,28 +185,6 @@ def favorites():
 @app.route('/settings' , methods=['GET', 'POST'])
 @login_required
 def settings():
-    # form = UpdateAccountForm()
-    # print("something")
-    # if form.validate_on_submit():
-    #     print("submit")
-    #     print(form.profilePic.data)
-    #     if form.profilePic.data:
-    #         picture_file = save_picture(form.profilePic.data)
-    #         print("get profile pic")
-    #         current_user.profilePic = picture_file
-    #     print("first Name")
-    #     current_user.firstName = request.form["firstname"]
-    #     current_user.lastName = request.form["lastname"]
-    #     current_user.displayName = request.form["displayname"]
-    #     current_user.cookingExperience = request.form["cooking_experience"]
-    #     db.session.commit()
-    #     flash('Your account has been updated!', 'success')
-    #     return redirect(url_for('ProfilePage'))
-    # else:
-    #     print(form)
-    #     print(form.errors)
-    # image_file = url_for('static', filename='profile_pics/' + current_user.profilePic)
-    # return render_template('usersettings.html', title='usersettings', form=form)
     if(request.method == 'POST'):
         current_user.firstName = request.form["firstname"]
         current_user.lastName = request.form["lastname"]
@@ -329,6 +288,18 @@ def create_recipe():
         db.session.commit()
 
     return render_template('createrecipe.html')
+
+@posts.route("/post/new", methods=['GET', 'POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('main'))
+    return render_template('createrecipe.html', title='New Post',form=form, legend='New Post')
 
 
 if __name__ == '__main__':
