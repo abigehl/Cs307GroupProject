@@ -7,6 +7,7 @@ from flask_mail import Mail, Message
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
+import secrets
 import os
 from datetime import datetime
 import time
@@ -161,13 +162,13 @@ def signup():
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/', methods=['GET', 'POST'])
 #@login_required
-def homepage(): 
-    if(request.method=='POST'):
+def homepage():
+    if(request.method == 'POST'):
         written_post = request.form["post_desc"]
 
-        post = posts(description = written_post)
+        post = posts(description=written_post)
 
         db.session.add(post)
         db.session.commit()
@@ -184,19 +185,68 @@ def realhomepage():
 def ourmission():
     return render_template('OurMission.html')
 
+################################################  USER SETTINGS  #####################################################
+
+
+def is_filled(data):
+    if data == None:
+        return False
+    if data == '':
+        return False
+    if data == []:
+        return False
+    return True
+
+
+def save_picture(form_picture):
+    # randomize picture name so there is no colition with other picture
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/Images', picture_fn)
+    form_picture.save(picture_path)
+    return picture_fn
+
 
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
-    if(request.method == 'POST'):
-        current_user.firstName = request.form["firstname"]
-        current_user.lastName = request.form["lastname"]
-        current_user.displayName = request.form["displayname"]
-        current_user.cookingExperience = request.form["cooking_experience"]
-        current_user.profilePic = request.form["url"]
+    form = UpdateProfileForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            print(picture_file)
+            db.engine.execute("UPDATE users SET profilePic = %s WHERE id = %s", (picture_file, current_user.id))
+        if(is_filled(form.username.data)):
+            db.engine.execute("UPDATE users SET username = %s WHERE id = %s", (form.username.data, current_user.id))
+        if(is_filled(form.firstname.data)):
+            db.engine.execute("UPDATE users SET firstname = %s WHERE id = %s", (form.firstname.data, current_user.id))
+        if(is_filled(form.lastname.data)):
+            db.engine.execute("UPDATE users SET lastname = %s WHERE id = %s", (form.lastname.data, current_user.id))
+        if(is_filled(form.email.data)):
+            db.engine.execute("UPDATE users SET firstname = %s WHERE id = %s", (form.firstname.data, current_user.id))
+        if(is_filled(form.cooking_exp.data)):
+            db.engine.execute("UPDATE users SET cookingExperience = %s WHERE id = %s", (form.cooking_exp.data, current_user.id))
+        return redirect(url_for('profile'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.firstname.data = current_user.firstName
+        form.lastname.data = current_user.lastName
+        form.email.data = current_user.email
+        form.cooking_exp.data = current_user.cookingExperience
+    # if(request.method == 'POST'):
+    #     current_user.firstName = request.form["firstname"]
+    #     current_user.lastName = request.form["lastname"]
+    #     current_user.displayName = request.form["displayname"]
+    #     if request.form["cooking_experience"] != None:
+    #         print("hello")
+    #         current_user.cookingExperience = request.form["cooking_experience"]
+    #     current_user.profilePic = request.form["url"]
 
-        db.engine.execute("UPDATE users SET firstName = %s, lastName = %s, displayName =  %s, cookingExperience = %s, profilePic = %s WHERE id = %s", (current_user.firstName, current_user.lastName, current_user.displayName, current_user.cookingExperience, current_user.profilePic, current_user.id))
-        db.session.commit()
-
+    #     db.engine.execute("UPDATE users SET firstName = %s, lastName = %s, displayName =  %s, cookingExperience = %s, profilePic = %s WHERE id = %s",
+    #                       (current_user.firstName, current_user.lastName, current_user.displayName,
+    #                        current_user.cookingExperience, current_user.profilePic, current_user.id))
+    #     db.session.commit()
+    return render_template('usersettings.html', form=form)
 
 
 @app.route('/usersettings')
@@ -270,9 +320,9 @@ def logout():
 
 @app.route('/ProfilePage')
 def profile():
-    return render_template('ProfilePage.html')
-    #image_file + url_for('static', filename='Images/' + current_user.profilePic)
-    #return render_template('ProfilePage.html', title='Profile', image_file=image_file)
+    # return render_template('ProfilePage.html')
+    image_file = url_for('static', filename='Images/' + current_user.profilePic)
+    return render_template('ProfilePage.html', title='Profile', image_file=image_file)
 
 
 @app.route('/createrecipe', methods=['GET', 'POST'])

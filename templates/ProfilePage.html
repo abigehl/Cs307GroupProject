@@ -74,9 +74,15 @@
                 <div class="row">
                   <div class="col-12 col-sm-6 col-lg-8" style="width: 50vh; height: 35vh">
                         <div class="media">
-                                <img class="d-flex mr-3 p-4" src="{{current_user.profilePic}}" alt="Generic placeholder image" style="width: 200px; height: 200px ;">
+                                <img class="d-flex mr-3 p-4" src="{{ image_file }}" alt="Generic placeholder image" style="width: 200px; height: 200px ;">
                                 <div class="media-body p-4">
-                                        <h3 class="font-weight-bold text-light" style="margin-top: 125px">{{ current_user.displayName }}: {{ current_user.cookingExperience }}</h3>  
+                                        <h3 class="font-weight-bold text-light" style="margin-top: 50px">
+                                        {{ current_user.username }}: {{ current_user.cookingExperience }}</h3>  
+                                        <h3 class="font-weight-bold text-light" style="margin-top: 10px">
+                                        {{ current_user.firstName }} {{ current_user.lastName }}</h3>
+                                        <h3 class="font-weight-bold text-light" style="margin-top: 10px">
+                                        {{ current_user.email}}</h3>
+
                                 </div>
                             </div>
                     </div>

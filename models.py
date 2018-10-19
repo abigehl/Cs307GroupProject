@@ -39,8 +39,8 @@ class posts(db.Model):
     #content = db.Column(db.Text, nullable=False)
     #user_id = db.Column(db.Integer, nullable=False)
 
-    #def __repr__(self):
-     #   return "posts('{self.status}', '{self.title}', '{self.content}', '{self.user_id}')"
+    # def __repr__(self):
+    #   return "posts('{self.status}', '{self.title}', '{self.content}', '{self.user_id}')"
 
 
 class users(UserMixin, db.Model):
@@ -48,7 +48,7 @@ class users(UserMixin, db.Model):
     username = db.Column(db.Unicode, unique=True, nullable=False)
     email = db.Column(db.Unicode, unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
-    profilePic = db.Column(db.String(40), default="../static/Images/emptyProf.png")
+    profilePic = db.Column(db.String(40), default="emptyProf.png")
     firstName = db.Column(db.String(20), default="")
     lastName = db.Column(db.String(20), default="")
     displayName = db.Column(db.String(20), default="")
