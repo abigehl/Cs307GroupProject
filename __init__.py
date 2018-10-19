@@ -7,7 +7,7 @@ from flask_mail import Mail, Message
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
-import secrets
+#import secrets
 import os
 from datetime import datetime
 import time
