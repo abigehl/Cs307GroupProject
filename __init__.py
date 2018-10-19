@@ -13,6 +13,7 @@ from datetime import datetime
 import time
 from form import *
 from models import *
+import sqlite3
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from posts.route import posts
 #from django.db import IntegrityError
@@ -161,11 +162,12 @@ def signup():
 
 @app.route('/', methods=['GET', 'POST'])
 #@login_required
-def homepage():
-    if(request.method == 'POST'):
+def homepage(): 
+    if(request.method=='POST'):
+
         written_post = request.form["post_desc"]
 
-        post = posts(description=written_post)
+        post = posts(uName=current_user.username, description = written_post)
 
         db.session.add(post)
         db.session.commit()
@@ -230,27 +232,9 @@ def settings():
         form.lastname.data = current_user.lastName
         form.email.data = current_user.email
         form.cooking_exp.data = current_user.cookingExperience
-    # if(request.method == 'POST'):
-    #     current_user.firstName = request.form["firstname"]
-    #     current_user.lastName = request.form["lastname"]
-    #     current_user.displayName = request.form["displayname"]
-    #     if request.form["cooking_experience"] != None:
-    #         print("hello")
-    #         current_user.cookingExperience = request.form["cooking_experience"]
-    #     current_user.profilePic = request.form["url"]
-
-    #     db.engine.execute("UPDATE users SET firstName = %s, lastName = %s, displayName =  %s, cookingExperience = %s, profilePic = %s WHERE id = %s",
-    #                       (current_user.firstName, current_user.lastName, current_user.displayName,
-    #                        current_user.cookingExperience, current_user.profilePic, current_user.id))
-    #     db.session.commit()
     return render_template('usersettings.html', form=form)
 
-
-
-@app.route('/usersettings')
-def updateUserSettings():
     return render_template('usersettings.html')
-
 
 @app.route('/googleSignin', methods=['GET', 'POST'])
 def googleSignin():
@@ -309,36 +293,11 @@ def logout():
 
 @app.route('/ProfilePage')
 def profile():
+    data = db.engine.execute("SELECT description FROM posts WHERE uName=%s",(current_user.username))
     # return render_template('ProfilePage.html')
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
     return render_template('ProfilePage.html', title='Profile', image_file=image_file)
 
-
-@app.route('/createrecipe', methods=['GET', 'POST'])
-def create_recipe():
-    if(request.method == 'POST'):
-        food_name = request.form["food"]
-        prepTime = request.form["prep-time"]
-        cookTime = request.form["cook-time"]
-        recDescription = request.form["description"]
-        recInstruction = request.form["instruction"]
-        ingr1 = request.form["ing1"]
-        ingr2 = request.form["ing2"]
-        ingr3 = request.form["ing3"]
-        ingr4 = request.form["ing4"]
-        ingr5 = request.form["ing5"]
-        ingr6 = request.form["ing6"]
-        ingr7 = request.form["ing7"]
-        ingr8 = request.form["ing8"]
-        ingr9 = request.form["ing9"]
-        ingr10 = request.form["ing10"]
-
-        post = rec(rec_name=food_name, prep_time=prepTime, cook_time=cookTime, rec_description=recDescription, rec_instruction=recInstruction, ing_1=ingr1, ing_2=ingr2, ing_3=ingr3, ing_4=ingr4, ing_5=ingr5, ing_6=ingr6, ing_7=ingr7, ing_8=ingr8, ing_9=ingr9, ing_10=ingr10)
-
-        db.session.add(post)
-        db.session.commit()
-
-    return render_template('createrecipe.html')
 
 @app.route("/repcipe/new", methods=['GET', 'POST'])
 @login_required
