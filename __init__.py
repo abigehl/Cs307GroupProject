@@ -306,42 +306,37 @@ def logout():
 
 @app.route('/ProfilePage')
 def profile():
-<<<<<<< HEAD
     data = db.engine.execute("SELECT description FROM posts WHERE uName=%s",(current_user.username))
-
-    return render_template('ProfilePage.html',data=data)
-=======
     # return render_template('ProfilePage.html')
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
     return render_template('ProfilePage.html', title='Profile', image_file=image_file)
->>>>>>> 742af21669c20875daf7136d2065967f8767cf5f
 
 
-@app.route('/createrecipe', methods=['GET', 'POST'])
-def create_recipe():
-    if(request.method == 'POST'):
-        food_name = request.form["food"]
-        prepTime = request.form["prep-time"]
-        cookTime = request.form["cook-time"]
-        recDescription = request.form["description"]
-        recInstruction = request.form["instruction"]
-        ingr1 = request.form["ing1"]
-        ingr2 = request.form["ing2"]
-        ingr3 = request.form["ing3"]
-        ingr4 = request.form["ing4"]
-        ingr5 = request.form["ing5"]
-        ingr6 = request.form["ing6"]
-        ingr7 = request.form["ing7"]
-        ingr8 = request.form["ing8"]
-        ingr9 = request.form["ing9"]
-        ingr10 = request.form["ing10"]
-
-        post = rec(rec_name=food_name, prep_time=prepTime, cook_time=cookTime, rec_description=recDescription, rec_instruction=recInstruction, ing_1=ingr1, ing_2=ingr2, ing_3=ingr3, ing_4=ingr4, ing_5=ingr5, ing_6=ingr6, ing_7=ingr7, ing_8=ingr8, ing_9=ingr9, ing_10=ingr10)
-
-        db.session.add(post)
-        db.session.commit()
-
-    return render_template('createrecipe.html')
+#@app.route('/createrecipe', methods=['GET', 'POST'])
+#def create_recipe():
+#    if(request.method == 'POST'):
+#        food_name = request.form["food"]
+#        prepTime = request.form["prep-time"]
+#        cookTime = request.form["cook-time"]
+#        recDescription = request.form["description"]
+#        recInstruction = request.form["instruction"]
+#        ingr1 = request.form["ing1"]
+#        ingr2 = request.form["ing2"]
+#        ingr3 = request.form["ing3"]
+#        ingr4 = request.form["ing4"]
+#        ingr5 = request.form["ing5"]
+#        ingr6 = request.form["ing6"]
+#        ingr7 = request.form["ing7"]
+#        ingr8 = request.form["ing8"]
+#        ingr9 = request.form["ing9"]
+#        ingr10 = request.form["ing10"]
+#
+#        post = rec(rec_name=food_name, prep_time=prepTime, cook_time=cookTime, rec_description=recDescription, rec_instruction=recInstruction, ing_1=ingr1, ing_2=ingr2, ing_3=ingr3, ing_4=ingr4, ing_5=ingr5, ing_6=ingr6, ing_7=ingr7, ing_8=ingr8, ing_9=ingr9, ing_10=ingr10)
+#
+#        db.session.add(post)
+#        db.session.commit()
+#
+#    return render_template('createrecipe.html')
 
 @app.route("/repcipe/new", methods=['GET', 'POST'])
 @login_required
