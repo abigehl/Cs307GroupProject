@@ -410,5 +410,9 @@ def delete_post(recipe_id):
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('main.home'))
 
+@app.route("/favorites")
+def favorites():
+    return render_template('favoritesPage.html', title='Favorites Page', form=form)
+
 if __name__ == '__main__':
     app.run(debug=True)
