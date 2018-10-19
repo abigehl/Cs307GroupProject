@@ -115,7 +115,10 @@ def reset_token(token):
         print("USER ID", user.id)
         print("USER PASSWORD", form.password.data)
         #user.password = hashed_password
-
+        update_this = users.query.filter_by(id=user.id).first()
+        # print(update_this.username)
+        #update_this.firstName = 'WILLIAM'
+        # print(update_this.firstName)
         db.engine.execute("UPDATE users SET password = %s WHERE ID = %s", (hashed_password, user.id))
         db.session.commit()
         flash('Your password has been updated', 'success')
@@ -264,6 +267,8 @@ def logout():
 @app.route('/ProfilePage')
 def profile():
     return render_template('ProfilePage.html')
+    #image_file + url_for('static', filename='Images/' + current_user.profilePic)
+    #return render_template('ProfilePage.html', title='Profile', image_file=image_file)
 
 
 @app.route('/createrecipe', methods=['GET', 'POST'])
