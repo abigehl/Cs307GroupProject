@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, IntegerField
 from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired, ValidationError
 from flask_wtf.file import FileField, FileAllowed
 from models import users
@@ -31,23 +31,7 @@ class RegisterForm(FlaskForm):
             raise ValidationError('That email is taken. Please choose a different one.')
 
 
-class RequestResetForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Request Password Reset')
-
-    def validate_email(self, email):
-        user = users.query.filter_by(email=email.data).first()
-        if user is None:
-            raise ValidationError('There is no account with that email. You must register first.')
-
-
-class ResetPasswordForm(FlaskForm):
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Reset Password')
-
-
-class RecForm(FlaskForm):
+class RecipeForm(FlaskForm):
     rec_description = TextAreaField('Description', validators=[DataRequired()])
     rec_name = StringField('Recipe Name', validators=[DataRequired()])
     prep_time = StringField('Preperation Time', validators=[DataRequired()])
@@ -63,8 +47,31 @@ class RecForm(FlaskForm):
     ing_8 = StringField('Ingredient 8')
     ing_9 = StringField('Ingredient 9')
     ing_10 = StringField('Ingredient 10')
-    calories = StringField('Calories')
+    calories = IntegerField('Calories')
     fat = StringField('Fat')
     cholesterol = StringField('Cholesterol')
     sodium = StringField('Sodium')
+    minPrice = IntegerField('Min Price')
+    maxPrice = IntegerField('Max Price')
     submit = SubmitField('Post')
+
+    def validate_price(self, minPrice, maxPrice):
+        if minPrice < 0:
+            raise ValidationError('Minimum Price must be above 0')
+        if maxPrice > 9999:
+            raise ValidationError('Maximum Price must be above 9999')
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+    def validate_email(self, email):
+        user = users.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('There is no account with that email. You must register first.')
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')

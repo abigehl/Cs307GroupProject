@@ -289,18 +289,75 @@ def create_recipe():
 
     return render_template('createrecipe.html')
 
-@posts.route("/post/new", methods=['GET', 'POST'])
+@app.route("/repcipe/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
-    form = PostForm()
+    print("before")
+    form = RecipeForm()
+    print("after")
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
-        db.session.add(post)
+        print("recipe")
+        recipe = rec(rec_name=form.rec_name.data, author=current_user, prep_time=form.prep_time.data,  cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ing_1=form.ing_1.data, ing_2=form.ing_2.data, ing_3=form.ing_3.data, ing_4=form.ing_4.data, ing_5=form.ing_5.data, ing_6=form.ing_6.data, ing_7=form.ing_7.data, ing_8=form.ing_8.data, ing_9=form.ing_9.data, ing_10=form.ing_10.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id = user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data)
+        print("add")
+        db.session.add(recipe)
         db.session.commit()
         flash('Your post has been created!', 'success')
         return redirect(url_for('main'))
-    return render_template('createrecipe.html', title='New Post',form=form, legend='New Post')
+    return render_template('createrecipe.html', title='New Recipe',form=form)
 
+@app.route("/recipe/<int:recipe_id>")
+def showrecipe(recipe_id):
+    rec = rec.query.get_or_404(recipe_id)
+    return render_template('xxx.html', title=rec.rec_name, post=post)
+
+@app.route("/recipe/<int:recipe_id>/update", methods=['GET', 'POST'])
+@login_required
+def update_post(recipe_id):
+    rec = rec.query.get_or_404(recipe_id)
+    if rec.user_id != user.id:
+        abort(403)
+    form = RecipeForm()
+    if form.validate_on_submit():
+        re.rec_name=form.rec_name.data
+        re.author=current_user
+        re.prep_time=form.prep_time.data
+        re.cook_time=form.cook_time.data
+        re.rec_description=form.rec_description.data
+        re.rec_instruction=form.rec_instruction.data
+        re.ing_1=form.ing_1.data
+        re.ing_2=form.ing_2.data
+        re.ing_3=form.ing_3.data
+        re.ing_4=form.ing_4.data
+        re.ing_5=form.ing_5.data
+        re.ing_6=form.ing_6.data
+        re.ing_7=form.ing_7.data
+        re.ing_8=form.ing_8.data
+        re.ing_9=form.ing_9.data
+        re.ing_10=form.ing_10.data
+        re.calories=form.calories.data
+        re.fat=form.fat.data
+        re.cholesterol=form.cholesterol.data
+        re.sodium=form.sodium.data
+        re.minPrice=form.minPrice.data
+        re.maxPrice=form.maxPrice.data
+        db.session.commit()
+        flash('Your post has been updated!', 'success')
+        return redirect(url_for('xxxx', post_id=post.id))
+
+    return render_template('xxxx.html', title='Update Recipe', form=form)
+
+
+
+@app.route("/recipe/<int:recipe_id>/delete", methods=['POST'])
+@login_required
+def delete_post(recipe_id):
+    rec = rec.query.get_or_404(recipe_id)
+    if rec.user_id != user.id:
+        abort(403)
+    db.session.delete(rec)
+    db.session.commit()
+    flash('Your post has been deleted!', 'success')
+    return redirect(url_for('main.home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
