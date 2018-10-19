@@ -77,13 +77,13 @@
                                 <img class="d-flex mr-3 p-4" src="{{ image_file }}" alt="Generic placeholder image" style="width: 200px; height: 200px ;">
                                 <div class="media-body p-4">
                                         <h3 class="font-weight-bold text-light" style="margin-top: 125px">{{ current_user.displayName }}: {{ current_user.cookingExperience }}</h3>
-
                                         <h3 class="font-weight-bold text-light" style="margin-top: 50px">
                                         {{ current_user.username }}: {{ current_user.cookingExperience }}</h3>
                                         <h3 class="font-weight-bold text-light" style="margin-top: 10px">
                                         {{ current_user.firstName }} {{ current_user.lastName }}</h3>
                                         <h3 class="font-weight-bold text-light" style="margin-top: 10px">
                                         {{ current_user.email}}</h3>
+
                                 </div>
                             </div>
                     </div>
@@ -91,7 +91,7 @@
                         <h5 class="font-weight-bold text-light" style="margin-top: 25px">
                           <div class="row">
                             <a class="nav-link text-light mr-3" href="{{ url_for('settings') }}">Settings</a>
-                            <a class="nav-link text-light" href="{{ url_for('favorites') }}">Favorites</a>
+
                             <a class="nav-link text-light" href="{{ url_for('create_recipe') }}">Post Recipe</a>
                           </div>
                         </h5>

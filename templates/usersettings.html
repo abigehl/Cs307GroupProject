@@ -44,9 +44,6 @@
                     </li>
 
             </ul>
-
-
-
             <!-- Links -->
         </div>
 
@@ -69,58 +66,27 @@
 </nav>
 
 <body>
-
-    <!-- Start your project here-->
     <div class="card" style="height: 100vh" id="top">
         <div style="background-image: url(../static/Images/bg.png); ">
             <h1 class="text-white flex-center"><br> {{ current_user.username}}'s User Settings</h1>
             <br>
             <div class="d-flex flex-center flex-column bd-highlight mb-3">
                 <div class="card w-50">
-                    <div class="card-header  lighten-1 white-text" style="background-image: url(../static/Images/navbar.jpg);">{{ current_user.username}}, please update your fucking info below</div>
+                    <div class="card-header  lighten-1 white-text" style="background-image: url(../static/Images/navbar.jpg);"> Please update your information below</div>
 
-
-<<<<<<< HEAD
-                <form action="{{ url_for('settings') }}" method = "POST" >
-=======
-                <form action="" method = "POST" enctype="multipart/form-data" > 
->>>>>>> 68de9214d8bd37609c42526037e99cc04f481ca8
-                    <div class="card-body">
+                    <form action="" method = "POST" enctype="multipart/form-data" > 
+                        <div class="card-body">
                         <!-- Default horizontal form -->
-                        
                                     {{ form.hidden_tag() }}
                             <!-- Grid row -->
                             <div class="container  text-leftr" style="width: 88%">
                                     {{ wtf.form_field(form.username) }}
                             </div>
-<<<<<<< HEAD
-                            <!-- Grid row -->
-                            <!-- Grid row -->
-                            <div class="form-group row">
-                                <!-- Default input -->
-                                <label for="inputlastname" class="col-sm-4 col-form-label">Last Name</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputlastname" placeholder="Last Name", name = 'lastname'>
-                                </div>
-
-                            </div>
-
-                            <!-- Grid row -->
-                            <!-- Grid row -->
-                            <div class="form-group row">
-                                <!-- Default input -->
-                                <label for="inputdisplayname" class="col-sm-4 col-form-label">Display Name</label>
-                                <div class="col-sm-8">
-                                    <input type="displayname" class="form-control" id="inputdisplayname" placeholder="Display Name", name = 'displayname'>
-                                </div>
-=======
-
                             <div class="container  text-left" style="width: 88%">
                                     {{ wtf.form_field(form.firstname) }}
                             </div>
                             <div class="container  text-left" style="width: 88%">
                                     {{ wtf.form_field(form.lastname) }}    
->>>>>>> 68de9214d8bd37609c42526037e99cc04f481ca8
                             </div>
                             <div class="container  text-left" style="width: 88%">
                                     {{ wtf.form_field(form.email) }}
@@ -134,39 +100,10 @@
                             <div class="container  text-center" style="width: 100%">
                                     {{ wtf.form_field(form.submit)}}
                             </div>
-
-                    </div>
-                </form>
+                        </div>
+                    </form>
                 </div>
                 <br>
-                <div class="card w-50">
-                    <div class="card-header  lighten-1 white-text" style="background-image: url(../static/Images/navbar.jpg);">Account
-                        Settings</div>
-                    <div class="card-body">
-                        <form>
-                            <div class="form-group row">
-                                <label for="inputemail" class="col-sm-4 col-form-label">Email</label>
-                                <div class="col-sm-8">
-                                    <input type="email" class="form-control" id="inputemail" placeholder="Email">
-                                </div>
-                            </div>
-                            <div>
-
-                                <h3>Profile image</h3>
-
-                                <form action="/action_page.php">
-
-                                <input type="file" name="pic" accept="image/*">
-
-                                <input type="submit">
-
-                                </form>
-
-                             </div>
-                            <button type="submit" class="btn btn-dark-green">Save</button>
-                        </form>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -174,7 +111,4 @@
 </body>
 
 </html>
-<<<<<<< HEAD
-=======
 {% endblock %}
->>>>>>> 68de9214d8bd37609c42526037e99cc04f481ca8
