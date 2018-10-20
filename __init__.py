@@ -162,7 +162,7 @@ def signup():
 
 @app.route('/', methods=['GET', 'POST'])
 #@login_required
-def homepage(): 
+def homepage():
     if(request.method=='POST'):
 
         written_post = request.form["post_desc"]
