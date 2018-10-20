@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+          <!-- Start your project here-->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Filter
+            </a>
+            <div class="dropdown-menu text-center w-30" aria-labelledby="navbarDropdown">
+              <form class="range-field w-30"></form>
+    
+              <a class="dropdown-item" href="#">Price</a>
+              <input type="text" id="amount" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
+              <div class="p-2"></div>
+              <div class="slider ml-4" id="slider-range"></div>        
+              <div class="p-2"></div>
+              <div class="dropdown-divider"></div>
+    
+              <a class="dropdown-item" href="#">Calories</a>
+              <input type="text" id="amount1" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
+              <div class="p-2"></div>
+              <div class="slider ml-4" id="slider-range1"></div>        
+              <div class="p-2"></div>
+              <div class="dropdown-divider"></div>
+    
+              <a class="dropdown-item" href="#">Difficulty</a>
+              <input type="text" id="amount2" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
+              <div class="p-2"></div>
+              <div class="slider ml-4" id="slider-range2"></div>        
+              <div class="p-2"></div>
+      
+            </div>
+          </li>
+         
+          
+ {% endblock %}

@@ -164,11 +164,7 @@ def signup():
 @app.route('/', methods=['GET', 'POST'])
 #@login_required
 def homepage():
-<<<<<<< HEAD
-    if(request.method=='POST'):
-=======
     if(request.method == 'POST'):
->>>>>>> af870830b26dcd2a0b6a80d9473b53117cc47d71
 
         written_post = request.form["post_desc"]
 
@@ -184,7 +180,10 @@ def homepage():
 def realhomepage():
     return render_template("homepageloggedin.html")
 
-
+@app.route('/advancedsearch')
+def advancedsearch():
+    return render_template("advancedsearchpage.html")
+    
 @app.route('/ourmission')
 def ourmission():
     return render_template('OurMission.html')
