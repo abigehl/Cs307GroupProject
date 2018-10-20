@@ -14,32 +14,54 @@
               <div class="col-sm float-right">
                 <div class="row">
                   <div class="col-sm ">
-
                   </div>
-                  <div class="col-sm"  style="padding-top: 40px;">
-                    <div class="card background-color:transparent;">
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Breakfast</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Lunch</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Dinner</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Soup</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Salad</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Vegan</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Cheap</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Quick</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Spicy</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Snack</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Dessert</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Vegetarian</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Cold</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Hot</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">College</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Asian</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">BBQ</a></li>
-                        <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Mexican</a></li>
-                      </ul>
+                    {% if current_user.is_authenticated %}
+                  <div class="col-sm"  style="padding-top: 40px; width: 70px">
+                    <div class="card background-color:transparent; bg-dark">
+                        <h4 class="animated fadeIn mb-4 flex-center text-light mt-2 " >Your Favorites</h4>
+                        <div class="card-body ">
+                            <p class="card-text mr-2 ml-2">Recipe name</p>
+                            <p class="card-text mr-2 ml-2">Recipe disc ...</p>
+                            <a href="#" class="card-link text-light">Take me there</a>
+                        </div>
+                        <div class="card-body ">
+                            <p class="card-text mr-2 ml-2">Recipe name</p>
+                            <p class="card-text mr-2 ml-2">Recipe disc ...</p>
+                            <a href="#" class="card-link text-light">Take me there</a>
+                        </div>
+                        <div class="card-body ">
+                            <p class="card-text mr-2 ml-2">Recipe name</p>
+                            <p class="card-text mr-2 ml-2">Recipe disc ...</p>
+                            <a href="#" class="card-link text-light">Take me there</a>
+                        </div>
                     </div>
                   </div>
+                  {% else %}
+                  <div class="col-sm"  style="padding-top: 40px;">
+                      <div class="card background-color:transparent;">
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Breakfast</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Lunch</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Dinner</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Soup</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Salad</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Vegan</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Cheap</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Quick</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Spicy</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Snack</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Dessert</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Vegetarian</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Cold</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Hot</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">College</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Asian</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">BBQ</a></li>
+                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Mexican</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -50,10 +72,438 @@
           <form action="{{ url_for('homepage') }}" method = "POST" >
             <div style="height: 20vh w-50" class="flex-end flex-center" >
                 <div class="md-form">
-                  <i class="fa fa-pencil prefix text-light"></i>
-                  <textarea type="text" id="textareaPrefix" class="form-control md-textarea text-light" rows="3" style="width:110vh", name='post_desc'></textarea>
-                  <button type="submit" class="btn btn-elegant" value = 'Submit'>Post</button>
-                  <label for="textareaPrefix" class="text-light">Share your thoughts</label>
+                  <div class="flex-center">
+                        <div class="btn-group bg-dark">
+                            <button type="button" class="btn btn-elegant btn-sm"><i class="fa fa-pencil text-light"> Share your thoughts</i></button>
+                            <button type="button" class="btn btn-elegant btn-sm dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true"
+                              aria-expanded="false">
+                              <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu bg-dark text-light" style="width:200px ">
+                              <div class="col-sm">
+                                <button type="button" class="btn-sm  text-light flex-center" data-toggle="modal" data-target="#poll" style="width:95%; background-color: transparent; outline: 0; border:none; cursor: pointer; overflow: hidden;">Post a poll!</button>
+                                <button type="button" class="btn-sm text-light flex-center" data-toggle="modal" data-target="#hungryFor" style="width:95%; background-color: transparent; outline: 0; border:none; cursor: pointer; overflow: hidden;">I'm hungry for...</button>
+                                <button type="button" class="btn-sm text-light flex-center" data-toggle="modal" data-target="#currentlyEating" style="width:95%; background-color: transparent; outline: 0; border:none; cursor: pointer; overflow: hidden;">I'm currently eating...</button>
+                                
+                                <div class="dropdown-divider"></div>
+                                <button type="button" class="btn-sm text-light flex-center" data-toggle="modal" data-target="#boringPost" style="width:95%; background-color: transparent; outline: 0; border:none; cursor: pointer; overflow: hidden;">Normal text post</button>
+                              </div>
+                            </div>
+                        </div>
+                  
+                        <div class="modal fade right" id="poll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                          <div style="background-image: url(../static/Images/bg.png)">
+                            <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+                            <div class="modal-dialog modal-full-height modal-right bg-dark"  role="document">
+                        
+                        
+                              <div class="modal-content" style="background-image: url(../static/Images/bg.png)">
+                                <div class="modal-header">
+                                  <h4 class="modal-title w-100 text-light flex-center" id="myModalLabel">Post a poll!</h4>
+                                  <button type="button " class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body ">
+                                    <div class="col-sm" >
+                                    
+                                      <div>
+                                          <form >
+                                            
+                                             <h4 class="text-light"> What would you like to ask?</h4>
+                                              <input type="text" name="question"><br>
+                                              <br>
+                                             <h6 class="text-light">How many options would you like to include? (you can have up to 10)</h6>
+                                              <ul class="nav nav-pills mb-3 text-light" id="pills-tab" role="tablist">
+                                                  <li class="nav-item">
+                                                    <a class="nav-link active text-light" id="pills-home-tab" data-toggle="pill" href="#two" role="tab"
+                                                      aria-controls="two" aria-selected="true">2</a>
+                                                  </li>
+                                                  <li class="nav-item">
+                                                    <a class="nav-link text-light" id="pills-profile-tab" data-toggle="pill" href="#three" role="tab"
+                                                      aria-controls="pills-profile" aria-selected="false">3</a>
+                                                  </li>
+                                                  <li class="nav-item">
+                                                    <a class="nav-link text-light" id="pills-contact-tab" data-toggle="pill" href="#four" role="tab"
+                                                      aria-controls="pills-contact" aria-selected="false">4</a>
+                                                  </li>
+                                                  <li class="nav-item">
+                                                      <a class="nav-link text-light" id="pills-contact-tab" data-toggle="pill" href="#five" role="tab"
+                                                        aria-controls="pills-contact" aria-selected="false">5</a>
+                                                    </li>
+                                                  <li class="nav-item">
+                                                    <a class="nav-link text-light" id="pills-contact-tab" data-toggle="pill" href="#six" role="tab"
+                                                      aria-controls="pills-contact" aria-selected="false">6</a>
+                                                  </li>
+                                                  <li class="nav-item">
+                                                    <a class="nav-link text-light" id="pills-contact-tab" data-toggle="pill" href="#seven" role="tab"
+                                                      aria-controls="pills-contact" aria-selected="false">7</a>
+                                                  </li>
+                                                  <li class="nav-item">
+                                                    <a class="nav-link text-light" id="pills-contact-tab" data-toggle="pill" href="#eight" role="tab"
+                                                      aria-controls="pills-contact" aria-selected="false">8</a>
+                                                  </li>
+                                                  <li class="nav-item">
+                                                    <a class="nav-link text-light" id="pills-contact-tab" data-toggle="pill" href="#nine" role="tab"
+                                                      aria-controls="pills-contact" aria-selected="false">9</a>
+                                                  </li>
+                                                  <li class="nav-item">
+                                                    <a class="nav-link text-light" id="pills-contact-tab" data-toggle="pill" href="#ten" role="tab"
+                                                      aria-controls="pills-contact" aria-selected="false">10</a>
+                                                  </li>
+                                                </ul>
+                                                <div class="tab-content pt-2 pl-1" id="pills-tabContent">
+                                                  <div class="tab-pane fade show active" id="two" role="tabpanel" aria-labelledby="pills-home-tab">
+                                                      
+                                                      <h4 class="text-light"> Input your choices</h4>
+                                                      <input type="text" name="choiceOne"><br>
+                                                      <input type="text" name="choiceTwo"><br>
+                                                      <br>
+                                                      
+                                                  </div>
+                                                  <div class="tab-pane fade" id="three" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                                      
+                                                      <h4 class="text-light"> Input your choices</h4>
+                                                      <input type="text" name="choiceOne"><br>
+                                                      <input type="text" name="choiceTwo"><br>
+                                                      <input type="text" name="choiceThree"><br>
+                                                      <br>
+
+                                                  </div>
+                                                  <div class="tab-pane fade" id="four" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                                     
+                                                      <h4 class="text-light"> Input your choices</h4>
+                                                      <input type="text" name="choiceOne"><br>
+                                                      <input type="text" name="choiceTwo"><br>
+                                                      <input type="text" name="choiceThree"><br>
+                                                      <input type="text" name="choiceFour"><br>
+                                                      <br>
+
+                                                  </div>
+                                                  <div class="tab-pane fade" id="five" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                                      
+                                                      <h4 class="text-light"> Input your choices</h4>
+                                                      <input type="text" name="choiceOne"><br>
+                                                      <input type="text" name="choiceTwo"><br>
+                                                      <input type="text" name="choiceThree"><br>
+                                                      <input type="text" name="choiceFour"><br>
+                                                      <input type="text" name="choiceFive"><br>
+                                                      <br>
+
+                                                  </div>
+                                                  <div class="tab-pane fade" id="six" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                                      
+                                                      <h4 class="text-light"> Input your choices</h4>
+                                                      <input type="text" name="choiceOne"><br>
+                                                      <input type="text" name="choiceTwo"><br>
+                                                      <input type="text" name="choiceThree"><br>
+                                                      <input type="text" name="choiceFour"><br>
+                                                      <input type="text" name="choiceFive"><br>
+                                                      <input type="text" name="choiceSix"><br>
+                                                      <br>
+
+                                                  </div>
+                                                  <div class="tab-pane fade" id="seven" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                                      
+                                                      <h4 class="text-light"> Input your choices</h4>
+                                                      <input type="text" name="choiceOne"><br>
+                                                      <input type="text" name="choiceTwo"><br>
+                                                      <input type="text" name="choiceThree"><br>
+                                                      <input type="text" name="choiceFour"><br>
+                                                      <input type="text" name="choiceFive"><br>
+                                                      <input type="text" name="choiceSix"><br>
+                                                      <input type="text" name="choiceSeven"><br>
+                                                      <br>
+
+                                                  </div>
+                                                  <div class="tab-pane fade" id="eight" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                                      
+                                                      <h4 class="text-light"> Input your choices</h4>
+                                                      <input type="text" name="choiceOne"><br>
+                                                      <input type="text" name="choiceTwo"><br>
+                                                      <input type="text" name="choiceThree"><br>
+                                                      <input type="text" name="choiceFour"><br>
+                                                      <input type="text" name="choiceFive"><br>
+                                                      <input type="text" name="choiceSix"><br>
+                                                      <input type="text" name="choiceSeven"><br>
+                                                      <input type="text" name="choiceEight"><br>
+                                                      <br>
+
+                                                  </div>
+                                                  <div class="tab-pane fade" id="nine" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                                      
+                                                      <h4 class="text-light"> Input your choices</h4>
+                                                      <input type="text" name="choiceOne"><br>
+                                                      <input type="text" name="choiceTwo"><br>
+                                                      <input type="text" name="choiceThree"><br>
+                                                      <input type="text" name="choiceFour"><br>
+                                                      <input type="text" name="choiceFive"><br>
+                                                      <input type="text" name="choiceSix"><br>
+                                                      <input type="text" name="choiceSeven"><br>
+                                                      <input type="text" name="choiceEight"><br>
+                                                      <input type="text" name="choiceNine"><br>
+                                                      <br>
+
+                                                  </div>
+                                                  <div class="tab-pane fade" id="ten" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                                      
+                                                      <h4 class="text-light"> Input your choices</h4>
+                                                      <input type="text" name="choiceOne"><br>
+                                                      <input type="text" name="choiceTwo"><br>
+                                                      <input type="text" name="choiceThree"><br>
+                                                      <input type="text" name="choiceFour"><br>
+                                                      <input type="text" name="choiceFive"><br>
+                                                      <input type="text" name="choiceSix"><br>
+                                                      <input type="text" name="choiceSeven"><br>
+                                                      <input type="text" name="choiceEight"><br>
+                                                      <input type="text" name="choiceNine"><br>
+                                                      <input type="text" name="choiceNine"><br>
+                                                      <br>
+
+                                                  </div>
+                                                </div>
+                                                
+                                          </form>
+                                      </div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                  <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-elegant btn-primary">Post</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal fade right" id="hungryFor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div style="background-image: url(../static/Images/bg.png)">
+                              <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+                              <div class="modal-dialog modal-full-height modal-right bg-dark"  role="document">
+                          
+                          
+                                <div class="modal-content" style="background-image: url(../static/Images/bg.png)">
+                                  <div class="modal-header">
+                                    <h4 class="modal-title w-100 text-light flex-center" id="myModalLabel">What are you hungry for?</h4>
+                                    <button type="button " class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body ">
+                                      <div class="col-sm" >
+                                      <div class="btn-group bg-dark">
+                                          
+  
+                                        
+                                        </div>
+                                        <div>
+                                          <h6 class="text-light">Let your friends know what you're hungry for so they can suggest food for you!</h6>
+                                        <div class="form">
+                                            <input type="text" name="hungry"><br>
+                                        </div>
+                                        </div>
+                                        </div>
+  
+                                  </div>
+                                  <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-elegant btn-primary">Post</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="modal fade right" id="boringPost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div style="background-image: url(../static/Images/bg.png)">
+                              <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+                              <div class="modal-dialog modal-full-height modal-right bg-dark"  role="document">
+                          
+                          
+                                <div class="modal-content" style="background-image: url(../static/Images/bg.png)">
+                                  <div class="modal-header">
+                                    <h4 class="modal-title w-100 text-light flex-center" id="myModalLabel">Post</h4>
+                                    <button type="button " class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body ">
+                                      <div class="col-sm" >
+                                      <div class="btn-group bg-dark">
+                                          
+  
+                                        
+                                        </div>
+                                        <div>
+                                          <h6 class="text-light">Insert your text here!</h6>
+                                        <div class="form">
+                                            <input type="text" name="hungry"><br>
+                                        </div>
+                                        </div>
+                                        </div>
+  
+                                  </div>
+                                  <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-elegant btn-primary">Post</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="modal fade right" id="currentlyEating" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div style="background-image: url(../static/Images/bg.png)">
+                              <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+                              <div class="modal-dialog modal-full-height modal-right bg-dark"  role="document">
+                          
+                          
+                                <div class="modal-content" style="background-image: url(../static/Images/bg.png)">
+                                  <div class="modal-header">
+                                    <h4 class="modal-title w-100 text-light" id="myModalLabel">What are you Eating!?</h4>
+                                    <button type="button " class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body ">
+                                      <div class="col-sm" >
+                                      <div class="btn-group bg-dark">
+                                          
+  
+                                        
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <h6 class="text-light flex-center">Paste a link to the recipe you're eating!</h6>
+                                              <div class="form">
+                                                  <input type="text" name="recipeLink" class="flex-center" style="width:100%;"><br>
+                                              </div>
+                                              <br>
+                                              <h2 class="flex-center text-light">OR</h2>
+                                              <h6 class="text-light flex-center"><br> post your recipe instead!</h6>
+
+                                              <br>
+                                                  <a class="nav-link text-light flex-center bg-dark" href="{{ url_for('create_recipe') }}">Post my recipe!</a>
+                                              <br>
+                                              <h2 class="flex-center text-light">OR</h2>
+                                              <h6 class="text-light flex-center"> <br>just post text!</h6>
+                                              
+                                                  <input type="text" name="eatingText" class="flex-center" style="width:100%"><br>
+                                                  <br>
+                                              
+                                        </div>
+                                        </div>
+  
+                                  </div>
+                                  <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-elegant btn-primary">Post</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        <div class="modal fade right" id="currentlyMaking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                              <div style="background-image: url(../static/Images/bg.png)">
+                                <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+                                <div class="modal-dialog modal-full-height modal-right bg-dark"  role="document">
+                            
+                            
+                                  <div class="modal-content" style="background-image: url(../static/Images/bg.png)">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title w-100 text-light" id="myModalLabel">Post</h4>
+                                      <button type="button " class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body ">
+                                        <div class="col-sm" >
+                                        <div class="btn-group bg-dark">
+                                            <button type="button" class="btn btn-elegant btn-sm">Small split button</button>
+                                            <button type="button" class="btn btn-elegant btn-sm dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true"
+                                              aria-expanded="false">
+                                              <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu bg-dark text-light">
+                                              <a class="dropdown-item text-light" data-target="#poll">Post a poll!</a>
+                                              <a class="dropdown-item text-light" data-target="#hungryFor">I'm hungry for...</a>
+                                              <a class="dropdown-item text-light" data-target="#currentlyEating">I'm currently eating...</a>
+                                              <a class="dropdown-item text-light" data-target="#currentlymaking">I'm currently making...</a>
+                                              <div class="dropdown-divider"></div>
+                                              <a class="dropdown-item text-light" href="#boringPost">Normal text post</a>
+                                            </div>
+    
+                                          
+                                          </div>
+                                          <div>
+                                            <h4 class="text-light">Input your text post here!</h4>
+                                          <div class="form">
+                                              asdhjaks
+                                          </div>
+                                          </div>
+                                          </div>
+    
+                                    </div>
+                                    <div class="modal-footer justify-content-center">
+                                      <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Close</button>
+                                      <button type="button" class="btn btn-elegant btn-primary">Save changes</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="modal fade right" id="boringPost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div style="background-image: url(../static/Images/bg.png)">
+                              <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+                              <div class="modal-dialog modal-full-height modal-right bg-dark"  role="document">
+                          
+                          
+                                <div class="modal-content" style="background-image: url(../static/Images/bg.png)">
+                                  <div class="modal-header">
+                                    <h4 class="modal-title w-100 text-light" id="myModalLabel">Post</h4>
+                                    <button type="button " class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body ">
+                                      <div class="col-sm" >
+                                      <div class="btn-group bg-dark">
+                                          <button type="button" class="btn btn-elegant btn-sm">Small split button</button>
+                                          <button type="button" class="btn btn-elegant btn-sm dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                          </button>
+                                          <div class="dropdown-menu bg-dark text-light">
+                                            <a class="dropdown-item text-light" data-target="#poll">Post a poll!</a>
+                                            <a class="dropdown-item text-light" data-target="#hungryFor">I'm hungry for...</a>
+                                            <a class="dropdown-item text-light" data-target="#currentlyEating">I'm currently eating...</a>
+                                            <a class="dropdown-item text-light" data-target="#currentlymaking">I'm currently making...</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item text-light" href="#boringPost">Normal text post</a>
+                                          </div>
+  
+                                        
+                                        </div>
+                                        <div>
+                                          <h4 class="text-light">Input your text post here!</h4>
+                                        <div class="form">
+                                            asdhjaks
+                                        </div>
+                                        </div>
+                                        </div>
+  
+                                  </div>
+                                  <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-elegant btn-primary">Save changes</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                      </div>
+                  
+                   
+                    </div>
+                </div>
+                      <!-- Full Height Modal Right -->
                 </div>
             </div>
             </form>
@@ -73,45 +523,53 @@
 
                   </tbody>
                 </table>-->
-                <div class="card-body flex-center">
-                  <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe" height="100" width="115" class="left">
-                  <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                  <a href="#" class="card-link text-light">Take me there</a>
+                <div class="card-body ">
+                  <p class="h4 text-light" style="padding-left: 5px"> Recipe name</p>
+                  <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe"  width="100" class="rounded float-right">
+                  <p class="card-text mr-2 ml-2 " style="padding-right: 100px; height: 100px">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                  <a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>
                 </div>
-                <div class="card-body flex-center">
-                  <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                  <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                  <a href="#" class="card-link text-light">Take me there</a>
+                <div class="card-body ">
+                    <p class="h4 text-light" style="padding-left: 5px"> Recipe name</p>
+                    <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe"  width="100" class="rounded float-right">
+                    <p class="card-text mr-2 ml-2 " style="padding-right: 100px; height: 100px">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                    <a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>
                 </div>
-                <div class="card-body flex-center">
-                    <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                    <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                    <a href="#" class="card-link text-light">Take me there</a>
+                <div class="card-body ">
+                    <p class="h4 text-light" style="padding-left: 5px"> Recipe name</p>
+                    <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe"  width="100" class="rounded float-right">
+                    <p class="card-text mr-2 ml-2 " style="padding-right: 100px; height: 100px">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                    <a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>
                 </div>
-                <div class="card-body flex-center">
-                    <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                    <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                    <a href="#" class="card-link text-light">Take me there</a>
+                <div class="card-body ">
+                    <p class="h4 text-light" style="padding-left: 5px"> Recipe name</p>
+                    <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe"  width="100" class="rounded float-right">
+                    <p class="card-text mr-2 ml-2 " style="padding-right: 100px; height: 100px">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                    <a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>
                 </div>
-                <div class="card-body flex-center">
-                    <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                    <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                    <a href="#" class="card-link text-light">Take me there</a>
+                <div class="card-body ">
+                    <p class="h4 text-light" style="padding-left: 5px"> Recipe name</p>
+                    <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe"  width="100" class="rounded float-right">
+                    <p class="card-text mr-2 ml-2 " style="padding-right: 100px; height: 100px">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                    <a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>
                 </div>
-                <div class="card-body flex-center">
-                    <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                    <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ....</p>
-                    <a href="#" class="card-link text-light">Take me there</a>
+                <div class="card-body ">
+                    <p class="h4 text-light" style="padding-left: 5px"> Recipe name</p>
+                    <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe"  width="100" class="rounded float-right">
+                    <p class="card-text mr-2 ml-2 " style="padding-right: 100px; height: 100px">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                    <a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>
                 </div>
-                <div class="card-body flex-center">
-                    <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                    <p class="card-text mr-2 ml-2 ">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                    <a href="#" class="card-link text-light">Take me there</a>
+                <div class="card-body ">
+                    <p class="h4 text-light" style="padding-left: 5px"> Recipe name</p>
+                    <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe"  width="100" class="rounded float-right">
+                    <p class="card-text mr-2 ml-2 " style="padding-right: 100px; height: 100px">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                    <a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>
                 </div>
-                <div class="card-body flex-center">
-                    <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                    <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                    <a href="#" class="card-link text-light">Take me there</a>
+                <div class="card-body ">
+                    <p class="h4 text-light" style="padding-left: 5px"> Recipe name</p>
+                    <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe"  width="100" class="rounded float-right">
+                    <p class="card-text mr-2 ml-2 " style="padding-right: 100px; height: 100px">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
+                    <a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>
                 </div>
                 <div class="card-body flex-center">
                     <a href="#" class="card-link text-light">More trending >></a>
@@ -122,5 +580,5 @@
           </div>
           <!-- /Start your project here-->
 
-
+          
  {% endblock %}
