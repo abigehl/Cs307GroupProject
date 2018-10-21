@@ -67,10 +67,10 @@
           </nav>
           </nav>
           <!--/.Navbar-->
-        <body>
+        <body >
 
           <!-- Start your project here-->
-          <div class="container">
+          
                 <div class="row">
                   <div class="col-12 col-sm-6 col-lg-8" style="width: 50vh; height: 35vh">
                         <div class="media">
@@ -97,13 +97,13 @@
                   </div>
                   
                 </div>
-                <div class="row">
-                  <div class="col-6 col-sm-3" style="width: 25vh; height:50vh">
-                    <div style="height: 100vh w-50" >
-                      <div class="flex-end flex-center" >
-                        <div class="card flex bg-dark">
-                          <h4 class="animated fadeIn mb-4 flex-center text-light mt-2 " >Friends</h4>
-                          <div class="card-body flex-center">
+                <div class="row" style="padding:20" >
+                  <div class="col-2 " style="height:50vh; padding:0; padding-left: 30px; margin:0;">
+                    <div style="height: 100vh;" >
+                      <div  >
+                        <div class="card flex bg-dark nopadding" style="padding:0; margin:0; width:100%">
+                          <h4 class="animated fadeIn mb-4 flex-center text-light mt-2" >Friends</h4>
+                          <div class="card-body flex-center" style="padding:0; margin:0">
                             <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left">
                             <!--description needs to show a certain length of description-->
                             <p class="card-text mr-2 ml-2">Ben Malone</p>
@@ -132,62 +132,18 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-6 col-sm-7" style="width: 70vh; height:50vh">
-                    <div style="height: 100vh w-50" >
-                      <div class="flex-end flex-center" >
-                        <div class="card flex bg-dark">
-                          <h4 class="animated fadeIn mb-4 flex-center text-light mt-2 " >My Recipes</h4>
-                          <div class="card-body flex-center">
-                            <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe" height="100" width="115" class="left">
-                            <!--description needs to show a certain length of description-->
-                            <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                            <a href="#" class="card-link text-light">Take me there</a>
-                          </div>
-                          <div class="card-body flex-center">
-                            <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                            <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                            <a href="#" class="card-link text-light">Take me there</a>
-                          </div>
-                          <div class="card-body flex-center">
-                              <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                              <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                              <a href="#" class="card-link text-light">Take me there</a>
-                          </div>
-                          <div class="card-body flex-center">
-                              <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                              <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                              <a href="#" class="card-link text-light">Take me there</a>
-                          </div>
-                          <div class="card-body flex-center">
-                              <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                              <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                              <a href="#" class="card-link text-light">Take me there</a>
-                          </div>
-                          <div class="card-body flex-center">
-                              <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                              <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ....</p>
-                              <a href="#" class="card-link text-light">Take me there</a>
-                          </div>
-                          <div class="card-body flex-center">
-                              <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                              <p class="card-text mr-2 ml-2 ">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                              <a href="#" class="card-link text-light">Take me there</a>
-                          </div>
-                          <div class="card-body flex-center">
-                              <img src="../static/Images/icecube.jpg" alt="An Ice Cold Recipe" height="75" width="115">
-                              <p class="card-text mr-2 ml-2">Not for the faint of heart, these spicy peppers will make your eyes water and ...</p>
-                              <a href="#" class="card-link text-light">Take me there</a>
-                          </div>
-
-                        </div>
-                      </div>
+                  <div class="col-7" style="padding:10; margin:0; height:50vh">
+                    <div class="" style="padding:30; margin:0" >
+                      
+                          {% include 'includes/formatForProfileRecipes.html' %}
+                      
                     </div>
                   </div>
-                  <div class="col-6 col-sm-3" style="width: 25vh; height:50vh">
-
+                  <div class="col-2"  style="padding:10; margin:0;">
+                      {% include 'includes/favoritesBlock.html' %}
                   </div>
                 </div>
-              </div>
+             
 
           <!-- /Start your project here-->
 
