@@ -92,7 +92,7 @@
                             <a class="nav-link text-light mr-3" href="{{ url_for('settings') }}">Settings</a>
                             <a class="nav-link text-light" href="{{ url_for('create_recipe') }}">Create Recipe</a>
                           </div>
-                          {% include 'includes/postPop.html' %}
+                          
                         </h5>
                   </div>
                   
@@ -136,6 +136,7 @@
                     <div class="" style="padding:30; margin:0" >
                       
                           {% include 'includes/formatForProfileRecipes.html' %}
+                          {% include 'includes/formatForGroupPosts.html' %}
                       
                     </div>
                   </div>

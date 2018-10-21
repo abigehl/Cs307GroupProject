@@ -40,7 +40,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = '/'
 
-app.register_blueprint(posts)
+# app.register_blueprint(posts)
 
 app.secret_key = "helpmerecipe"
 google_blueprint = make_google_blueprint(
@@ -158,7 +158,7 @@ def signup():
 def homepage():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(content=form.content.data, author=current_user)
+        post = postss(content=form.content.data, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
         flash('Your post has created', 'success')
@@ -291,10 +291,11 @@ def logout():
 @login_required
 def profile():
 
-    data = db.engine.execute("SELECT description FROM posts WHERE user_id = %s", (current_user.username))
+    #data = db.engine.execute("SELECT description FROM posts WHERE user_id = %s", (current_user.username))
     # return render_template('ProfilePage.html')
+    allposts = postss.query.all()
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
-    return render_template('ProfilePage.html', title='Profile', image_file=image_file)
+    return render_template('ProfilePage.html', title='Profile', image_file=image_file, allPosts=allposts)
 
 
 @app.route("/repcipe/new", methods=['GET', 'POST'])

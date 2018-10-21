@@ -1,7 +1,9 @@
+
+{% import "bootstrap/wtf.html" as wtf %}
 {% block body %}
 
 
-<form action="{{ url_for('homepage') }}" method = "POST" >
+<form action="" method = "POST" >
     <div style="height: 20vh w-50" class="flex-end" >
         <div class="md-form">
           <div style="width:75%; padding-left: 50px " class="flex-center">
@@ -266,17 +268,17 @@
                                 
                                 </div>
                                 <div>
-                                  <h6 class="text-light">Insert your text here!</h6>
-                                <div class="form">
-                                    <input type="text" name="hungry"><br>
-                                </div>
+                                    <br>
+                                    {{ form.hidden_tag() }}
+                                    {{ wtf.form_field(form.content) }}
+                                
                                 </div>
                                 </div>
 
                           </div>
                           <div class="modal-footer justify-content-center">
                             <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-elegant btn-primary">Post</button>
+                            {{ wtf.form_field(form.submit) }}
                           </div>
                         </div>
                       </div>
