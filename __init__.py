@@ -114,11 +114,7 @@ def reset_token(token):
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         print("USER ID", user.id)
         print("USER PASSWORD", form.password.data)
-        #user.password = hashed_password
         update_this = users.query.filter_by(id=user.id).first()
-        # print(update_this.username)
-        #update_this.firstName = 'WILLIAM'
-        # print(update_this.firstName)
         db.engine.execute("UPDATE users SET password = %s WHERE ID = %s", (hashed_password, user.id))
         db.session.commit()
         flash('Your password has been updated', 'success')
@@ -141,10 +137,6 @@ def login():
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('main.html', title='Login', form=form)
 
-#@app.route('/profil', methods=['GET','POST'])
-# def profile_page():
- #   return render_template('ProfilePage.html')
-
 
 @app.route("/register", methods=['GET', 'POST'])
 def signup():
@@ -164,26 +156,32 @@ def signup():
 @app.route('/', methods=['GET', 'POST'])
 #@login_required
 def homepage():
-    if(request.method == 'POST'):
+    form = PostForm()
+    if form.validate_on_submit():
+        flash('Your post has ')
 
-        written_post = request.form["post_desc"]
+    # if(request.method == 'POST'):
 
-        post = posts(uName=current_user.username, description=written_post)
+    #     written_post = request.form["post_desc"]
 
-        db.session.add(post)
-        db.session.commit()
+    #     post = posts(uName=current_user.username, description=written_post)
 
-    return render_template('homepage.html')
+    #     db.session.add(post)
+    #     db.session.commit()
+
+    return render_template('homepage.html', title='Home', form=form)
 
 
 @app.route('/realhomepage')
 def realhomepage():
     return render_template("homepageloggedin.html")
 
+
 @app.route('/advancedsearch')
 def advancedsearch():
     return render_template("advancedsearchpage.html")
-    
+
+
 @app.route('/ourmission')
 def ourmission():
     return render_template('OurMission.html')
@@ -296,8 +294,9 @@ def logout():
 
 
 @app.route('/ProfilePage')
+@login_required
 def profile():
-    data = db.engine.execute("SELECT description FROM posts WHERE uName=%s", (current_user.username))
+    data = db.engine.execute("SELECT description FROM posts WHERE user_id = %s", (current_user.username))
     # return render_template('ProfilePage.html')
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
     return render_template('ProfilePage.html', title='Profile', image_file=image_file)
@@ -375,9 +374,11 @@ def delete_post(recipe_id):
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('main.home'))
 
+
 @app.route("/favorites")
 def favorites():
     return render_template('favoritesPage.html', title='Favorites Page', form=form)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
