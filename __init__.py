@@ -297,7 +297,7 @@ def logout():
 
 @app.route('/ProfilePage')
 def profile():
-    data = db.engine.execute("SELECT description FROM posts WHERE uName=%s", (current_user.username))
+    data = db.engine.execute("SELECT description FROM posts WHERE user_id=%s", (current_user.username))
     # return render_template('ProfilePage.html')
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
     return render_template('ProfilePage.html', title='Profile', image_file=image_file)
