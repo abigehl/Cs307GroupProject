@@ -158,17 +158,11 @@ def signup():
 def homepage():
     form = PostForm()
     if form.validate_on_submit():
-        flash('Your post has ')
-
-    # if(request.method == 'POST'):
-
-    #     written_post = request.form["post_desc"]
-
-    #     post = posts(uName=current_user.username, description=written_post)
-
-    #     db.session.add(post)
-    #     db.session.commit()
-
+        post = Post(content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has created', 'success')
+        return redirect(url_for('homepage'))
     return render_template('homepage.html', title='Home', form=form)
 
 

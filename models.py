@@ -35,14 +35,15 @@ class rec(db.Model):
 
 class posts(db.Model):
     post_id = db.Column(db.Integer, primary_key=True)
-    description = db.Column('description',db.String(3000))
-    post_type = db.Column('post_type',db.String(100))
+    content = db.Column(db.Text, nullable=False)
+    post_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, nullable=False)
+    #user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     #title = db.Column(db.String(100), nullable=False)
     #content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-      return "posts('{self.user_id}')"
+        return "posts('{self.user_id}')"
 
 
 class users(UserMixin, db.Model):
