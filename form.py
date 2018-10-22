@@ -108,3 +108,8 @@ class PostForm(FlaskForm):
     #title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Enter your text here:', validators=[DataRequired()])
     submit = SubmitField('Post')
+
+class PostFormHungryFor(FlaskForm):
+    #title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Let your friends know what you are hungry for so they can suggest food for you!', validators=[DataRequired()])
+    submit = SubmitField('Post')

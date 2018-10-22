@@ -156,9 +156,10 @@ def signup():
 @app.route('/', methods=['GET', 'POST'])
 #@login_required
 def homepage():
-    form = PostForm()
+    form = PostFormHungryFor()
     if form.validate_on_submit():
-        post = postss(content=form.content.data, user_id=current_user.id)
+        toSend = "I am hungry for " + form.content.data
+        post = postss(content=toSend, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
         flash('Your post has created', 'success')
