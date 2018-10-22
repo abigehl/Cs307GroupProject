@@ -4,12 +4,14 @@
             <h4 class="animated fadeIn mb-4 flex-center text-light mt-2 " >Trending</h4>
             {% block content %}
                 {% for post in allPosts %}
-                    <div class="card flex bg-light">
-                        <div class="card-body flex-center">
-                        <p class="card-text mr-2 ml-2">{{ post.content }}</p>
+                    {% if post.user_id == current_user.id %}
+                        <div class="card flex bg-light">
+                            <div class="card-body flex-center">
+                            <p class="card-text mr-2 ml-2">{{ post.content }}</p>
+                            </div>
                         </div>
-                    </div>
-                    <br>
+                        <br>
+                    {% endif %}
                 {% endfor %}
             {% endblock content %}
 
