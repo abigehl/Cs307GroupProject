@@ -210,11 +210,13 @@
                     </div>
                   </div>
                 </div>
+
+                <form name="form" method="post">
                 <div class="modal fade right" id="hungryFor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                   <div style="background-image: url(../static/Images/bg.png)">
                     <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
                     <div class="modal-dialog modal-full-height modal-right bg-dark"  role="document">
-                      <div class="modal-content" style="background-color:darkgrey;">
+                      <div class="modal-content" style="background-image: url(../static/Images/bg.png)">
                         <div class="modal-header">
                           <h4 class="modal-title w-100 text-light flex-center" id="myModalLabel">Post</h4>
                           <button type="button " class="close" data-dismiss="modal" aria-label="Close">
@@ -227,8 +229,7 @@
                         
                               </div>
                               <div>
-                                  <br>
-                                  <br>
+                                  <h6 class="text-light flex-left"><br>Let your friends know what you are hungry for so they can suggest food for you!</h6>
                                   {{ form.hidden_tag() }}
                                   {{ wtf.form_field(form.content) }}
                               
@@ -244,37 +245,46 @@
                     </div>
                   </div>
               </div>
-              
-                <div class="modal fade right" id="boringPost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div style="background-image: url(../static/Images/bg.png)">
-                      <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
-                      <div class="modal-dialog modal-full-height modal-right bg-dark"  role="document">
-                        <div class="modal-content" style="background-color:darkgrey;">
-                          <div class="modal-header">
-                            <h4 class="modal-title w-100 text-light flex-center" id="myModalLabel">Post</h4>
-                            <button type="button " class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body ">
-                              <div class="col-sm" >
-                              <div class="btn-group bg-dark">
-                          
-                                </div>
-                                <div>
-                                    <br>
-                                
-                                </div>
-                                </div>
+              </form>
 
-                          </div>
-                          <div class="modal-footer justify-content-center">
-                            <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Close</button>
-                          </div>
-                        </div>
+              <form name="form2" method="post">
+              <div class="modal fade right" id="boringPost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div style="background-image: url(../static/Images/bg.png)">
+                  <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+                  <div class="modal-dialog modal-full-height modal-right bg-dark"  role="document">
+                    <div class="modal-content" style="background-image: url(../static/Images/bg.png)">
+                      <div class="modal-header">
+                        <h4 class="modal-title w-100 text-light flex-center" id="myModalLabel">Post</h4>
+                        <button type="button " class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body ">
+                          <div class="col-sm" >
+                          <div class="btn-group bg-dark">
+                      
+                            </div>
+                            <div>
+                             
+                               <h6 class="text-light flex-left"><br> Enter your text here: </h6>
+
+                               {{ form2.hidden_tag() }}
+                               {{ wtf.form_field(form2.contentNormal) }}
+                            
+                            </div>
+                            </div>
+
+                      </div>
+                      <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Close</button>
+                        {{ wtf.form_field(form2.submitNormal) }}
                       </div>
                     </div>
+                  </div>
                 </div>
+            </div>
+              </form>
+              <form name="form3" method="post">
                 <div class="modal fade right" id="currentlyEating" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div style="background-image: url(../static/Images/bg.png)">
                       <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
@@ -299,8 +309,9 @@
                                     <div>
                                         <h6 class="text-light flex-center">Paste a link to the recipe you're eating!</h6>
                                       <div class="form">
-                                          <input type="text" name="recipeLink" class="flex-center" style="width:100%;"><br>
-                                      </div>
+                                          {{ form3.hidden_tag() }}
+                                          {{ wtf.form_field(form3.linkCurrent) }}
+                                        </div>
                                       <br>
                                       <h2 class="flex-center text-light">OR</h2>
                                       <h6 class="text-light flex-center"><br> post your recipe instead!</h6>
@@ -310,9 +321,9 @@
                                       <br>
                                       <h2 class="flex-center text-light">OR</h2>
                                       <h6 class="text-light flex-center"> <br>just post text!</h6>
-                                      
-                                          <input type="text" name="eatingText" class="flex-center" style="width:100%"><br>
-                                          <br>
+                                      {{ form3.hidden_tag() }}
+                                      {{ wtf.form_field(form3.contentCurrent) }}
+                                      <br>
                                       
                                 </div>
                                 </div>
@@ -320,12 +331,13 @@
                           </div>
                           <div class="modal-footer justify-content-center">
                             <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-elegant btn-primary">Post</button>
+                            {{ wtf.form_field(form3.submitCurrent) }}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                </form>
                 <div class="modal fade right" id="currentlyMaking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                       <div style="background-image: url(../static/Images/bg.png)">
                         <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
@@ -361,7 +373,6 @@
                                   <div>
                                     <h4 class="text-light">Input your text post here!</h4>
                                   <div class="form">
-                                      asdhjaks
                                   </div>
                                   </div>
                                   </div>

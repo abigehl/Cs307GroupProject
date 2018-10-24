@@ -106,10 +106,17 @@ class UpdateProfileForm(FlaskForm):
 
 class PostForm(FlaskForm):
     #title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Enter your text here:', validators=[DataRequired()])
-    submit = SubmitField('Post')
+    contentNormal = TextAreaField('', validators=[DataRequired()])
+    submitNormal = SubmitField('Post')
 
 class PostFormHungryFor(FlaskForm):
     #title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Let your friends know what you are hungry for so they can suggest food for you!', validators=[DataRequired()])
+    content = TextAreaField('', validators=[DataRequired()])
     submit = SubmitField('Post')
+
+
+class PostFormCurrentlyEating(FlaskForm):
+    #title = StringField('Title', validators=[DataRequired()])
+    linkCurrent = TextAreaField("")
+    contentCurrent = TextAreaField("")
+    submitCurrent = SubmitField('Post')

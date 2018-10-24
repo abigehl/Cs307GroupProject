@@ -157,14 +157,35 @@ def signup():
 #@login_required
 def homepage():
     form = PostFormHungryFor()
+
     if form.validate_on_submit():
         toSend = "I am hungry for " + form.content.data
-        post = postss(content=toSend, user_id=current_user.id)
+        post = postss(content=toSend, user_id=current_user.id, post_type="hungryFor")
         db.session.add(post)
         db.session.commit()
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
-    return render_template('homepage.html', title='Home', form=form)
+
+    formNormalText = PostForm()
+    
+    if formNormalText.validate_on_submit():
+        post2 = postss(content=formNormalText.contentNormal.data, user_id=current_user.id, post_type="boringPost")
+        db.session.add(post2)
+        db.session.commit()
+        flash('Your post has created', 'success')
+        return redirect(url_for('homepage'))
+
+    formCurrent = PostFormCurrentlyEating()
+
+    if formCurrent.validate_on_submit():
+        post3 = postss(content_current=formCurrent.contentCurrent.data, link_current = formCurrent.linkCurrent.data, user_id=current_user.id, post_type = "currentlyEating")
+        db.session.add(post3)
+        db.session.commit()
+        flash('Your post has created', 'success')
+        return redirect(url_for('homepage'))
+
+
+    return render_template('homepage.html', title='Home', form=form, form2=formNormalText, form3 = formCurrent)
 
 
 @app.route('/realhomepage')
@@ -255,7 +276,7 @@ def googleSignin():
         session.clear()
         return redirect(url_for('login'))
     print("return to homepage")
-    return redirect(url_for('homepage'))
+    return redirect(url_for('homepage'))    
 
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
@@ -291,12 +312,37 @@ def logout():
 @app.route('/ProfilePage')
 @login_required
 def profile():
+    form = PostFormHungryFor()
+    
+    if form.validate_on_submit():
+        toSend = "I am hungry for " + form.content.data
+        post = postss(content=toSend, user_id=current_user.id, post_type="hungryFor")
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has created', 'success')
+        return redirect(url_for('profile'))
 
-    #data = db.engine.execute("SELECT description FROM posts WHERE user_id = %s", (current_user.username))
-    # return render_template('ProfilePage.html')
+    formNormalText = PostForm()
+    
+    if formNormalText.validate_on_submit():
+        post2 = postss(content=formNormalText.contentNormal.data, user_id=current_user.id, post_type="boringPost")
+        db.session.add(post2)
+        db.session.commit()
+        flash('Your post has created', 'success')
+        return redirect(url_for('profile'))
+
+    formCurrent = PostFormCurrentlyEating()
+
+    if formCurrent.validate_on_submit():
+        post3 = postss(content_current=formCurrent.contentCurrent.data, link_current = formCurrent.linkCurrent.data, user_id=current_user.id, post_type = "currentlyEating")
+        db.session.add(post3)
+        db.session.commit()
+        flash('Your post has created', 'success')
+        return redirect(url_for('profile'))  
+    
     allposts = postss.query.all()
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
-    return render_template('ProfilePage.html', title='Profile', image_file=image_file, allPosts=allposts)
+    return render_template('ProfilePage.html', title='Profile', image_file=image_file, allPosts=allposts,  form=form, form2=formNormalText, form3 = formCurrent)
 
 
 @app.route("/repcipe/new", methods=['GET', 'POST'])

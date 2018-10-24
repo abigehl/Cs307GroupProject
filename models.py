@@ -35,16 +35,16 @@ class rec(db.Model):
 
 class postss(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(1000), nullable=False)
+    content = db.Column(db.String(1000), nullable=True)
+    link_current = db.Column(db.String(1000),nullable=True)
+    content_current = db.Column(db.String(1000),nullable=True)
+    post_type = db.Column(db.String(50),nullable=False)
     post_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    #user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    #title = db.Column(db.String(100), nullable=False)
-    #content = db.Column(db.Text, nullable=False)
+ 
 
     def __repr__(self):
         return "postss('{self.user_id}')"
-
 
 class users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
