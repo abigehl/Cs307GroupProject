@@ -1,10 +1,51 @@
-from datetime import datetime
+import os
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_bootstrap import Bootstrap
+from flask_bcrypt import Bcrypt
+from flask_mail import Mail
+import time
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from __init__ import db, login_manager, app
+
+
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+#from posts.route import posts
+
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
+app = Flask(__name__)
+Bootstrap(app)
+
+app.config['SECRET_KEY'] = 'THIS_IS_SECRET'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://helpmerecipe:passpass@helpmerecipe.coy90uyod5ue.us-east-2.rds.amazonaws.com/helpmerecipe'
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'helpmerecipe@gmail.com'
+app.config['MAIL_PASSWORD'] = 'FMNBUFa5Dp8ysmJ'
+
+mail = Mail(app)
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = '/'
+
+# app.register_blueprint(posts)
+app.secret_key = "helpmerecipe"
+
+from files import routes
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return users.query.get(int(user_id))
 
 
 class rec(db.Model):
+    extend_existing = True
     id = db.Column(db.Integer, primary_key=True)
     rec_name = db.Column('rec_name', db.String(100), nullable=False)
     prep_time = db.Column('prep_time', db.String(50), default="")
@@ -36,20 +77,20 @@ class rec(db.Model):
 class postss(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(1000), nullable=True)
-    link_current = db.Column(db.String(1000),nullable=True)
-    content_current = db.Column(db.String(1000),nullable=True)
-    post_type = db.Column(db.String(50),nullable=False)
+    link_current = db.Column(db.String(1000), nullable=True)
+    content_current = db.Column(db.String(1000), nullable=True)
+    post_type = db.Column(db.String(50), nullable=False)
     post_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
- 
 
     def __repr__(self):
         return "postss('{self.user_id}')"
 
+
 class users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.Unicode, unique=True, nullable=False)
-    email = db.Column(db.Unicode, unique=True, nullable=False)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
     profilePic = db.Column(db.String(40), default="emptyProf.png")
     firstName = db.Column(db.String(20), default="")
@@ -57,7 +98,8 @@ class users(UserMixin, db.Model):
     displayName = db.Column(db.String(20), default="")
     cookingExperience = db.Column(db.String(12), default="Beginner")
     country = db.Column(db.String(30), default="")
-    #posts= db.relationship('posts', backref='users', lazy=True)
+    # posts= db.relationship('posts', backref='users', lazy=True)
+
     # CREATING TOKEN FOR PASSWORD RESET
 
     def get_reset_token(self, expires_sec=1800):
@@ -77,3 +119,11 @@ class users(UserMixin, db.Model):
 
     def __repr__(self):
         return "users('{self.username}', {self.email}', {self.password}', {self.profilePic}', {self.firstName}', {self.lastName}', {self.displayName}',{self.cookingExperience}',{self.country}')"
+
+
+#from models import users, rec, postss
+# if __name__ == '__main__':
+# manager.run()
+# app.run(debug=True)
+# db.drop_all()
+# db.metadata.clear()

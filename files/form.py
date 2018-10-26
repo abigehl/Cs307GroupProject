@@ -3,7 +3,7 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, IntegerField
 from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired, ValidationError, Optional
-from models import users
+from files.__init__ import users, rec, postss
 
 
 class LoginForm(FlaskForm):
@@ -103,11 +103,14 @@ class UpdateProfileForm(FlaskForm):
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
 
+####################################### POSTING FORMS #############################################
+
 
 class PostForm(FlaskForm):
     #title = StringField('Title', validators=[DataRequired()])
     contentNormal = TextAreaField('', validators=[DataRequired()])
     submitNormal = SubmitField('Post')
+
 
 class PostFormHungryFor(FlaskForm):
     #title = StringField('Title', validators=[DataRequired()])
@@ -120,3 +123,10 @@ class PostFormCurrentlyEating(FlaskForm):
     linkCurrent = TextAreaField("")
     contentCurrent = TextAreaField("")
     submitCurrent = SubmitField('Post')
+
+##################################### FILTER FORMS ###############################################
+
+
+class RecipeSearchForm(FlaskForm):
+    recipe_name = StringField('Recipe Name', validators=[DataRequired()])
+    submitNormal = SubmitField('Search')

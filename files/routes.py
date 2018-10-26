@@ -1,48 +1,19 @@
+import secrets
+import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from flask_sqlalchemy import SQLAlchemy
-from flask_bootstrap import Bootstrap
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_bcrypt import Bcrypt
+from files import app, db, bcrypt, mail
+from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
+                        UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
+                        RecipeSearchForm)
+from files.__init__ import users, rec, postss
+from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
-import secrets
-import os
-from datetime import datetime
-import time
-from form import *
-from models import *
-import sqlite3
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from posts.route import posts
-#from django.db import IntegrityError
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
-os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
-app = Flask(__name__)
-Bootstrap(app)
-
-app.config['SECRET_KEY'] = 'THIS_IS_SECRET'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://helpmerecipe:passpass@helpmerecipe.coy90uyod5ue.us-east-2.rds.amazonaws.com/helpmerecipe'
-app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'helpmerecipe@gmail.com'
-app.config['MAIL_PASSWORD'] = 'FMNBUFa5Dp8ysmJ'
-mail = Mail(app)
-
-
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = '/'
-
-# app.register_blueprint(posts)
-
-app.secret_key = "helpmerecipe"
 google_blueprint = make_google_blueprint(
     client_id="640840633381-8rrcgg5r9hru2al5e853jq95valimmd5.apps.googleusercontent.com",
     client_secret="YvDSgKVfGEM_nLblFbBPESZp",
@@ -63,12 +34,6 @@ facebook_blueprint = make_facebook_blueprint(
     ],
 )
 
-
-@login_manager.user_loader
-def load_user(user_id):
-    return users.query.get(int(user_id))
-
-
 app.register_blueprint(google_blueprint, url_prefix="/google_login")
 app.register_blueprint(facebook_blueprint, url_prefix="/facebook_login")
 
@@ -78,7 +43,11 @@ def send_reset_email(user):
     msg = Message('Password reset Request',
                   sender='helpmerecipe@gmail.com',
                   recipients=[user.email])
-    # msg.body = f'To reset your password, visit the following link' {url_for('reset_token', token = token, _external = True)} 'If you did not make this request then simply ignore this email and no changes will be made.'
+    msg.body = f'''To reset your password, visit the following link:
+{url_for('reset_token', token=token, _external=True)}
+
+If you did not make this request then simply ignore this email and no changes will be made.
+'''
     mail.send(msg)
 
 
@@ -167,7 +136,7 @@ def homepage():
         return redirect(url_for('homepage'))
 
     formNormalText = PostForm()
-    
+
     if formNormalText.validate_on_submit():
         post2 = postss(content=formNormalText.contentNormal.data, user_id=current_user.id, post_type="boringPost")
         db.session.add(post2)
@@ -178,14 +147,17 @@ def homepage():
     formCurrent = PostFormCurrentlyEating()
 
     if formCurrent.validate_on_submit():
-        post3 = postss(content_current=formCurrent.contentCurrent.data, link_current = formCurrent.linkCurrent.data, user_id=current_user.id, post_type = "currentlyEating")
+        post3 = postss(content_current=formCurrent.contentCurrent.data, link_current=formCurrent.linkCurrent.data, user_id=current_user.id, post_type="currentlyEating")
         db.session.add(post3)
         db.session.commit()
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
+    #############################################SEARCHING FILTERS IN HOMEPAGE##########################################
+    #RecipeSearchForm = RecipeSearchForm()
 
+    # if RecipeSearchForm.validate_on_submit():
 
-    return render_template('homepage.html', title='Home', form=form, form2=formNormalText, form3 = formCurrent)
+    return render_template('homepage.html', title='Home', form=form, form2=formNormalText, form3=formCurrent)
 
 
 @app.route('/realhomepage')
@@ -276,7 +248,7 @@ def googleSignin():
         session.clear()
         return redirect(url_for('login'))
     print("return to homepage")
-    return redirect(url_for('homepage'))    
+    return redirect(url_for('homepage'))
 
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
@@ -313,7 +285,7 @@ def logout():
 @login_required
 def profile():
     form = PostFormHungryFor()
-    
+
     if form.validate_on_submit():
         toSend = "I am hungry for " + form.content.data
         post = postss(content=toSend, user_id=current_user.id, post_type="hungryFor")
@@ -323,7 +295,7 @@ def profile():
         return redirect(url_for('profile'))
 
     formNormalText = PostForm()
-    
+
     if formNormalText.validate_on_submit():
         post2 = postss(content=formNormalText.contentNormal.data, user_id=current_user.id, post_type="boringPost")
         db.session.add(post2)
@@ -334,15 +306,15 @@ def profile():
     formCurrent = PostFormCurrentlyEating()
 
     if formCurrent.validate_on_submit():
-        post3 = postss(content_current=formCurrent.contentCurrent.data, link_current = formCurrent.linkCurrent.data, user_id=current_user.id, post_type = "currentlyEating")
+        post3 = postss(content_current=formCurrent.contentCurrent.data, link_current=formCurrent.linkCurrent.data, user_id=current_user.id, post_type="currentlyEating")
         db.session.add(post3)
         db.session.commit()
         flash('Your post has created', 'success')
-        return redirect(url_for('profile'))  
-    
+        return redirect(url_for('profile'))
+
     allposts = postss.query.all()
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
-    return render_template('ProfilePage.html', title='Profile', image_file=image_file, allPosts=allposts,  form=form, form2=formNormalText, form3 = formCurrent)
+    return render_template('ProfilePage.html', title='Profile', image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
 
 
 @app.route("/repcipe/new", methods=['GET', 'POST'])
@@ -421,7 +393,3 @@ def delete_post(recipe_id):
 @app.route("/favorites")
 def favorites():
     return render_template('favoritesPage.html', title='Favorites Page', form=form)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
