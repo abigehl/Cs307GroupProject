@@ -8,7 +8,10 @@
                         {% if post.post_type == "hungryFor" %}
                                 <div class="card flex bg-light">
                                     <div class="card-body flex-center">
-                                        <p class="card-text mr-2 ml-2">{{ post.content }}</p>
+                                        
+                                        <p class="card-text mr-2 ml-2" style="width:100%">{{ post.content }}</p>
+                                        
+                                        <button type="submit" class="btn btn-elegant" style="width:7%"> <i class="fa fa-trash"></i></button>
                                     </div>
                                 </div>
                                 <br>
