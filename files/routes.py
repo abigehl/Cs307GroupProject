@@ -337,12 +337,12 @@ def create_recipe():
 @app.route("/recipe/<int:recipe_id>")
 def showrecipe(recipe_id):
     rec = rec.query.get_or_404(recipe_id)
-    return render_template('xxx.html', title=rec.rec_name, post=post)
+    return render_template('xxx.html', title=rec.rec_name, rec=rec)
 
 
 @app.route("/recipe/<int:recipe_id>/update", methods=['GET', 'POST'])
 @login_required
-def update_post(recipe_id):
+def update_recipe(recipe_id):
     rec = rec.query.get_or_404(recipe_id)
     if rec.user_id != user.id:
         abort(403)
@@ -373,14 +373,14 @@ def update_post(recipe_id):
         re.maxPrice = form.maxPrice.data
         db.session.commit()
         flash('Your post has been updated!', 'success')
-        return redirect(url_for('xxxx', post_id=post.id))
+        return redirect(url_for('showrecipe', recipe_id=rec.id))
 
-    return render_template('xxxx.html', title='Update Recipe', form=form)
+    return render_template('createrecipe.html', title='Update Recipe', form=form)
 
 
 @app.route("/recipe/<int:recipe_id>/delete", methods=['POST'])
 @login_required
-def delete_post(recipe_id):
+def delete_recipe(recipe_id):
     rec = rec.query.get_or_404(recipe_id)
     if rec.user_id != user.id:
         abort(403)
