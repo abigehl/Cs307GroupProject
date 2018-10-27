@@ -313,9 +313,21 @@ def profile():
         return redirect(url_for('profile'))
 
     allposts = postss.query.all()
+
     recipes = rec.query.filter_by(user_id = current_user.id)
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
     return render_template('ProfilePage.html', title='Profile', recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+
+@app.route('/ProfilePage/<int:post_id>/delete', methods=['POST'])
+@login_required
+def delete_post(post_id):
+    post = postss.query.filter_by(id=post_id).first()
+  
+    current_db_sessions = db.session.object_session(post)
+    current_db_sessions.delete(post)
+    current_db_sessions.commit()
+
+    return redirect(url_for('profile'))
 
 
 @app.route("/repcipe/new", methods=['GET', 'POST'])
