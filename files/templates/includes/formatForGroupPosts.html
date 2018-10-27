@@ -7,9 +7,10 @@
                                 <div class="card flex bg-light">
                                     <div class="card-body flex-center">
                                         
-                                        <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p>                                        
+                                        <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p>  
+                                        <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>        
                                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
-                                                <button type="submit" class="btn btn-elegant" style="width:7%"> <i class="fa fa-trash"></i></button>
+                                                <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                         </form>
                                     </div>
                                 </div>
@@ -19,8 +20,9 @@
                                 <div class="card flex bg-light">
                                     <div class="card-body flex-center">
                                         <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p>
+                                        <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>        
                                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
-                                                <button type="submit" class="btn btn-elegant" style="width:7%"> <i class="fa fa-trash"></i></button>
+                                                <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                         </form>
                                     </div>
                                 </div>
@@ -31,9 +33,10 @@
                                 <div class="card flex bg-light">
                                     <div class="card-body flex-center">
                                         <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content_current }}</p>
+                                        <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>        
                                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
-                                                <button type="submit" class="btn btn-elegant" style="width:7%"> <i class="fa fa-trash"></i></button>
-                                        </form>                                    
+                                                <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
+                                        </form>                                  
                                     
                                     
                                     </div>
@@ -45,8 +48,9 @@
                                     <div class="card-body flex-center">
                                         <p class="card-text mr-2 ml-2" style="width:93%">The link to is recipe I'm currently eating is: {{ post.link_current }}</p>
 
+                                        <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>        
                                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
-                                                <button type="submit" class="btn btn-elegant" style="width:7%"> <i class="fa fa-trash"></i></button>
+                                                <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                         </form>
 
                                     </div>
