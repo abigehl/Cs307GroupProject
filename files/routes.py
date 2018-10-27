@@ -281,7 +281,7 @@ def logout():
     return redirect(url_for('homepage'))
 
 
-@app.route('/ProfilePage')
+@app.route('/ProfilePage', methods=['GET', 'POST'])
 @login_required
 def profile():
     form = PostFormHungryFor()
