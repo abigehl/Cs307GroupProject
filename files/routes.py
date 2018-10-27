@@ -313,8 +313,9 @@ def profile():
         return redirect(url_for('profile'))
 
     allposts = postss.query.all()
+    recipes = rec.query.filter_by(user_id = current_user.id)
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
-    return render_template('ProfilePage.html', title='Profile', image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+    return render_template('ProfilePage.html', title='Profile', recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
 
 
 @app.route("/repcipe/new", methods=['GET', 'POST'])
@@ -337,7 +338,7 @@ def create_recipe():
 @app.route("/recipe/<int:recipe_id>")
 def showrecipe(recipe_id):
     rec = rec.query.get_or_404(recipe_id)
-    return render_template('xxx.html', title=rec.rec_name, rec=rec)
+    return render_template('recipespage.html', title=rec.rec_name, rec=rec)
 
 
 @app.route("/recipe/<int:recipe_id>/update", methods=['GET', 'POST'])
@@ -382,7 +383,7 @@ def update_recipe(recipe_id):
 @login_required
 def delete_recipe(recipe_id):
     rec = rec.query.get_or_404(recipe_id)
-    if rec.user_id != user.id:
+    if rec.user_id != current_user.id:
         abort(403)
     db.session.delete(rec)
     db.session.commit()
@@ -390,6 +391,30 @@ def delete_recipe(recipe_id):
     return redirect(url_for('main.home'))
 
 
-@app.route("/favorites")
+@app.route("/favorites/all")
+@login_required
 def favorites():
-    return render_template('favoritesPage.html', title='Favorites Page', form=form)
+    favorites = favs.query.filter_by(user_id = current_user.id)
+    return render_template('favoritesPage.html', title='Favorites Page', form=form, favorites=favorites)
+
+@app.route("/favorites/<int:recipe_id>/add", methods=['POST', 'GET'])
+@login_required
+def add_fav(recipe_id):
+    if request.methods == 'POST':
+        favorite = favs(user_id = current_user.id, recipe_id=recipe_id)
+        db.session.add(favs)
+        db.session.commit()
+        flash('Your favorite has been Added!', 'success')
+    return redirect(url_for('add_fav', recipe_id = recipe_id))
+
+@app.route("/favorites/<int:recipe_id>/delete", methods=['POST', 'GET'])
+@login_required
+def delete_fav(recipe_id):
+    if request.methods == 'POST':
+        favorite = favs.query.get_or_404(recipe_id)
+        if favorite.user_id != current_user.id:
+            abort(403)
+            db.session.delete(favorite)
+            db.session.commit()
+            flash('Your post has been deleted!', 'success')
+    return redirect(url_for('delete_fav', recipe_id = recipe_id))
