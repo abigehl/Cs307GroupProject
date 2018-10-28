@@ -72,9 +72,9 @@
           <!-- Start your project here-->
           
                 <div class="row">
-                  <div class="col-12 col-sm-6 col-lg-8" style="width: 50vh; height: 35vh">
+                  <div class="col-12 col-sm-6 col-lg-8" style="width: 50vh; height: 50vh">
                         <div class="media">
-                                <img class="d-flex mr-3 p-4" src="{{ image_file }}" alt="Generic placeholder image" style="width: 200px; height: 200px ;">
+                                <img class="d-flex mr-3 p-4" src="{{ image_file }}" alt="Generic placeholder image" style="width: 200px">
                                 <button type="button" class="btn btn-outline-dark-green" value="Follow">Follow</button>
                                 <div class="media-body p-4">
                                         <h3 class="font-weight-bold text-light" style="margin-top: 50px">
@@ -92,6 +92,7 @@
                           <div class="row">
                             <a class="nav-link text-light mr-3" href="{{ url_for('settings') }}">Settings</a>
                             <a class="nav-link text-light" href="{{ url_for('create_recipe') }}">Create Recipe</a>
+                            {% include 'includes/postPop.html' %}
                           </div>
                           
                         </h5>

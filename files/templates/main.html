@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -43,7 +43,7 @@ Sign In
 
 </head>
 {% endblock %}
-{% block content %}
+
 <body>
 
     <div style="height: 100vh; background-image: url(../static/Images/bg.png); ">
