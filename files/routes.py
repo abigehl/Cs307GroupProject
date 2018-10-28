@@ -165,7 +165,7 @@ def realhomepage():
     return render_template("homepageloggedin.html")
 
 
-@app.route('/advancedsearch')
+@app.route('/advancedsearch', methods=['GET', 'POST'])
 def advancedsearch():
     return render_template("advancedsearchpage.html")
 
