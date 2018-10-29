@@ -51,7 +51,12 @@ class postss(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     def __repr__(self):
-        return "postss('{self.user_id}')"
+        return f"postss('{self.content}','{self.post_date}', '{self.post_type}', '{self.user_id}')"
+
+class favs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    recipe_id = db.Column(db.Integer, nullable=False)
 
 
 class users(UserMixin, db.Model):

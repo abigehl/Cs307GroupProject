@@ -230,9 +230,11 @@
                               </div>
                               <div>
                                   <h6 class="text-light flex-left"><br>Let your friends know what you are hungry for so they can suggest food for you!</h6>
+                                  
                                   {{ form.hidden_tag() }}
-                                  {{ wtf.form_field(form.content) }}
-                              
+                                  {{ wtf.form_field(form.content, class_="yellow-text") }}
+                                  
+                                
                               </div>
                               </div>
 
