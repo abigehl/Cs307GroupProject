@@ -1,6 +1,8 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Index
+
 from flask_bootstrap import Bootstrap
 from flask_bcrypt import Bcrypt
 from flask_mail import Mail
@@ -8,7 +10,6 @@ import time
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 #from posts.route import posts
@@ -25,6 +26,7 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'helpmerecipe@gmail.com'
 app.config['MAIL_PASSWORD'] = 'FMNBUFa5Dp8ysmJ'
+
 
 mail = Mail(app)
 db = SQLAlchemy(app)
@@ -45,7 +47,8 @@ def load_user(user_id):
 
 
 class rec(db.Model):
-    extend_existing = True
+    __table_args__ = {'mysql_engine': 'InnoDB'}
+    __searchable__ = ['rec_name', 'rec_description']
     id = db.Column(db.Integer, primary_key=True)
     rec_name = db.Column('rec_name', db.String(100), nullable=False)
     prep_time = db.Column('prep_time', db.String(50), default="")
