@@ -85,42 +85,44 @@
     </ul>
     
     <ul class="navbar-nav form-inline row mr-auto">
-<div class="col-xs-3">
-        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-      </div>
-      <div class="col-xs-1">
-        <button class="btn btn-outline-light btn-sm" type="submit">Search</button>
-      </div>
-      
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Filter
-        </a>
-        <div class="dropdown-menu text-center w-30" aria-labelledby="navbarDropdown">
-          <form class="range-field w-30"></form>
-
-          <a class="dropdown-item" href="#">Price</a>
-          <input type="text" id="amount" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
-          <div class="p-2"></div>
-          <div class="slider ml-4" id="slider-range"></div>        
-          <div class="p-2"></div>
-          <div class="dropdown-divider"></div>
-
-          <a class="dropdown-item" href="#">Calories</a>
-          <input type="text" id="amount1" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
-          <div class="p-2"></div>
-          <div class="slider ml-4" id="slider-range1"></div>        
-          <div class="p-2"></div>
-          <div class="dropdown-divider"></div>
-
-          <a class="dropdown-item" href="#">Difficulty</a>
-          <input type="text" id="amount2" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
-          <div class="p-2"></div>
-          <div class="slider ml-4" id="slider-range2"></div>        
-          <div class="p-2"></div>
-  
+      <form class="form-inline">
+        <div class="col-xs-3">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search">
         </div>
-      </li>
+        <div class="col-xs-1">
+          <button class="btn btn-outline-light btn-sm" type="submit">Search</button>
+        </div>
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filter
+          </a>
+          <div class="dropdown-menu text-center w-30" aria-labelledby="navbarDropdown">
+            <form class="range-field w-30"></form>
+
+            <a class="dropdown-item" href="#">Price</a>
+            <input type="text" id="amount" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            <div class="p-2"></div>
+            <div class="slider ml-4" id="slider-range"></div>        
+            <div class="p-2"></div>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="#">Calories</a>
+            <input type="text" id="amount1" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            <div class="p-2"></div>
+            <div class="slider ml-4" id="slider-range1"></div>        
+            <div class="p-2"></div>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="#">Difficulty</a>
+            <input type="text" id="amount2" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            <div class="p-2"></div>
+            <div class="slider ml-4" id="slider-range2"></div>        
+            <div class="p-2"></div>
+    
+          </div>
+        </li>
+      </form>
       <a class="nav-link" href="{{ url_for('advancedsearch') }}">Advanced Search Options</a>
     </ul>
 

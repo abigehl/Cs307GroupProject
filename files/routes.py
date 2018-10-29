@@ -1,4 +1,4 @@
-import secrets
+#import secrets
 import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from files import app, db, bcrypt, mail
@@ -44,11 +44,11 @@ def send_reset_email(user):
     msg = Message('Password reset Request',
                   sender='helpmerecipe@gmail.com',
                   recipients=[user.email])
-    msg.body = f'''To reset your password, visit the following link:
-{url_for('reset_token', token=token, _external=True)}
+#    msg.body = f'''To reset your password, visit the following link:
+#{url_for('reset_token', token=token, _external=True)}
 
-If you did not make this request then simply ignore this email and no changes will be made.
-'''
+#If you did not make this request then simply ignore this email and no changes will be made.
+#'''
     mail.send(msg)
 
 
@@ -403,6 +403,7 @@ def update_recipe(recipe_id):
         abort(403)
     form = RecipeForm()
     if form.validate_on_submit():
+        print("HELLO FUCKER")
         re.rec_url = form.rec_url.data
         re.rec_name = form.rec_name.data
         re.author = current_user
