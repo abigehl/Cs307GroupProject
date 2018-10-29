@@ -361,6 +361,7 @@ def update_recipe(recipe_id):
         abort(403)
     form = RecipeForm()
     if form.validate_on_submit():
+        print("HELLO FUCKER")
         re.rec_url = form.rec_url.data
         re.rec_name = form.rec_name.data
         re.author = current_user
