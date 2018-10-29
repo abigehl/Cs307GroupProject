@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from files import app, db, bcrypt, mail
 from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
                         UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
-                        RecipeSearchForm)
+                        RecipeSearchForm, RecipeSearchForm)
 from files.__init__ import users, rec, postss
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
@@ -13,6 +13,7 @@ from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+import re
 
 google_blueprint = make_google_blueprint(
     client_id="640840633381-8rrcgg5r9hru2al5e853jq95valimmd5.apps.googleusercontent.com",
@@ -125,6 +126,7 @@ def signup():
 @app.route('/', methods=['GET', 'POST'])
 #@login_required
 def homepage():
+
     form = PostFormHungryFor()
 
     if form.validate_on_submit():
@@ -152,12 +154,14 @@ def homepage():
         db.session.commit()
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
-    #############################################SEARCHING FILTERS IN HOMEPAGE##########################################
-    #RecipeSearchForm = RecipeSearchForm()
-
-    # if RecipeSearchForm.validate_on_submit():
 
     return render_template('homepage.html', title='Home', form=form, form2=formNormalText, form3=formCurrent)
+
+
+# @app.route('/search', methods=['GET', 'POST'])
+# def search():
+
+#     return render_template('homepage.html', form4=form4)
 
 
 @app.route('/realhomepage')
@@ -197,8 +201,37 @@ def save_picture(form_picture):
     return picture_fn
 
 
+def parser_first_round(key_words):
+    remove_list = ['with', 'the']
+    keywords = key_words
+    keywords = re.sub(r'\b\w{1,2}\b', '', keywords)
+    keywords = keywords.split()
+    keywords = ' '.join([i for i in keywords if i not in remove_list])
+    output = []
+    for i in keywords.split():
+        for z in range(0, len(i) - 1):
+            element = i[0:z + 2]
+            output.append(element)
+    keywords = ' '.join(word for word in output)
+    keywords = re.sub(r'\b\w{1,1}\b', '', keywords)
+    keywords = keywords.split()
+    keywords = [x + '*' for x in keywords]
+    keywords = ' '.join(keywords)
+    return keywords
+
+
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
+    form4 = RecipeSearchForm()
+
+    if form4.validate_on_submit():
+
+        keywords = parser_first_round(form4.keyWord.data)
+        print(keywords)
+        result = db.engine.execute("SELECT * FROM rec WHERE MATCH (rec_name, rec_description, rec_instruction, ing_1) AGAINST (%s IN BOOLEAN MODE)", keywords)
+        for row in result:
+            print(row)
+
     form = UpdateProfileForm()
     if form.validate_on_submit():
         if form.picture.data:
@@ -222,7 +255,7 @@ def settings():
         form.lastname.data = current_user.lastName
         form.email.data = current_user.email
         form.cooking_exp.data = current_user.cookingExperience
-    return render_template('usersettings.html', form=form)
+    return render_template('usersettings.html', form=form, form4=form4)
 
     return render_template('usersettings.html')
 

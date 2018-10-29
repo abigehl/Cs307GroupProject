@@ -84,7 +84,7 @@ class UpdateProfileForm(FlaskForm):
     firstname = StringField('First Name', validators=[Optional(), Length(min=2, max=20)])
     lastname = StringField('Last Name', validators=[Optional(), Length(min=2, max=20)])
     cooking_exp = SelectField(
-        'Coocking Experience',
+        'Cooking Experience',
         choices=[('Novice', 'Novice'), ('Intermediate', 'Intermediate'), ('Expert', 'Expert')],
         validators=[Optional()]
     )
@@ -128,5 +128,5 @@ class PostFormCurrentlyEating(FlaskForm):
 
 
 class RecipeSearchForm(FlaskForm):
-    recipe_name = StringField('Recipe Name', validators=[DataRequired()])
-    submitNormal = SubmitField('Search')
+    keyWord = StringField('Recipe Name', validators=[DataRequired()])
+    submit = SubmitField('Search')

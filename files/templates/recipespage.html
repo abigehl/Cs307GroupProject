@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block body %}
 <!--Main layout-->
 <main class=" pt-4">
@@ -23,33 +24,19 @@
                 <!--Content-->
                 <div class="p-4">
 
-                    <div class="mb-3">
-                        <a href="">
-                            <span class="badge purple mr-1">Italian</span>
-                        </a>
-                        <a href="">
-                            <span class="badge blue mr-1">Hot</span>
-                        </a>
-                        <a href="">
-                            <span class="badge red mr-1">Family</span>
-                        </a>
-                    </div>
-
                     <p class="lead font-weight-bold text-light">
-                        Lasagna
+                        {{ rec.rec_name }}
                     </p>
                     <p class="text-light">Difficulty:</p>
-                    <p class="text-light">Prep Time:</p>
-                    <p class="text-light">Cook Time:</p>
+                    <p class="text-light">Prep Time: {{rec.prep_time}}</p>
+                    <p class="text-light">Cook Time: {{rec.cook_time}}</p>
                     <!--<p class="lead font-weight-bold">Description</p>-->
 
-                    <p class="text-light">I like lasagna</p>
+                    <p class="text-light">{{rec.rec_description}}</p>
 
                     <form class="d-flex justify-content-left">
                         <!-- Default input -->
-                        <!--<input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">-->
                         <button class="btn btn-dark-green btn-md my-0 p" type="submit">Favorite
-                            <!--<i class="fa fa-shopping-cart ml-1"></i>-->
                         </button>
 
                     </form>
@@ -73,9 +60,7 @@
 
                 <h4 class="my-4 h4 text-light">Ingredients</h4>
 
-                <p class="text-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta
-                    odit voluptates,
-                    quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.</p>
+                <p class="text-light">{{rec.rec_instruction}}</p>
 
             </div>
             <!--Grid column-->
@@ -83,27 +68,26 @@
         </div>
         <!--Grid row-->
         <ul class="list-group " style="width:30vh">
-            <li class="list-group-item">Sauce</li>
-            <li class="list-group-item">Meat</li>
-            <li class="list-group-item">Cheese</li>
-            <li class="list-group-item">Water</li>
-            <li class="list-group-item">Water</li>
+            <li class="list-group-item">{{rec.ing_1}}</li>
+            <li class="list-group-item">{{rec.ing_2}}</li>
+            <li class="list-group-item">{{rec.ing_3}}</li>
+            <li class="list-group-item">{{rec.ing_4}}</li>
+            <li class="list-group-item">{{rec.ing_5}}</li>
+            <li class="list-group-item">{{rec.ing_6}}</li>
+            <li class="list-group-item">{{rec.ing_7}}</li>
+            <li class="list-group-item">{{rec.ing_8}}</li>
+            <li class="list-group-item">{{rec.ing_9}}</li>
+            <li class="list-group-item">{{rec.ing_10}}</li>
         </ul>
         <br>
         <ul class="list-group " style="width:30vh">
-                <li class="list-group-item">Calories:</li>
-                <li class="list-group-item">Fat:</li>
-                <li class="list-group-item">Cholesterol:</li>
-                <li class="list-group-item">Sodium</li>
+                <li class="list-group-item">Calories:{{rec.calories}}</li>
+                <li class="list-group-item">Fat:{{rec.fat}}</li>
+                <li class="list-group-item">Cholesterol:{{rec.cholesterol}}</li>
+                <li class="list-group-item">Sodium:{{rec.sodium}}</li>
             </ul>
         <!--Grid row-->
-        <div class="row wow fadeIn">
-
-            <!--Grid column-->
-            
-            <!--Grid column-->
-
-        </div>
+        <div class="row wow fadeIn"></div>
         <!--Grid row-->
 
     </div>
