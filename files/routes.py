@@ -44,12 +44,60 @@ def send_reset_email(user):
     msg = Message('Password reset Request',
                   sender='helpmerecipe@gmail.com',
                   recipients=[user.email])
-#    msg.body = f'''To reset your password, visit the following link:
-#{url_for('reset_token', token=token, _external=True)}
+    msg.body = f'''To reset your password, visit the following link:
+{url_for('reset_token', token=token, _external=True)}
 
-#If you did not make this request then simply ignore this email and no changes will be made.
-#'''
+If you did not make this request then simply ignore this email and no changes will be made.
+'''
     mail.send(msg)
+
+
+def is_filled(data):
+    if data == None:
+        return False
+    if data == '':
+        return False
+    if data == []:
+        return False
+    return True
+
+
+def save_picture(form_picture):
+    # randomize picture name so there is no colition with other picture
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/Images', picture_fn)
+    form_picture.save(picture_path)
+    return picture_fn
+
+
+def parser_first_round(key_words):
+    remove_list = ['with', 'the']
+    keywords = key_words
+    keywords = re.sub(r'\b\w{1,2}\b', '', keywords)
+    keywords = keywords.split()
+    keywords = ' '.join([i for i in keywords if i not in remove_list])
+    output = []
+    for i in keywords.split():
+        for z in range(0, len(i) - 1):
+            element = i[0:z + 2]
+            output.append(element)
+    keywords = ' '.join(word for word in output)
+    keywords = re.sub(r'\b\w{1,1}\b', '', keywords)
+    keywords = keywords.split()
+    keywords = [x + '*' for x in keywords]
+    keywords = ' '.join(keywords)
+    return keywords
+
+
+def flash_errors(form):
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(u"Error in the %s field - %s" % (
+                getattr(form, field).label.text,
+                error
+            ))
 
 
 @app.route("/reset_password", methods=['GET', 'POST'])
@@ -148,14 +196,34 @@ def homepage():
 
     formCurrent = PostFormCurrentlyEating()
 
-    if formCurrent.validate_on_submit():
+    if formCurrent.validate():
         post3 = postss(content_current=formCurrent.contentCurrent.data, link_current=formCurrent.linkCurrent.data, user_id=current_user.id, post_type="currentlyEating")
         db.session.add(post3)
         db.session.commit()
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
 
-    return render_template('homepage.html', title='Home', form=form, form2=formNormalText, form3=formCurrent)
+    searchform = RecipeSearchForm()
+    print('hello')
+    print(searchform.keyWord.data)
+    if searchform.validate_on_submit():
+        print('hello')
+        keywords = parser_first_round(searchform.keyWord.data)
+        print(keywords)
+        result = db.engine.execute("SELECT * FROM rec WHERE MATCH (rec_name, rec_description, rec_instruction, ing_1) AGAINST (%s IN BOOLEAN MODE)", keywords)
+        for row in result:
+            print(row)
+
+        result = db.engine.execute("SELECT * FROM rec WHERE (minPrice BETWEEN 10 AND 20) OR (maxPrice BETWEEN 10 AND  20)")
+        for row in result:
+            print(row)
+
+        result = db.engine.execute("SELECT * FROM rec WHERE calories BETWEEN 40 AND 150")
+        for row in result:
+            print(row)
+
+    print(searchform.errors.items)
+    return render_template('homepage.html', title='Home', form=form, form2=formNormalText, form3=formCurrent, searchform=searchform)
 
 
 # @app.route('/search', methods=['GET', 'POST'])
@@ -179,45 +247,6 @@ def ourmission():
     return render_template('OurMission.html')
 
 ################################################  USER SETTINGS  #####################################################
-
-
-def is_filled(data):
-    if data == None:
-        return False
-    if data == '':
-        return False
-    if data == []:
-        return False
-    return True
-
-
-def save_picture(form_picture):
-    # randomize picture name so there is no colition with other picture
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = random_hex + f_ext
-    picture_path = os.path.join(app.root_path, 'static/Images', picture_fn)
-    form_picture.save(picture_path)
-    return picture_fn
-
-
-def parser_first_round(key_words):
-    remove_list = ['with', 'the']
-    keywords = key_words
-    keywords = re.sub(r'\b\w{1,2}\b', '', keywords)
-    keywords = keywords.split()
-    keywords = ' '.join([i for i in keywords if i not in remove_list])
-    output = []
-    for i in keywords.split():
-        for z in range(0, len(i) - 1):
-            element = i[0:z + 2]
-            output.append(element)
-    keywords = ' '.join(word for word in output)
-    keywords = re.sub(r'\b\w{1,1}\b', '', keywords)
-    keywords = keywords.split()
-    keywords = [x + '*' for x in keywords]
-    keywords = ' '.join(keywords)
-    return keywords
 
 
 @app.route('/settings', methods=['GET', 'POST'])

@@ -85,12 +85,13 @@
     </ul>
     
     <ul class="navbar-nav form-inline row mr-auto">
-      <form class="form-inline">
+      <form class="form-inline", method = post>
         <div class="col-xs-3">
-          <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+          {{ searchform.hidden_tag() }}
+          {{ wtf.form_field(searchform.keyWord) }}
         </div>
         <div class="col-xs-1">
-          <button class="btn btn-outline-light btn-sm" type="submit">Search</button>
+          {{ wtf.form_field(searchform.submit) }}
         </div>
         
         <li class="nav-item dropdown">
