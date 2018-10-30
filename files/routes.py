@@ -407,14 +407,15 @@ def create_recipe():
     print("before")
     form = RecipeForm()
     print("after")
+    
     if form.validate_on_submit():
-        print("recipe")
-        recipe = rec(rec_url=form.rec_url.data, rec_name=form.rec_name.data, author=current_user, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ing_1=form.ing_1.data, ing_2=form.ing_2.data, ing_3=form.ing_3.data, ing_4=form.ing_4.data, ing_5=form.ing_5.data, ing_6=form.ing_6.data, ing_7=form.ing_7.data, ing_8=form.ing_8.data, ing_9=form.ing_9.data, ing_10=form.ing_10.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data)
+        print("RECIPE NAME: " + form.rec_name.data)
+        recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ing_1=form.ing_1.data, ing_2=form.ing_2.data, ing_3=form.ing_3.data, ing_4=form.ing_4.data, ing_5=form.ing_5.data, ing_6=form.ing_6.data, ing_7=form.ing_7.data, ing_8=form.ing_8.data, ing_9=form.ing_9.data, ing_10=form.ing_10.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data)
         print("add")
         db.session.add(recipe)
         db.session.commit()
         flash('Your post has been created!', 'success')
-        return redirect(url_for('main'))
+        return redirect(url_for('profile'))
     return render_template('createrecipe.html', title='New Recipe', form=form)
 
 
@@ -432,8 +433,7 @@ def update_recipe(recipe_id):
         abort(403)
     form = RecipeForm()
     if form.validate_on_submit():
-        print("HELLO FUCKER")
-        re.rec_url = form.rec_url.data
+        #re.rec_url = form.rec_url.data
         re.rec_name = form.rec_name.data
         re.author = current_user
         re.prep_time = form.prep_time.data
