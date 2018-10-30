@@ -1,3 +1,6 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% block body %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,7 +68,8 @@
 </nav>
 <div style="background-image: url(../static/Images/bg.png">
     <main class=" pt-4">
-        <form action="{{ url_for('create_recipe') }}" method="POST">
+        <!--<form action="{{ url_for('create_recipe') }}" method="POST">-->
+        <form name="form" method="POST">
 
             <h5 class="text-center text-light">Create a Recipe</h5>
             <div class="container text-light mt-5">
@@ -103,21 +107,28 @@
                         </a>
                     </div>
                      -->
-                            <input class="form-control" type="text" placeholder="Enter Recipe Name" name='food'>
+                            <!--<input class="form-control" type="text" placeholder="Enter Recipe Name" name='food'>-->
+                            {{ form.hidden_tag() }}
+                            {{ wtf.form_field(form.rec_name, class_="form-control", placeholder="Enter Recipe Name") }}
                             <br>
-                            <input class="form-control" type="text" placeholder="Enter Prep Time" name='prep-time'>
+                            <!--<input class="form-control" type="text" placeholder="Enter Prep Time" name='prep-time'>-->
+                            {{ wtf.form_field(form.prep_time, class_="form-control", placeholder="Enter Prep Time") }}
                             <br>
-                            <input class="form-control" type="text" placeholder="Enter Cook Time" name='cook-time'>
+                            <!--<input class="form-control" type="text" placeholder="Enter Cook Time" name='cook-time'>-->
+                            {{ wtf.form_field(form.cook_time, class_="form-control", placeholder="Enter Cook Time") }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Description" name='description'>
                             <br>-->
                             Price Range
-                            <input class="form-control" type="text" placeholder="Minimum Price" name="minPrice">
+                            <!--<input class="form-control" type="text" placeholder="Minimum Price" name="minPrice">-->
+                            {{ wtf.form_field(form.minPrice, class_="form-control", placeholder="Minimum Price") }}
                             <br>
-                            <input class="form-control" type="text" placeholder="Maximum Price" name="maxPrice">
+                            <!--<input class="form-control" type="text" placeholder="Maximum Price" name="maxPrice">-->
+                            {{ wtf.form_field(form.maxPrice, class_="form-control", placeholder="Maximum Price") }}
                             <br>
                             <label for="exampleFormControlTextarea1">Recipe Description</label>
-                            <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name="instruction"></textarea>
+                            <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name="instruction"></textarea>-->
+                            {{ wtf.form_field(form.rec_description, class_="form-control rounded-0", rows="5") }}
                             <br>
 
                             <div class="row d-flex justify-content-left wow fadeIn">
@@ -125,25 +136,35 @@
                                 <div class="col-md-6 text-left">
 
                                     <h4 class="my-4 h4">Enter Ingredients</h4>
-                                    <input class="form-control" type="text" placeholder="Ingredient 1" name="ing1">
+                                    <!--<input class="form-control" type="text" placeholder="Ingredient 1" name="ing1">-->
+                                    {{ wtf.form_field(form.ing_1, class_="form-control", type="text") }}
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 2" name="ing2">
+                                    <!--<input class="form-control" type="text" placeholder="Ingredient 2" name="ing2">-->
+                                    {{ wtf.form_field(form.ing_2, class_="form-control", type="text") }}
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 3" name="ing3">
+                                    <!--<input class="form-control" type="text" placeholder="Ingredient 3" name="ing3">-->
+                                    {{ wtf.form_field(form.ing_3, class_="form-control", type="text") }}
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 4" name="ing4">
+                                    <!--<input class="form-control" type="text" placeholder="Ingredient 4" name="ing4">-->
+                                    {{ wtf.form_field(form.ing_4, class_="form-control", type="text") }}
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 5" name="ing5">
+                                    <!--<input class="form-control" type="text" placeholder="Ingredient 5" name="ing5">-->
+                                    {{ wtf.form_field(form.ing_5, class_="form-control", type="text") }}
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 6" name="ing6">
+                                    <!--<input class="form-control" type="text" placeholder="Ingredient 6" name="ing6">-->
+                                    {{ wtf.form_field(form.ing_6, class_="form-control", type="text") }}
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 7" name="ing7">
+                                    <!--<input class="form-control" type="text" placeholder="Ingredient 7" name="ing7">-->
+                                    {{ wtf.form_field(form.ing_7, class_="form-control", type="text") }}
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 8" name="ing8">
+                                    <!--<input class="form-control" type="text" placeholder="Ingredient 8" name="ing8">-->
+                                    {{ wtf.form_field(form.ing_8, class_="form-control", type="text") }}
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 9" name="ing9">
+                                    <!--<input class="form-control" type="text" placeholder="Ingredient 9" name="ing9">-->
+                                    {{ wtf.form_field(form.ing_9, class_="form-control", type="text") }}
                                     <br>
-                                    <input class="form-control" type="text" placeholder="Ingredient 10" name="ing10">
+                                    <!--<input class="form-control" type="text" placeholder="Ingredient 10" name="ing10">-->
+                                    {{ wtf.form_field(form.ing_10, class_="form-control", type="text") }}
                                     <br>
                                     <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
                                 </div>
@@ -169,20 +190,26 @@
                     <br>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Enter your instructions</label>
-                        <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>
+                        <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>-->
+                        {{ wtf.form_field(form.rec_instruction, class_="form-control rounded-0", rows="5") }}
                     </div>
                     <h4 class="my-4 h4">Enter Nutritional Facts (Optional)</h4>
                     <br>
-                    <input class="form-control" type="text" placeholder="Calories" name=Calories>
+                    <!--<input class="form-control" type="text" placeholder="Calories" name=Calories>-->
+                    {{ wtf.form_field(form.calories, class_="form-control") }}
                     <br>
-                    <input class="form-control" type="text" placeholder="Fat" name=Fat>
+                    <!--<input class="form-control" type="text" placeholder="Fat" name=Fat>-->
+                    {{ wtf.form_field(form.fat, class_="form-control") }}
                     <br>
-                    <input class="form-control" type="text" placeholder="Cholesterol" name=Cholesterol>
+                    <!--<input class="form-control" type="text" placeholder="Cholesterol" name=Cholesterol>
+                    -->
+                    {{ wtf.form_field(form.cholesterol, class_="form-control") }}
                     <br>
-                    <input class="form-control" type="text" placeholder="Sodium" name=Sodium>
+                    <!--<input class="form-control" type="text" placeholder="Sodium" name=Sodium>-->
+                    {{ wtf.form_field(form.sodium, class_="form-control") }}
                     <br>
-                    <button type="submit" class="btn btn-dark-green" value="Submit">Save</button>
-
+                    <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
+                    {{ wtf.form_field(form.submit) }}
                 </div>
                 <!--Grid column-->
 
@@ -193,3 +220,5 @@
         </form>
     </main>
 </div>
+
+{% endblock %}
