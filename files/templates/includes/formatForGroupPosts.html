@@ -7,7 +7,7 @@
                                 <div class="card flex bg-light">
                                     <div class="card-body flex-center">
                                         
-                                        <p class="card-text mr-2 ml-2" style="width:93%">hungry{{ post.content }}</p>  
+                                        <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p>  
                                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>        
                                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                 <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
@@ -19,7 +19,7 @@
                         {% if post.post_type == "boringPost" %}
                                 <div class="card flex bg-light">
                                     <div class="card-body flex-center">
-                                        <p class="card-text mr-2 ml-2" style="width:93%">boring post {{ post.content }}</p>
+                                        <p class="card-text mr-2 ml-2" style="width:93%"> {{ post.content }}</p>
                                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>        
                                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                 <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
@@ -33,7 +33,7 @@
                                 {% if post.content_current != "" %}
                                 <div class="card flex bg-light">
                                     <div class="card-body flex-center">
-                                        <p class="card-text mr-2 ml-2" style="width:93%">currently eating is : {{ post.content_current }}</p>
+                                        <p class="card-text mr-2 ml-2" style="width:93%"> {{ post.content_current }}</p>
                                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>        
                                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                 <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
