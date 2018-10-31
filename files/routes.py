@@ -201,12 +201,12 @@ def homepage():
 
     formCurrent = PostFormCurrentlyEating()
 
-    if formCurrent.validate_on_submit():
-        post3 = postss(content_current=formCurrent.contentCurrent.data, link_current=formCurrent.linkCurrent.data, user_id=current_user.id, post_type="currentlyEating")
-        db.session.add(post3)
-        db.session.commit()
-        flash('Your post has created', 'success')
-        return redirect(url_for('homepage'))
+    # if formCurrent.validate_on_submit():
+    #     post3 = postss(content_current=formCurrent.contentCurrent.data, link_current=formCurrent.linkCurrent.data, user_id=current_user.id, post_type="currentlyEating")
+    #     db.session.add(post3)
+    #     db.session.commit()
+    #     flash('Your post has created', 'success')
+    #     return redirect(url_for('homepage'))
 
     return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
 
@@ -223,7 +223,11 @@ def realhomepage():
 
 @app.route('/advancedsearch', methods=['GET', 'POST'])
 def advancedsearch():
-    return render_template("advancedsearchpage.html")
+    formsearch = RecipeSearchForm()
+    print(formsearch.keyWord.data)
+    if formsearch.validate_on_submit():
+        print(formsearch.keyWord.data)
+    return render_template("advancedsearchpage.html", form5=formsearch)
 
 
 @app.route('/ourmission')
@@ -383,6 +387,20 @@ def delete_post(post_id):
     current_db_sessions.commit()
 
     return redirect(url_for('profile'))
+
+@app.route('/ProfilePage/<int:post_id>/update', methods=['POST'])
+@login_required
+def update_post(post_id):
+    post = postss.query.get(post_id)
+
+    form = PostFormHungryFor()
+    if form.validate_on_submit():
+        hungryFood = "I am hungry for " + form.content.data
+        db.engine.execute("UPDATE postss SET content = %s WHERE ID = %s", (hungryFood, post_id))     
+        db.session.commit()
+        return redirect(url_for('profile'))
+
+    return render_template('editPost.html',form = form)
 
 
 @app.route("/repcipe/new", methods=['GET', 'POST'])
