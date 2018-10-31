@@ -1,0 +1,12 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+<form action="" method = "POST" >
+{% block body %}
+{{ form.hidden_tag() }}
+{{ wtf.form_field(form.content) }}
+
+{{ wtf.form_field(form.submit) }}
+
+
+{% endblock %}
+</form>

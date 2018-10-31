@@ -388,6 +388,20 @@ def delete_post(post_id):
 
     return redirect(url_for('profile'))
 
+@app.route('/ProfilePage/<int:post_id>/update', methods=['POST'])
+@login_required
+def update_post(post_id):
+    post = postss.query.get(post_id)
+
+    form = PostFormHungryFor()
+    if form.validate_on_submit():
+        hungryFood = "I am hungry for " + form.content.data
+        db.engine.execute("UPDATE postss SET content = %s WHERE ID = %s", (hungryFood, post_id))     
+        db.session.commit()
+        return redirect(url_for('profile'))
+
+    return render_template('editPost.html',form = form)
+
 
 @app.route("/repcipe/new", methods=['GET', 'POST'])
 @login_required
