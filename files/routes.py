@@ -176,9 +176,20 @@ def signup():
 def homepage():
 
     formsearch = RecipeSearchForm()
-    print(formsearch.keyWord.data)
+
     if formsearch.validate_on_submit():
         print(formsearch.keyWord.data)
+        keywords = parser_first_round(formsearch.keyWord.data)
+        print(keywords)
+        result = db.engine.execute("SELECT * FROM rec WHERE MATCH (rec_name, rec_description, rec_instruction, ing_1) AGAINST (%s IN BOOLEAN MODE)", keywords)
+        for row in result:
+            print(row)
+
+    if request.method == 'POST':
+        minmax = request.form['minmax']
+        r = requests.get(minmax)
+        print(r.text)
+        print(minmax)
 
     form = PostFormHungryFor()
 
@@ -239,23 +250,23 @@ def ourmission():
 
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
-    form4 = RecipeSearchForm()
+    formsearch = RecipeSearchForm()
 
-    if form4.validate_on_submit():
-        print(form4.keyWord.data)
-        keywords = parser_first_round(form4.keyWord.data)
-        print(keywords)
-        result = db.engine.execute("SELECT * FROM rec WHERE MATCH (rec_name, rec_description, rec_instruction, ing_1) AGAINST (%s IN BOOLEAN MODE)", keywords)
-        for row in result:
-            print(row)
+    # if form4.validate_on_submit():
+    #     print(form4.keyWord.data)
+    #     keywords = parser_first_round(form4.keyWord.data)
+    #     print(keywords)
+    #     result = db.engine.execute("SELECT * FROM rec WHERE MATCH (rec_name, rec_description, rec_instruction, ing_1) AGAINST (%s IN BOOLEAN MODE)", keywords)
+    #     for row in result:
+    #         print(row)
 
-        # result = db.engine.execute("SELECT * FROM rec WHERE (minPrice BETWEEN 10 AND 20) OR (maxPrice BETWEEN 10 AND  20)")
-        # for row in result:
-        #     print(row)
+    #     result = db.engine.execute("SELECT * FROM rec WHERE (minPrice BETWEEN 10 AND 20) OR (maxPrice BETWEEN 10 AND  20)")
+    #     for row in result:
+    #         print(row)
 
-        # result = db.engine.execute("SELECT * FROM rec WHERE calories BETWEEN 40 AND 150")
-        # for row in result:
-        #     print(row)
+    #     result = db.engine.execute("SELECT * FROM rec WHERE calories BETWEEN 40 AND 150")
+    #     for row in result:
+    #         print(row)
 
     form = UpdateProfileForm()
     if form.validate_on_submit():
@@ -280,7 +291,7 @@ def settings():
         form.lastname.data = current_user.lastName
         form.email.data = current_user.email
         form.cooking_exp.data = current_user.cookingExperience
-    return render_template('usersettings.html', form=form, form4=form4)
+    return render_template('usersettings.html', form=form, form5=formsearch)
 
     return render_template('usersettings.html')
 
@@ -342,6 +353,9 @@ def logout():
 @app.route('/ProfilePage', methods=['GET', 'POST'])
 @login_required
 def profile():
+
+    formsearch = RecipeSearchForm()
+
     form = PostFormHungryFor()
 
     if form.validate_on_submit():
@@ -374,7 +388,7 @@ def profile():
 
     recipes = rec.query.filter_by(user_id=current_user.id)
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
-    return render_template('ProfilePage.html', title='Profile', recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+    return render_template('ProfilePage.html', title='Profile', form5=formsearch, recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
 
 
 @app.route('/ProfilePage/<int:post_id>/delete', methods=['POST'])
@@ -392,6 +406,7 @@ def delete_post(post_id):
 @app.route("/repcipe/new", methods=['GET', 'POST'])
 @login_required
 def create_recipe():
+    formsearch = RecipeSearchForm()
     print("before")
     form = RecipeForm()
     print("after")
@@ -404,13 +419,14 @@ def create_recipe():
         db.session.commit()
         flash('Your post has been created!', 'success')
         return redirect(url_for('profile'))
-    return render_template('createrecipe.html', title='New Recipe', form=form)
+    return render_template('createrecipe.html', title='New Recipe', form=form, form5=formsearch)
 
 
 @app.route("/recipe/<int:recipe_id>")
 def showrecipe(recipe_id):
+    formsearch = RecipeSearchForm()
     rec = rec.query.get_or_404(recipe_id)
-    return render_template('recipespage.html', title=rec.rec_name, rec=rec)
+    return render_template('recipespage.html', title=rec.rec_name, rec=rec, form5=formsearch)
 
 
 @app.route("/recipe/<int:recipe_id>/update", methods=['GET', 'POST'])
@@ -448,7 +464,7 @@ def update_recipe(recipe_id):
         flash('Your post has been updated!', 'success')
         return redirect(url_for('showrecipe', recipe_id=rec.id))
 
-    return render_template('createrecipe.html', title='Update Recipe', form=form)
+    return render_template('createrecipe.html', title='Update Recipe', form=form, form5=formsearch)
 
 
 @app.route("/recipe/<int:recipe_id>/delete", methods=['POST'])
@@ -466,8 +482,9 @@ def delete_recipe(recipe_id):
 @app.route("/favorites/all")
 @login_required
 def favorites():
+    formsearch = RecipeSearchForm()
     favorites = favs.query.filter_by(user_id=current_user.id)
-    return render_template('favoritesPage.html', title='Favorites Page', form=form, favorites=favorites)
+    return render_template('favoritesPage.html', title='Favorites Page', form=form, favorites=favorites, form5=formsearch)
 
 
 @app.route("/favorites/<int:recipe_id>/add", methods=['POST', 'GET'])

@@ -102,10 +102,10 @@
             Filter
           </a>
           <div class="dropdown-menu text-center w-30" aria-labelledby="navbarDropdown">
-            <form class="range-field w-30"></form>
+            <form class="range-field w-30" method  = 'POST' action='/'>
 
             <a class="dropdown-item" href="#">Price</a>
-            <input type="text" id="amount" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            <input type="text" name = "minmax" id="amount" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
             <div class="p-2"></div>
             <div class="slider ml-4" id="slider-range"></div>        
             <div class="p-2"></div>
@@ -124,6 +124,7 @@
             <div class="slider ml-4" id="slider-range2"></div>        
             <div class="p-2"></div>
     
+            <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Submit</button>
           </div>
         </li>
       </form>
