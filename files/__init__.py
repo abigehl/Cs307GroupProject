@@ -123,6 +123,10 @@ class users(UserMixin, db.Model):
     def __repr__(self):
         return "users('{self.username}', {self.email}', {self.password}', {self.profilePic}', {self.firstName}', {self.lastName}', {self.displayName}',{self.cookingExperience}',{self.country}')"
 
+class favs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    recipe_id = db.Column(db.Integer, nullable=False)
 
 #from models import users, rec, postss
 # if __name__ == '__main__':

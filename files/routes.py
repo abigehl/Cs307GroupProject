@@ -5,7 +5,7 @@ from files import app, db, bcrypt, mail
 from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
                         UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
                         RecipeSearchForm, RecipeSearchForm)
-from files.__init__ import users, rec, postss
+from files.__init__ import users, rec, postss, favs
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -494,12 +494,12 @@ def delete_recipe(recipe_id):
     return redirect(url_for('main.home'))
 
 
-@app.route("/favorites/all")
+@app.route("/favorites/all", methods=['GET'])
 @login_required
 def favorites():
     formsearch = RecipeSearchForm()
     favorites = favs.query.filter_by(user_id=current_user.id)
-    return render_template('favoritesPage.html', title='Favorites Page', form=form, favorites=favorites, form5=formsearch)
+    return render_template('favoritesPage.html', title='Favorites Page', favorites=favorites)
 
 
 @app.route("/favorites/<int:recipe_id>/add", methods=['POST', 'GET'])
