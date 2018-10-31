@@ -191,7 +191,6 @@ def homepage():
         print(r.text)
         print(minmax)
 
-
     formCurrent = PostFormCurrentlyEating()
 
     if formCurrent.validate_on_submit():
@@ -200,7 +199,6 @@ def homepage():
         db.session.commit()
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
-
 
     form = PostFormHungryFor()
 
@@ -221,7 +219,6 @@ def homepage():
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
 
-    
     return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
 
 # @app.route('/search', methods=['GET', 'POST'])
@@ -296,7 +293,7 @@ def settings():
         form.cooking_exp.data = current_user.cookingExperience
     return render_template('usersettings.html', form=form, form5=formsearch)
 
-    return render_template('usersettings.html')
+    return render_template('usersettings.html', form5=formsearch)
 
 
 @app.route('/googleSignin', methods=['GET', 'POST'])
@@ -405,6 +402,7 @@ def delete_post(post_id):
 
     return redirect(url_for('profile'))
 
+
 @app.route('/ProfilePage/<int:post_id>/update', methods=['POST'])
 @login_required
 def update_post(post_id):
@@ -413,11 +411,11 @@ def update_post(post_id):
     form = PostFormHungryFor()
     if form.validate_on_submit():
         hungryFood = "I am hungry for " + form.content.data
-        db.engine.execute("UPDATE postss SET content = %s WHERE ID = %s", (hungryFood, post_id))     
+        db.engine.execute("UPDATE postss SET content = %s WHERE ID = %s", (hungryFood, post_id))
         db.session.commit()
         return redirect(url_for('profile'))
 
-    return render_template('editPost.html',form = form)
+    return render_template('editPost.html', form=form)
 
 
 @app.route("/repcipe/new", methods=['GET', 'POST'])
