@@ -1,4 +1,4 @@
-#import secrets
+import secrets
 import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from files import app, db, bcrypt, mail
@@ -175,6 +175,11 @@ def signup():
 #@login_required
 def homepage():
 
+    formsearch = RecipeSearchForm()
+    print(formsearch.keyWord.data)
+    if formsearch.validate_on_submit():
+        print(formsearch.keyWord.data)
+
     form = PostFormHungryFor()
 
     if form.validate_on_submit():
@@ -196,34 +201,14 @@ def homepage():
 
     formCurrent = PostFormCurrentlyEating()
 
-    if formCurrent.validate():
+    if formCurrent.validate_on_submit():
         post3 = postss(content_current=formCurrent.contentCurrent.data, link_current=formCurrent.linkCurrent.data, user_id=current_user.id, post_type="currentlyEating")
         db.session.add(post3)
         db.session.commit()
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
 
-    form5 = RecipeSearchForm()
-    print('hello')
-    print(form5.keyWord.data)
-    if form5.validate_on_submit():
-        print('hello')
-        keywords = parser_first_round(form5.keyWord.data)
-        print(keywords)
-        result = db.engine.execute("SELECT * FROM rec WHERE MATCH (rec_name, rec_description, rec_instruction, ing_1) AGAINST (%s IN BOOLEAN MODE)", keywords)
-        for row in result:
-            print(row)
-
-        result = db.engine.execute("SELECT * FROM rec WHERE (minPrice BETWEEN 10 AND 20) OR (maxPrice BETWEEN 10 AND  20)")
-        for row in result:
-            print(row)
-
-        result = db.engine.execute("SELECT * FROM rec WHERE calories BETWEEN 40 AND 150")
-        for row in result:
-            print(row)
-
-    return render_template('homepage.html', title='Home', form=form, form2=formNormalText, form3=formCurrent, form5=form5)
-
+    return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
 
 # @app.route('/search', methods=['GET', 'POST'])
 # def search():

@@ -124,9 +124,8 @@ class PostFormCurrentlyEating(FlaskForm):
     contentCurrent = TextAreaField("")
     submitCurrent = SubmitField('Post')
 
-##################################### FILTER FORMS ###############################################
-
 
 class RecipeSearchForm(FlaskForm):
-    keyWord = TextAreaField('Recipe Name', validators=[DataRequired()])
+    #title = StringField('Title', validators=[DataRequired()])
+    keyWord = StringField('', validators=[DataRequired()])
     submit = SubmitField('Search')
