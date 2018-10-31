@@ -5,7 +5,7 @@ from files import app, db, bcrypt, mail
 from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
                         UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
                         RecipeSearchForm, RecipeSearchForm)
-from files.__init__ import users, rec, postss
+from files.__init__ import users, rec, postss, favs
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -210,7 +210,7 @@ def homepage():
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
 
-    
+
     return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
 
 # @app.route('/search', methods=['GET', 'POST'])
@@ -399,7 +399,7 @@ def update_post(post_id):
     form = PostFormHungryFor()
     if form.validate_on_submit():
         hungryFood = "I am hungry for " + form.content.data
-        db.engine.execute("UPDATE postss SET content = %s WHERE ID = %s", (hungryFood, post_id))     
+        db.engine.execute("UPDATE postss SET content = %s WHERE ID = %s", (hungryFood, post_id))
         db.session.commit()
         return redirect(url_for('profile'))
 
@@ -480,11 +480,11 @@ def delete_recipe(recipe_id):
     return redirect(url_for('main.home'))
 
 
-@app.route("/favorites/all")
+@app.route("/favorites/all", methods=['GET'])
 @login_required
 def favorites():
     favorites = favs.query.filter_by(user_id=current_user.id)
-    return render_template('favoritesPage.html', title='Favorites Page', form=form, favorites=favorites)
+    return render_template('favoritesPage.html', title='Favorites Page', favorites=favorites)
 
 
 @app.route("/favorites/<int:recipe_id>/add", methods=['POST', 'GET'])
