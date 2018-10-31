@@ -128,5 +128,5 @@ class PostFormCurrentlyEating(FlaskForm):
 
 
 class RecipeSearchForm(FlaskForm):
-    keyWord = StringField('Recipe Name', validators=[DataRequired()])
+    keyWord = TextAreaField('Recipe Name', validators=[DataRequired()])
     submit = SubmitField('Search')

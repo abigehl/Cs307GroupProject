@@ -85,13 +85,13 @@
     </ul>
     
     <ul class="navbar-nav form-inline row mr-auto">
-      <form class="form-inline", method = post>
+      <form class="form-inline", method = "POST">
         <div class="col-xs-3">
-          {{ searchform.hidden_tag() }}
-          {{ wtf.form_field(searchform.keyWord) }}
+          {{ form5.hidden_tag() }}
+          {{ wtf.form_field(form5.keyWord) }}
         </div>
         <div class="col-xs-1">
-          {{ wtf.form_field(searchform.submit) }}
+          {{ wtf.form_field(form5.submit) }}
         </div>
         
         <li class="nav-item dropdown">

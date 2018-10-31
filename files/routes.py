@@ -203,12 +203,12 @@ def homepage():
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
 
-    searchform = RecipeSearchForm()
+    form5 = RecipeSearchForm()
     print('hello')
-    print(searchform.keyWord.data)
-    if searchform.validate_on_submit():
+    print(form5.keyWord.data)
+    if form5.validate_on_submit():
         print('hello')
-        keywords = parser_first_round(searchform.keyWord.data)
+        keywords = parser_first_round(form5.keyWord.data)
         print(keywords)
         result = db.engine.execute("SELECT * FROM rec WHERE MATCH (rec_name, rec_description, rec_instruction, ing_1) AGAINST (%s IN BOOLEAN MODE)", keywords)
         for row in result:
@@ -222,8 +222,7 @@ def homepage():
         for row in result:
             print(row)
 
-    print(searchform.errors.items)
-    return render_template('homepage.html', title='Home', form=form, form2=formNormalText, form3=formCurrent, searchform=searchform)
+    return render_template('homepage.html', title='Home', form=form, form2=formNormalText, form3=formCurrent, form5=form5)
 
 
 # @app.route('/search', methods=['GET', 'POST'])
@@ -254,20 +253,20 @@ def settings():
     form4 = RecipeSearchForm()
 
     if form4.validate_on_submit():
-
+        print(form4.keyWord.data)
         keywords = parser_first_round(form4.keyWord.data)
         print(keywords)
         result = db.engine.execute("SELECT * FROM rec WHERE MATCH (rec_name, rec_description, rec_instruction, ing_1) AGAINST (%s IN BOOLEAN MODE)", keywords)
         for row in result:
             print(row)
 
-        result = db.engine.execute("SELECT * FROM rec WHERE (minPrice BETWEEN 10 AND 20) OR (maxPrice BETWEEN 10 AND  20)")
-        for row in result:
-            print(row)
+        # result = db.engine.execute("SELECT * FROM rec WHERE (minPrice BETWEEN 10 AND 20) OR (maxPrice BETWEEN 10 AND  20)")
+        # for row in result:
+        #     print(row)
 
-        result = db.engine.execute("SELECT * FROM rec WHERE calories BETWEEN 40 AND 150")
-        for row in result:
-            print(row)
+        # result = db.engine.execute("SELECT * FROM rec WHERE calories BETWEEN 40 AND 150")
+        # for row in result:
+        #     print(row)
 
     form = UpdateProfileForm()
     if form.validate_on_submit():
@@ -407,7 +406,7 @@ def create_recipe():
     print("before")
     form = RecipeForm()
     print("after")
-    
+
     if form.validate_on_submit():
         print("RECIPE NAME: " + form.rec_name.data)
         recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ing_1=form.ing_1.data, ing_2=form.ing_2.data, ing_3=form.ing_3.data, ing_4=form.ing_4.data, ing_5=form.ing_5.data, ing_6=form.ing_6.data, ing_7=form.ing_7.data, ing_8=form.ing_8.data, ing_9=form.ing_9.data, ing_10=form.ing_10.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data)
