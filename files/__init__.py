@@ -12,7 +12,7 @@ from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-#from posts.route import posts
+
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
@@ -35,7 +35,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = '/'
 
-# app.register_blueprint(posts)
+
 app.secret_key = "helpmerecipe"
 
 from files import routes
