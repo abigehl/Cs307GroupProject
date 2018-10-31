@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, IntegerField
+from wtforms.fields.html5 import DecimalRangeField
 from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired, ValidationError, Optional
 from files.__init__ import users, rec, postss
 
@@ -129,3 +130,7 @@ class RecipeSearchForm(FlaskForm):
     #title = StringField('Title', validators=[DataRequired()])
     keyWord = StringField('', validators=[DataRequired()])
     submit = SubmitField('Search')
+
+
+class PriceRangeForm(FlaskForm):
+    rangef = DecimalRangeField('Price Range', default=0)
