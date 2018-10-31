@@ -201,12 +201,12 @@ def homepage():
 
     formCurrent = PostFormCurrentlyEating()
 
-    if formCurrent.validate_on_submit():
-        post3 = postss(content_current=formCurrent.contentCurrent.data, link_current=formCurrent.linkCurrent.data, user_id=current_user.id, post_type="currentlyEating")
-        db.session.add(post3)
-        db.session.commit()
-        flash('Your post has created', 'success')
-        return redirect(url_for('homepage'))
+    # if formCurrent.validate_on_submit():
+    #     post3 = postss(content_current=formCurrent.contentCurrent.data, link_current=formCurrent.linkCurrent.data, user_id=current_user.id, post_type="currentlyEating")
+    #     db.session.add(post3)
+    #     db.session.commit()
+    #     flash('Your post has created', 'success')
+    #     return redirect(url_for('homepage'))
 
     return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
 
@@ -223,7 +223,11 @@ def realhomepage():
 
 @app.route('/advancedsearch', methods=['GET', 'POST'])
 def advancedsearch():
-    return render_template("advancedsearchpage.html")
+    formsearch = RecipeSearchForm()
+    print(formsearch.keyWord.data)
+    if formsearch.validate_on_submit():
+        print(formsearch.keyWord.data)
+    return render_template("advancedsearchpage.html", form5=formsearch)
 
 
 @app.route('/ourmission')
