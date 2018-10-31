@@ -1,7 +1,6 @@
-
+{% extends 'layout.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
-<!DOCTYPE html>
-<html lang="en">
+{% block body %}
 <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,84 +23,39 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
 </head>
 
+p {
+    padding: 100px;
+}
+
 <div style="background-image: url(../static/Images/bg.png); height:250vh">
-        <!--Navbar-->
-        <nav style="background-image: url(../static/Images/navbar.jpg)">
-        <nav class="navbar navbar-expand-lg navbar-dark transparent">
-
-          <!-- Collapse button -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-              aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- Collapsible content -->
-            <div class="collapse navbar-collapse" id="basicExampleNav">
-              <!-- Links -->
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <h3 class="text-white">Help Me Recipe</h3>
-                </li>
-
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('homepage') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('homepage') }}">About us</a>
-                  </li>
-              </ul>
-              <!-- Links -->
-            </div>
-            <!-- Collapsible content -->
-            <form class="form-inline">
-                <div class="md-form my-0">
-                  <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                </div>
-                <ul class="navbar-nav mr-auto">
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('profile') }}"> My profile</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                  </li>
-                </ul>
-
-              </form>
-          </nav>
-          </nav>
-          <!--/.Navbar-->
-        <body >
-
+    <body>
           <!-- Start your project here-->
-          
-                <div class="row">
-                  <div class="col-12 col-sm-6 col-lg-8" style="width: 50vh; height: 50vh">
-                        <div class="media">
-                                <img class="d-flex mr-3 p-4" src="{{ image_file }}" alt="Generic placeholder image" style="width: 200px">
-                                <button type="button" class="btn btn-outline-dark-green" value="Follow">Follow</button>
-                                <div class="media-body p-4">
-                                        <h3 class="font-weight-bold text-light" style="margin-top: 50px">
-                                        {{ current_user.username }}: {{ current_user.cookingExperience }}</h3>
-                                        <h3 class="font-weight-bold text-light" style="margin-top: 10px">
-                                        {{ current_user.firstName }} {{ current_user.lastName }}</h3>
-                                        <h3 class="font-weight-bold text-light" style="margin-top: 10px">
-                                        {{ current_user.email}}</h3>
-
-                                </div>
-                            </div>
-                    </div>
-                  <div class="col-6 col-lg-4" style="width: 50vh; height:35vh">
-                        <h5 class="font-weight-bold text-light" style="margin-top: 25px">
-                          <div class="row">
-                            <a class="nav-link text-light mr-3" href="{{ url_for('settings') }}">Settings</a>
-                            <a class="nav-link text-light" href="{{ url_for('create_recipe') }}">Create Recipe</a>
-                            {% include 'includes/postPop.html' %}
-                          </div>
-                          
-                        </h5>
+          <div class="row">
+              <div class="col-12 col-sm-6 col-lg-8" style="width: 50vh; height: 50vh">
+                  <div class="media">
+                      <img class="d-flex mr-3 p-4" src="{{ image_file }}" alt="Generic placeholder image" style="width: 200px">
+                      <button type="button" class="btn btn-outline-dark-green" value="Follow">Follow</button>
+                      <div class="media-body p-4">
+                            <h3 class="font-weight-bold text-light" style="margin-top: 50px">
+                            {{ current_user.username }}: {{ current_user.cookingExperience }}</h3>
+                            <h3 class="font-weight-bold text-light" style="margin-top: 10px">
+                            {{ current_user.firstName }} {{ current_user.lastName }}</h3>
+                            <h3 class="font-weight-bold text-light" style="margin-top: 10px">
+                            {{ current_user.email}}</h3>
+                      </div>
                   </div>
-                  
-                </div>
-                <div class="row" style="padding:20" >
+              </div>
+              <div class="col-6 col-lg-4" style="width: 50vh; height:35vh">
+                  <h5 class="font-weight-bold text-light" style="margin-top: 25px">
+                      <div class="row">
+                        <a class="nav-link text-light mr-3" href="{{ url_for('settings') }}">Settings</a>
+                        <a class="nav-link text-light" href="{{ url_for('create_recipe') }}">Create Recipe</a>
+                        {% include 'includes/postPop.html' %}
+                      </div>        
+                  </h5>
+              </div>      
+            </div>
+            <div class="row" style="padding:20">
                   <div class="col-2 " style="height:50vh; padding:0; padding-left: 30px; margin:0;">
                     <div style="height: 100vh;" >
                       <div  >
@@ -147,17 +101,10 @@
                   <div class="col-2"  style="padding:10; margin:0;">
                       {% include 'includes/favoritesBlock.html' %}
                   </div>
-                </div>
+            </div>
              
 
           <!-- /Start your project here-->
-
-
-
-
-
-
-
           <!-- SCRIPTS -->
           <!-- JQuery -->
           <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
@@ -167,7 +114,6 @@
           <script type="text/javascript" src="js/bootstrap.min.js"></script>
           <!-- MDB core JavaScript -->
           <script type="text/javascript" src="js/mdb.min.js"></script>
-        </body>
-        </div>
-
-        </html>
+      </body>
+</div>
+{% endblock %}

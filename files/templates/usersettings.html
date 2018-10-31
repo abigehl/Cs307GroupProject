@@ -1,7 +1,6 @@
-{% extends "bootstrap/base.html" %}
+{% extends 'layout.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
-<!DOCTYPE html>
-<html lang="en">
+{% block body %}
 {% block styles %}
 <head>
     <!-- Font Awesome -->
@@ -21,49 +20,7 @@
 </head>
 {% endblock %}
 {% block content %}
-<nav style="background-image: url(../static/Images/navbar.jpg)">
-    <nav class="navbar navbar-expand-lg navbar-dark transparent">
 
-        <!-- Collapse button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-            aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- Collapsible content -->
-        <div class="collapse navbar-collapse" id="basicExampleNav">
-            <!-- Links -->
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <h3 class="text-white">Help Me Recipe</h3>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('homepage') }}">Home</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="{{ url_for('homepage') }}">About us</a>
-                    </li>
-
-            </ul>
-            <!-- Links -->
-        </div>
-
-        <!-- Collapsible content -->
-        <form class="form-inline">
-            <div class="md-form my-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            </div>
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="main.html">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="main.html">Register</a>
-                </li>
-            </ul>
-
-        </form>
-    </nav>
-</nav>
 
 <body>
     <div class="card" style="height: 100vh" id="top">
@@ -109,6 +66,5 @@
     </div>
     <!-- /Start your project here-->
 </body>
-
-</html>
+{% endblock %}
 {% endblock %}
