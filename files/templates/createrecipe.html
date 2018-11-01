@@ -1,3 +1,4 @@
+{% extends 'layout.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block body %}
 
@@ -20,52 +21,7 @@
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
 </head>
-<nav style="background-image: url(../static/Images/navbar.jpg)">
-    <nav class="navbar navbar-expand-lg navbar-dark transparent">
 
-        <!-- Collapse button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-            aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- Collapsible content -->
-        <div class="collapse navbar-collapse" id="basicExampleNav">
-            <!-- Links -->
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <h3 class="text-white">Help Me Recipe</h3>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('homepage') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('homepage') }}">About us</a>
-                </li>
-
-            </ul>
-
-
-
-            <!-- Links -->
-        </div>
-
-        <!-- Collapsible content -->
-        <form class="form-inline">
-            <div class="md-form my-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            </div>
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('profile') }}"> My profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                </li>
-            </ul>
-
-        </form>
-    </nav>
-</nav>
 <div style="background-image: url(../static/Images/bg.png">
     <main class=" pt-4">
         <!--<form action="{{ url_for('create_recipe') }}" method="POST">-->
