@@ -21,10 +21,14 @@
         values: [ 0, 100 ],
         slide: function( event, ui ) {
           $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+          $( "#price_min" ).val( $( "#slider-range" ).slider( "values", 0 ) );
+          $( "#price_max" ).val( $( "#slider-range" ).slider( "values", 1 ) );
         }
       });
       $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
         " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+      $( "#price_min" ).val( $( "#slider-range" ).slider( "values", 0 ) );
+      $( "#price_max" ).val( $( "#slider-range" ).slider( "values", 1 ) );
     } );
 
     $( function() {
@@ -35,10 +39,14 @@
         values: [ 0, 100 ],
         slide: function( event, ui ) {
           $( "#amount1" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+          $( "#cal_min" ).val( $( "#slider-range1" ).slider( "values", 0 ) );
+          $( "#cal_max" ).val( $( "#slider-range1" ).slider( "values", 1 ) );
         }
       });
       $( "#amount1" ).val( $( "#slider-range1" ).slider( "values", 0 ) +
         " - " + $( "#slider-range1" ).slider( "values", 1 ) );
+      $( "#cal_min" ).val( $( "#slider-range1" ).slider( "values", 0 ) );
+      $( "#cal_max" ).val( $( "#slider-range1" ).slider( "values", 1 ) );
     } );
 
     $( function() {
@@ -49,10 +57,14 @@
         values: [ 0, 100 ],
         slide: function( event, ui ) {
           $( "#amount2" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+          $( "#diff_min" ).val( $( "#slider-range2" ).slider( "values", 0 ) );
+          $( "#diff_max" ).val( $( "#slider-range2" ).slider( "values", 1 ) );
         }
       });
       $( "#amount2" ).val( $( "#slider-range2" ).slider( "values", 0 ) +
         " - " + $( "#slider-range2" ).slider( "values", 1 ) );
+      $( "#diff_min" ).val( $( "#slider-range2" ).slider( "values", 0 ) );
+      $( "#diff_max" ).val( $( "#slider-range2" ).slider( "values", 1 ) );
     } );
   </script>
 </head>
@@ -107,21 +119,27 @@
             <a class="dropdown-item" href="#">Price</a>
             <input type="text" name = "minmax" id="amount" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
             <div class="p-2"></div>
-            <div class="slider ml-4" id="slider-range"></div>        
+            <div class="slider ml-4" id="slider-range"></div> 
+            <input type="text" id="price_min">
+            <input type="text" id="price_max">       
             <div class="p-2"></div>
             <div class="dropdown-divider"></div>
 
             <a class="dropdown-item" href="#">Calories</a>
             <input type="text" id="amount1" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
             <div class="p-2"></div>
-            <div class="slider ml-4" id="slider-range1"></div>        
+            <div class="slider ml-4" id="slider-range1"></div> 
+            <input type="text" id="cal_min">
+            <input type="text" id="cal_max">        
             <div class="p-2"></div>
             <div class="dropdown-divider"></div>
 
             <a class="dropdown-item" href="#">Difficulty</a>
             <input type="text" id="amount2" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
             <div class="p-2"></div>
-            <div class="slider ml-4" id="slider-range2"></div>        
+            <div class="slider ml-4" id="slider-range2"></div>  
+            <input type="text" id="diff_min">
+            <input type="text" id="diff_max">       
             <div class="p-2"></div>
     
             <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Submit</button>
