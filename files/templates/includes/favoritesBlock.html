@@ -4,23 +4,22 @@
         
                 <div class="card background-color:transparent; bg-dark">
                     <a class="animated fadeIn mb-4 flex-center text-light mt-2 " href="{{ url_for('favorites') }}" >Your Favorites</q>
+                
+                        {% for rec in favRecipes %}
+                            <div class="card-body flex-center">
+                                <div class="card-body bg-dark">
+                                    <p class="card-text mr-2 ml-2">{{rec.fav_rec_name}}</p>
+                                    <p class="card-text mr-2 ml-2">{{rec.fav_rec_description}}</p>
+                                    <a href="#" class="card-link text-light">Take me there</a>
+                                </div>
+
+                            
+                        
+                            </div>
                     
-                        {% include 'includes/formatForFavorites.html' %}
-                    <div class="card-body ">
-                        <p class="card-text mr-2 ml-2">Recipe name</p>
-                        <p class="card-text mr-2 ml-2">Recipe disc ...</p>
-                        <a href="#" class="card-link text-light">Take me there</a>
-                    </div>
-                    <div class="card-body ">
-                        <p class="card-text mr-2 ml-2">Recipe name</p>
-                        <p class="card-text mr-2 ml-2">Recipe disc ...</p>
-                        <a href="#" class="card-link text-light">Take me there</a>
-                    </div>
-                    <div class="card-body ">
-                        <p class="card-text mr-2 ml-2">Recipe name</p>
-                        <p class="card-text mr-2 ml-2">Recipe disc ...</p>
-                        <a href="#" class="card-link text-light">Take me there</a>
-                    </div>
+                        <br>
+                        {% endfor %}
+                   
                 </div>
               
 </form>
