@@ -126,7 +126,27 @@ class users(UserMixin, db.Model):
 class favs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
-    recipe_id = db.Column(db.Integer, nullable=False)
+    fav_rec_name = db.Column( db.String(100), nullable=False)
+    fav_prep_time = db.Column(db.String(50), default="")
+    fav_cook_time = db.Column(db.String(50), default="")
+    fav_rec_description = db.Column( db.Text, nullable=False)
+    fav_rec_instruction = db.Column(db.Text, nullable=False)
+    fav_ing1 = db.Column(db.String(50), nullable=False)
+    fav_ing2 = db.Column(db.String(50), default="")
+    fav_ing3 = db.Column(db.String(50), default="")
+    fav_ing4 = db.Column(db.String(50), default="")
+    fav_ing5 = db.Column(db.String(50), default="")
+    fav_ing6 = db.Column(db.String(50), default="")
+    fav_ing7 = db.Column(db.String(50), default="")
+    fav_ing8 = db.Column(db.String(50), default="")
+    fav_ing9 = db.Column(db.String(50), default="")
+    fav_ing10 = db.Column(db.String(50), default="")
+    fav_minPrice = db.Column(db.Integer)
+    fav_maxPrice = db.Column(db.Integer)
+    fav_calories = db.Column(db.Integer)
+    fav_fat = db.Column(db.String(10), default="")
+    fav_cholestrol = db.Column(db.String(10), default="")
+    fav_sodium = db.Column(db.String(10), default="")
 
 #from models import users, rec, postss
 # if __name__ == '__main__':

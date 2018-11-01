@@ -472,51 +472,50 @@ def showrecipe(recipe_id):
 @app.route("/recipe/<int:recipe_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_recipe(recipe_id):
-    rec = rec.query.get_or_404(recipe_id)
-    if rec.user_id != user.id:
-        abort(403)
+    recipee = rec.query.get(recipe_id)
+    formsearch = RecipeSearchForm()
+
+
     form = RecipeForm()
     if form.validate_on_submit():
-        #re.rec_url = form.rec_url.data
-        re.rec_name = form.rec_name.data
-        re.author = current_user
-        re.prep_time = form.prep_time.data
-        re.cook_time = form.cook_time.data
-        re.rec_description = form.rec_description.data
-        re.rec_instruction = form.rec_instruction.data
-        re.ing_1 = form.ing_1.data
-        re.ing_2 = form.ing_2.data
-        re.ing_3 = form.ing_3.data
-        re.ing_4 = form.ing_4.data
-        re.ing_5 = form.ing_5.data
-        re.ing_6 = form.ing_6.data
-        re.ing_7 = form.ing_7.data
-        re.ing_8 = form.ing_8.data
-        re.ing_9 = form.ing_9.data
-        re.ing_10 = form.ing_10.data
-        re.calories = form.calories.data
-        re.fat = form.fat.data
-        re.cholesterol = form.cholesterol.data
-        re.sodium = form.sodium.data
-        re.minPrice = form.minPrice.data
-        re.maxPrice = form.maxPrice.data
+        reRec_name = form.rec_name.data
+        rePrep_time = form.prep_time.data
+        reCook_time = form.cook_time.data
+        reRec_description = form.rec_description.data
+        reRec_instruction = form.rec_instruction.data
+        reIng_1 = form.ing_1.data
+        reIng_2 = form.ing_2.data
+        reIng_3 = form.ing_3.data
+        reIng_4 = form.ing_4.data
+        reIng_5 = form.ing_5.data
+        reIng_6 = form.ing_6.data
+        reIng_7 = form.ing_7.data
+        reIng_8 = form.ing_8.data
+        reIng_9 = form.ing_9.data
+        reIng_10 = form.ing_10.data
+        reCalories = form.calories.data
+        reFat = form.fat.data
+        reCholesterol = form.cholesterol.data
+        reSodium = form.sodium.data
+        reMinPrice = form.minPrice.data
+        reMaxPrice = form.maxPrice.data
+        db.engine.execute("UPDATE rec SET rec_name = %s, prep_time = %s, cook_time = %s, rec_description = %s, rec_instruction = %s, ing_1 = %s, ing_2 = %s,ing_3 = %s,ing_4 = %s,ing_5 = %s,ing_6 = %s,ing_7 = %s, ing_8 = %s,ing_9 = %s,ing_10 = %s, minPrice = %s, maxPrice = %s,calories = %s,fat = %s, cholesterol = %s, sodium = %s WHERE ID = %s", (reRec_name, rePrep_time, reCook_time, reRec_description,reRec_instruction, reIng_1, reIng_2, reIng_3, reIng_4, reIng_5, reIng_6, reIng_7, reIng_8, reIng_9, reIng_10,reMinPrice,reMaxPrice, reCalories, reFat, reCholesterol, reSodium, recipe_id))  
         db.session.commit()
-        flash('Your post has been updated!', 'success')
-        return redirect(url_for('showrecipe', recipe_id=rec.id))
+        return redirect(url_for('profile'))
 
-    return render_template('createrecipe.html', title='Update Recipe', form=form, form5=formsearch)
+    return render_template('editRecipe.html',form = form)
 
 
 @app.route("/recipe/<int:recipe_id>/delete", methods=['POST'])
 @login_required
 def delete_recipe(recipe_id):
-    rec = rec.query.get_or_404(recipe_id)
-    if rec.user_id != current_user.id:
-        abort(403)
-    db.session.delete(rec)
-    db.session.commit()
-    flash('Your post has been deleted!', 'success')
-    return redirect(url_for('main.home'))
+    recipee = rec.query.filter_by(id=recipe_id).first()
+
+    current_db_sessions = db.session.object_session(recipee)
+    current_db_sessions.delete(recipee)
+    current_db_sessions.commit()
+
+    return redirect(url_for('profile'))
 
 
 @app.route("/favorites/all", methods=['GET'])
@@ -530,12 +529,35 @@ def favorites():
 @app.route("/favorites/<int:recipe_id>/add", methods=['POST', 'GET'])
 @login_required
 def add_fav(recipe_id):
-    if request.methods == 'POST':
-        favorite = favs(user_id=current_user.id, recipe_id=recipe_id)
-        db.session.add(favs)
-        db.session.commit()
-        flash('Your favorite has been Added!', 'success')
-    return redirect(url_for('add_fav', recipe_id=recipe_id))
+    recipee = rec.query.filter_by(id=recipe_id).first()
+
+    reRec_name = recipee.rec_name
+    rePrep_time = recipee.prep_time
+    reCook_time = recipee.cook_time
+    reRec_description = recipee.rec_description
+    reRec_instruction = recipee.rec_instruction
+    reIng_1 = recipee.ing_1
+    reIng_2 = recipee.ing_2
+    reIng_3 = recipee.ing_3
+    reIng_4 = recipee.ing_4
+    reIng_5 = recipee.ing_5
+    reIng_6 = recipee.ing_6
+    reIng_7 = recipee.ing_7
+    reIng_8 = recipee.ing_8
+    reIng_9 = recipee.ing_9
+    reIng_10 = recipee.ing_10
+    reCalories = recipee.calories
+    reFat = recipee.fat
+    reCholesterol = recipee.cholesterol
+    reSodium = recipee.sodium
+    reMinPrice = recipee.minPrice
+    reMaxPrice = recipee.maxPrice
+
+    favorite = favs(user_id=current_user.id, fav_rec_name=reRec_name, fav_prep_time = rePrep_time, fav_cook_time=reCook_time, fav_rec_description=reRec_description, fav_rec_instruction=reRec_instruction,fav_ing1 = reIng_1,fav_ing2 = reIng_2,fav_ing3 = reIng_3,fav_ing4 = reIng_4,fav_ing5 = reIng_5,fav_ing6 = reIng_6,fav_ing7 = reIng_7,fav_ing8 = reIng_8,fav_ing9 = reIng_9,fav_ing10 = reIng_10,fav_minPrice = reMinPrice, fav_maxPrice = reMaxPrice, fav_calories=reCalories, fav_fat = reFat, fav_cholestrol = reCholesterol,fav_sodium=reSodium)
+    db.session.add(favorite)
+    db.session.commit()
+
+    return redirect(url_for('profile'))
 
 
 @app.route("/favorites/<int:recipe_id>/delete", methods=['POST', 'GET'])

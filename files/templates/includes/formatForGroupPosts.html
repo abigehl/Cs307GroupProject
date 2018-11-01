@@ -7,8 +7,11 @@
                                 <div class="card flex bg-light">
                                     <div class="card-body flex-center">
                                         
-                                        <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p>  
-                                        <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>        
+                                        <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p> 
+                                         
+                                        <form action="{{ url_for('update_post', post_id=post.id) }}" method="post">
+                                            <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
+                                        </form>                                  
                                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                 <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                         </form>

@@ -13,6 +13,16 @@
                                                 <!--<a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>-->
                                                 <button type="submit" class="btn btn-elegant">Take me there</button>
                                         </form>
+                            <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
+                                <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
+                            </form>
+
+                            <form action="{{ url_for('update_recipe', recipe_id=rec.id) }}" method="post">
+                              <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
+                            </form>
+                            <form action="{{ url_for('delete_recipe', recipe_id=rec.id) }}" method="post">
+                              <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
+                            </form>
                           </div>
 
                        
