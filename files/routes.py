@@ -462,11 +462,11 @@ def create_recipe():
     return render_template('createrecipe.html', title='New Recipe', form=form, form5=formsearch)
 
 
-@app.route("/recipe/<int:recipe_id>")
+@app.route("/recipe/<int:recipe_id>", methods=['POST'])
 def showrecipe(recipe_id):
     formsearch = RecipeSearchForm()
-    rec = rec.query.get_or_404(recipe_id)
-    return render_template('recipespage.html', title=rec.rec_name, rec=rec, form5=formsearch)
+    recc = rec.query.get_or_404(recipe_id)
+    return render_template('recipespage.html', title=recc.rec_name, rec=recc, form5=formsearch)
 
 
 @app.route("/recipe/<int:recipe_id>/update", methods=['GET', 'POST'])
