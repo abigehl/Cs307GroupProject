@@ -96,7 +96,7 @@
     </ul>
     
     <ul class="navbar-nav form-inline row mr-auto">
-      <form class="form-inline", method = "POST">
+      <form action = "{{url_for('search')}}"class="form-inline", method = "POST">
         <div class="col-xs-3">
 
           {{ form5.hidden_tag() }}
@@ -113,7 +113,7 @@
             Filter
           </a>
           <div class="dropdown-menu text-center w-30" aria-labelledby="navbarDropdown">
-            <form class="range-field w-30" method  = 'POST' action='/'>
+            <form action = "search" class="range-field w-30" method  = 'POST' action='/'>
 
             <a class="dropdown-item" href="#">Price</a>
             <input type="text" name = "minmax" id="amount" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
@@ -125,7 +125,7 @@
             <div class="dropdown-divider"></div>
 
             <a class="dropdown-item" href="#">Calories</a>
-            <input type="text" id="amount1" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            <input type="text" name = "calories" id="amount1" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
             <div class="p-2"></div>
             <div class="slider ml-4" id="slider-range1"></div> 
             <input type="text" id="cal_min">
@@ -134,14 +134,14 @@
             <div class="dropdown-divider"></div>
 
             <a class="dropdown-item" href="#">Difficulty</a>
-            <input type="text" id="amount2" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            <input type="text" name = "calories" id="amount2" class="text-center" readonly style="border:0; color:#f6931f; font-weight:bold;">
             <div class="p-2"></div>
             <div class="slider ml-4" id="slider-range2"></div>  
             <input type="text" id="diff_min">
             <input type="text" id="diff_max">       
             <div class="p-2"></div>
     
-            <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Submit</button>
+            
           </div>
         </li>
       </form>

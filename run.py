@@ -14,4 +14,4 @@ if __name__ == '__main__':
     # db.session.add(rec)
     # db.session.commit()
     app.run(debug=True)
-    # manager.run()
+    #manager.run()

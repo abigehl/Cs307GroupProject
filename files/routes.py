@@ -174,31 +174,11 @@ def signup():
 @app.route('/', methods=['GET', 'POST'])
 #@login_required
 def homepage():
-
     formsearch = RecipeSearchForm()
 
-    if formsearch.validate_on_submit():
-        print(formsearch.keyWord.data)
-        keywords = parser_first_round(formsearch.keyWord.data)
-        print(keywords)
-        result = db.engine.execute("SELECT * FROM rec WHERE MATCH (rec_name, rec_description, rec_instruction, ing_1) AGAINST (%s IN BOOLEAN MODE)", keywords)
-        for row in result:
-            print(row)
-
-    if request.method == 'POST':
-        minmax = request.form['minmax']
-        r = requests.get(minmax)
-        print(r.text)
-        print(minmax)
-
-    formCurrent = PostFormCurrentlyEating()
-
-    if formCurrent.validate_on_submit():
-        post3 = postss(content_current=formCurrent.contentCurrent.data, link_current=formCurrent.linkCurrent.data, user_id=current_user.id, post_type="currentlyEating")
-        db.session.add(post3)
-        db.session.commit()
-        flash('Your post has created', 'success')
-        return redirect(url_for('homepage'))
+    # result = db.engine.execute("SELECT * FROM rec WHERE calories BETWEEN 40 AND 150")
+    # for row in result:
+    #     print(row)
 
     form = PostFormHungryFor()
 
@@ -219,12 +199,57 @@ def homepage():
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
 
+    formCurrent = PostFormCurrentlyEating()
+
+    if formCurrent.validate_on_submit():
+        post3 = postss(content_current=formCurrent.contentCurrent.data, link_current=formCurrent.linkCurrent.data, user_id=current_user.id, post_type="currentlyEating")
+        db.session.add(post3)
+        db.session.commit()
+        flash('Your post has created', 'success')
+        return redirect(url_for('homepage'))
+
     return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
 
-# @app.route('/search', methods=['GET', 'POST'])
-# def search():
 
-#     return render_template('homepage.html', form4=form4)
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+
+    form = PostFormHungryFor()
+    formNormalText = PostForm()
+    formCurrent = PostFormCurrentlyEating()
+
+    formsearch = RecipeSearchForm()
+    print('hello')
+    if formsearch.validate_on_submit():
+
+        print(formsearch.keyWord.data)
+        keywords = parser_first_round(formsearch.keyWord.data)
+        print(keywords)
+        result = db.engine.execute("SELECT * FROM rec WHERE MATCH (rec_name, rec_description, rec_instruction, ing_1) AGAINST (%s IN BOOLEAN MODE)", keywords)
+        for row in result:
+            print(row)
+
+    if request.method == 'POST':
+
+        minmax = request.form['minmax']
+        minmax = minmax.replace('-', '')
+        minmax = minmax.replace('$', '').split()
+
+        print(minmax[1])
+        print(minmax[0])
+
+        reciperesult = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s)", minmax[1], minmax[0])
+        #reciperesult = rec.query(rec.minPrice <= minmax[1], rec.maxPrice >= minmax[0])
+        print(reciperesult)
+        minmax = request.form['calories']
+        minmax = minmax.replace('-', '')
+        minmax = minmax.replace('$', '').split()
+
+        for row in result:
+            print(row)
+        return render_template('editPost.html', reciperesult=reciperesult)
+
+    return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
 
 
 @app.route('/realhomepage')
