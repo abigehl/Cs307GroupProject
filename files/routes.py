@@ -412,8 +412,10 @@ def profile():
     allposts = postss.query.all()
 
     recipes = rec.query.filter_by(user_id=current_user.id)
+    favRecipes = favs.query.filter_by(user_id=current_user.id)
+
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
-    return render_template('ProfilePage.html', title='Profile', form5=formsearch, recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+    return render_template('ProfilePage.html', title='Profile', form5=formsearch, recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
 
 
 @app.route('/ProfilePage/<int:post_id>/delete', methods=['POST'])
@@ -556,6 +558,11 @@ def add_fav(recipe_id):
     favorite = favs(user_id=current_user.id, fav_rec_name=reRec_name, fav_prep_time = rePrep_time, fav_cook_time=reCook_time, fav_rec_description=reRec_description, fav_rec_instruction=reRec_instruction,fav_ing1 = reIng_1,fav_ing2 = reIng_2,fav_ing3 = reIng_3,fav_ing4 = reIng_4,fav_ing5 = reIng_5,fav_ing6 = reIng_6,fav_ing7 = reIng_7,fav_ing8 = reIng_8,fav_ing9 = reIng_9,fav_ing10 = reIng_10,fav_minPrice = reMinPrice, fav_maxPrice = reMaxPrice, fav_calories=reCalories, fav_fat = reFat, fav_cholestrol = reCholesterol,fav_sodium=reSodium)
     db.session.add(favorite)
     db.session.commit()
+
+    # form = PostFormHungryFor()
+    # formNormalText = PostForm()
+    # formCurrent = PostFormCurrentlyEating()
+    # formsearch = RecipeSearchForm()
 
     return redirect(url_for('profile'))
 
