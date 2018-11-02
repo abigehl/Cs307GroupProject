@@ -389,9 +389,25 @@ def profile():
     favRecipes = favs.query.filter_by(user_id=current_user.id)
 
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
-    
-    return render_template('ProfilePage.html', title='Profile', form5=formsearch, recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+    count2 = 0
 
+    for x in recipes:
+        count2 = count2 + 1
+
+    count = 0
+
+    for x in favRecipes:
+        count = count + 1
+
+
+    if count == 0 and count2 != 0:
+        return render_template('ProfilePage.html', title='Profile', form5=formsearch, recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+    elif count == 0 and count2 == 0:
+        return render_template('ProfilePage.html', title='Profile', form5=formsearch, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+    elif count != 0 and count2 == 0:
+        return render_template('ProfilePage.html', title='Profile', form5=formsearch, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+    else:
+        return render_template('ProfilePage.html', title='Profile', form5=formsearch, recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
 
 @app.route('/ProfilePage/<int:post_id>/delete', methods=['POST'])
 @login_required

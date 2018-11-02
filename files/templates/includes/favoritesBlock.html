@@ -1,24 +1,30 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block body %}
 <form>
-    
         
+
                 <div class="card background-color:transparent; bg-dark">
                     <a class="animated fadeIn mb-4 center text-light mt-2 " href="{{ url_for('favorites') }}" style="padding-left: 10" >Your Favorites</a>
-                
+                    
                         {% for rec in favRecipes %}
                             <div class="card-body">
                                 <div class="card-body bg-dark">
+                                        {% set class_gated = "true" %}
                                     <p class="card-text mr-2 ml-2">{{rec.fav_rec_name}}</p>
                                     <p class="card-text mr-2 ml-2">{{rec.fav_rec_description}}</p>
-                                    <a href="#" class="card-link text-light">Take me there</a>
+                                   
                                 </div>
                             </div>
                         <br>
+                                
+                        jwsad;lafjkdskla
                         {% endfor %}
-                    
-                        {% if favRecipes %}
-                        {% else %}
+                
+
+
+                       
+                        {% if favRecipes == null %}
+                        
                         <div class="card-body flex-center">
                                 <div class="card-body bg-dark">
                                     <p class="card-text mr-2 ml-2">Go Favorite Recipes!!</p>
@@ -33,6 +39,6 @@
                         {% endif %}
                         <br>
                 </div>
-              
+             
 </form>
 {% endblock %}

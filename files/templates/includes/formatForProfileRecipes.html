@@ -1,5 +1,6 @@
 {% block body %}         
   {% block content %}
+ 
     {% for rec in recipes %}
               
                     <div class="card-body flex-center" style="height:500px; padding-top: 0">
@@ -33,6 +34,16 @@
                 <br>
 
     {% endfor %}
+    {% if recipes==null  %}
+    <div class="card flex bg-light" style="height:80">
+      <div class="card-body flex-center">
+          
+          <p class="card-text mr-2 ml-2" style="width:93%">Make some recipes!</p> 
+           
+         
+      </div>
+  </div>
+    {% endif %}
   {% endblock content %}
 {% endblock %}
 
