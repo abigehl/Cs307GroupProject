@@ -123,13 +123,14 @@ class users(UserMixin, db.Model):
     def __repr__(self):
         return "users('{self.username}', {self.email}', {self.password}', {self.profilePic}', {self.firstName}', {self.lastName}', {self.displayName}',{self.cookingExperience}',{self.country}')"
 
+
 class favs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
-    fav_rec_name = db.Column( db.String(100), nullable=False)
+    fav_rec_name = db.Column(db.String(100), nullable=False)
     fav_prep_time = db.Column(db.String(50), default="")
     fav_cook_time = db.Column(db.String(50), default="")
-    fav_rec_description = db.Column( db.Text, nullable=False)
+    fav_rec_description = db.Column(db.Text, nullable=False)
     fav_rec_instruction = db.Column(db.Text, nullable=False)
     fav_ing1 = db.Column(db.String(50), nullable=False)
     fav_ing2 = db.Column(db.String(50), default="")
