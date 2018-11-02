@@ -43,6 +43,11 @@
                 <div class="row">
                   <div class="col-sm ">
                   </div>
+                  {% if current_user.is_authenticated %}
+          
+              {% include 'includes/postPop.html' %}
+              
+          {% endif %}
                     {% if current_user.is_authenticated %}
                   <div class="col-sm"  style="padding-top: 40px; width: 70px">
                       {% include 'includes/favoritesBlock.html' %}
@@ -87,11 +92,7 @@
               
           {% endfor %}
 
-          {% if current_user.is_authenticated %}
           
-              {% include 'includes/postPop.html' %}
-              
-          {% endif %}
 
 
     {% if reciperesult %}
