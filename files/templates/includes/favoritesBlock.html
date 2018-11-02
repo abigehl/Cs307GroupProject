@@ -1,9 +1,10 @@
+{% import "bootstrap/wtf.html" as wtf %}
 {% block body %}
 <form>
     
         
                 <div class="card background-color:transparent; bg-dark">
-                    <a class="animated fadeIn mb-4 flex-center text-light mt-2 " href="{{ url_for('favorites') }}" >Your Favorites</q>
+                    <a class="animated fadeIn mb-4 flex-center text-light mt-2 " href="{{ url_for('favorites') }}" >Your Favorites</a>
                 
                         {% for rec in favRecipes %}
                             <div class="card-body flex-center">
@@ -19,6 +20,22 @@
                     
                         <br>
                         {% endfor %}
+                    
+                        {% if favRecipes %}
+                        {% else %}
+                        <div class="card-body flex-center">
+                                <div class="card-body bg-dark">
+                                    <p class="card-text mr-2 ml-2">Go Favorite Recipes!!</p>
+                                   
+                                </div>
+
+                            
+                        
+                            </div>
+                    
+                        <br>
+                    <br>    
+                        {% endif %}
                    
                 </div>
               
