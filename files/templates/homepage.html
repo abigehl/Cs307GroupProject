@@ -64,5 +64,29 @@
               
           {% endif %}
 
+
+    {% if reciperesult %}
+
+        <p class="left card-text mr-2 ml-2">{{current_user.id}}</p>
+          
+          {% for rec in reciperesult %}  
+
+                <div class="card flex flex-end flex-center bg-dark">
+                    <div style="height: 100vh w-20" class="card-body flex-center">
+                        <img class="rounded-circle d-flex mr-3 p-4" src="../static/Images/emptyProf.png" alt="Generic Image" height="100" width="115">
+                        <p class="left card-text mr-2 ml-2">{{current_user.id}}</p>
+                        <p class="card-text mr-2 ml-2">{{rec.rec_name}}</p>
+                    </div>
+                    <div class="card-body flex-center">
+                        <p class="card-text mr-2 ml-2">{{rec.rec_description}}</p>
+                        <a href="#" class="card-link text-light">Take me there</a>
+                        </div>
+                </div>
+
+          {% endfor %}
+
+    {% endif %}
+          
+
           
  {% endblock %}
