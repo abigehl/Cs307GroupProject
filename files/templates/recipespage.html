@@ -13,7 +13,7 @@
             <div class="col-md-6 mb-4">
 
                 <img class="d-flex mr-3 p-4" src="/static/Images/{{rec.recipePic}}" alt="Generic placeholder image" style="width: 350px">
-                <button type="button" class="btn btn-outline-dark-green" value="Follow">Follow</button>
+                
 
             </div>
             <!--Grid column-->
@@ -34,11 +34,8 @@
 
                     <p class="text-light">{{rec.rec_description}}</p>
 
-                    <form class="d-flex justify-content-left">
-                        <!-- Default input -->
-                        <button class="btn btn-dark-green btn-md my-0 p" type="submit">Favorite
-                        </button>
-
+                    <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
+                            <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
                     </form>
 
                 </div>
