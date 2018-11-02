@@ -33,11 +33,11 @@ class RegisterForm(FlaskForm):
 
 
 class RecipeForm(FlaskForm):
-    rec_description = TextAreaField('Description', validators=[DataRequired()])
+    rec_description = TextAreaField('Description')
     rec_name = StringField('Recipe Name', validators=[DataRequired()])
     prep_time = StringField('Preperation Time', validators=[DataRequired()])
     cook_time = StringField('Cook Time', validators=[DataRequired()])
-    rec_instruction = TextAreaField('Instruction', validators=[DataRequired()])
+    rec_instruction = TextAreaField('Instruction')
     ing_1 = StringField('Ingredient 1', validators=[DataRequired()])
     ing_2 = StringField('Ingredient 2')
     ing_3 = StringField('Ingredient 3')

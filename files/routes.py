@@ -458,6 +458,7 @@ def update_recipe(recipe_id):
     formsearch = RecipeSearchForm()
 
     form = RecipeForm()
+  
     if form.validate_on_submit():
         if form.recipePic.data:
             recipe_file = save_picture(form.recipePic.data)
@@ -466,8 +467,14 @@ def update_recipe(recipe_id):
         reRec_name = form.rec_name.data
         rePrep_time = form.prep_time.data
         reCook_time = form.cook_time.data
-        reRec_description = form.rec_description.data
-        reRec_instruction = form.rec_instruction.data
+        if len(form.rec_description.data)==0:
+                reRec_description= recipee.rec_description
+        else:
+            reRec_description = form.rec_description.data
+        if len(form.rec_instruction.data)==0:
+            reRec_instruction= recipee.rec_instruction
+        else:
+            reRec_instruction = form.rec_instruction.data
         reIng_1 = form.ing_1.data
         reIng_2 = form.ing_2.data
         reIng_3 = form.ing_3.data
@@ -489,7 +496,7 @@ def update_recipe(recipe_id):
         db.session.commit()
         return redirect(url_for('profile'))
 
-    return render_template('editRecipe.html',form = form, form5 = formsearch)
+    return render_template('editRecipe.html',form = form, form5 = formsearch, rec=recipee)
 
 
 @app.route("/recipe/<int:recipe_id>/delete", methods=['POST'])
