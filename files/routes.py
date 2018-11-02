@@ -394,6 +394,7 @@ def profile():
     favRecipes = favs.query.filter_by(user_id=current_user.id)
 
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
+    
     return render_template('ProfilePage.html', title='Profile', form5=formsearch, recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
 
 
