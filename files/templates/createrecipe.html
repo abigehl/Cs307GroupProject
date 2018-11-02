@@ -25,7 +25,7 @@
 <div style="background-image: url(../static/Images/bg.png">
     <main class=" pt-4">
         <!--<form action="{{ url_for('create_recipe') }}" method="POST">-->
-        <form name="form" method="POST">
+        <form action="" method = "POST" enctype="multipart/form-data" > 
 
             <h5 class="text-center text-light">Create a Recipe</h5>
             <div class="container text-light mt-5">
@@ -37,10 +37,6 @@
                     <div class="col-md-6 mb-4">
 
                        <!-- <img src="../static/Images/lasagna.jpg" class="img-fluid" alt="">-->
-                       <label for="inputurl" class="col-sm-4 col-form-label">Recipe Thumbnail</label>
-                       <div class="col-sm-8">
-                           <input type="text" class="form-control" id="inputurl" placeholder="Input Image Url", name = 'rec_url'>
-                       </div>
 
                     </div>
                     <!--Grid column-->
@@ -65,6 +61,7 @@
                      -->
                             <!--<input class="form-control" type="text" placeholder="Enter Recipe Name" name='food'>-->
                             {{ form.hidden_tag() }}
+                            {{ wtf.form_field(form.recipePic)}}
                             {{ wtf.form_field(form.rec_name, class_="form-control", placeholder="Enter Recipe Name") }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Prep Time" name='prep-time'>-->

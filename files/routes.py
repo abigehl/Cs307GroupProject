@@ -177,6 +177,7 @@ def homepage():
 
     formsearch = RecipeSearchForm()
 
+    favRecipes = favs.query.filter_by(user_id=current_user.id)
     form = PostFormHungryFor()
 
     if form.validate_on_submit():
@@ -205,7 +206,7 @@ def homepage():
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
 
-    return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
+    return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -219,7 +220,7 @@ def search():
     # reciperesult = db.engine.execute("SELECT * from rec ")
 
     # return render_template('editPost.html', reciperesult=reciperesult)
-    
+
     if request.method == 'POST':
 
         minmax = request.form['minmax']
@@ -410,6 +411,7 @@ def delete_post(post_id):
     return redirect(url_for('profile'))
 
 
+
 @app.route('/ProfilePage/<int:post_id>/update', methods=['POST'])
 @login_required
 def update_post(post_id):
@@ -434,8 +436,12 @@ def create_recipe():
     print("after")
 
     if form.validate_on_submit():
-        print("RECIPE NAME: " + form.rec_name.data)
-        recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ing_1=form.ing_1.data, ing_2=form.ing_2.data, ing_3=form.ing_3.data, ing_4=form.ing_4.data, ing_5=form.ing_5.data, ing_6=form.ing_6.data, ing_7=form.ing_7.data, ing_8=form.ing_8.data, ing_9=form.ing_9.data, ing_10=form.ing_10.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data)
+        if form.recipePic.data:
+            recipe_file = save_picture(form.recipePic.data)
+            recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ing_1=form.ing_1.data, ing_2=form.ing_2.data, ing_3=form.ing_3.data, ing_4=form.ing_4.data, ing_5=form.ing_5.data, ing_6=form.ing_6.data, ing_7=form.ing_7.data, ing_8=form.ing_8.data, ing_9=form.ing_9.data, ing_10=form.ing_10.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data, recipePic=recipe_file)
+        else:
+            print("RECIPE NAME: " + form.rec_name.data)
+            recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ing_1=form.ing_1.data, ing_2=form.ing_2.data, ing_3=form.ing_3.data, ing_4=form.ing_4.data, ing_5=form.ing_5.data, ing_6=form.ing_6.data, ing_7=form.ing_7.data, ing_8=form.ing_8.data, ing_9=form.ing_9.data, ing_10=form.ing_10.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data)
         print("add")
         db.session.add(recipe)
         db.session.commit()
@@ -510,6 +516,7 @@ def delete_recipe(recipe_id):
 def favorites():
     formsearch = RecipeSearchForm()
     favorites = favs.query.filter_by(user_id=current_user.id)
+    
     return render_template('favoritesPage.html', title='Favorites Page', favorites=favorites)
 
 
@@ -552,14 +559,13 @@ def add_fav(recipe_id):
     return redirect(url_for('profile'))
 
 
-@app.route("/favorites/<int:recipe_id>/delete", methods=['POST', 'GET'])
+@app.route("/favorites/<int:fav_id>/delete", methods=['POST', 'GET'])
 @login_required
-def delete_fav(recipe_id):
-    if request.methods == 'POST':
-        favorite = favs.query.get_or_404(recipe_id)
-        if favorite.user_id != current_user.id:
-            abort(403)
-            db.session.delete(favorite)
-            db.session.commit()
-            flash('Your post has been deleted!', 'success')
-    return redirect(url_for('delete_fav', recipe_id=recipe_id))
+def delete_fav(fav_id):
+    post = favs.query.filter_by(id=fav_id).first()
+    print (fav_id)
+    current_db_sessions = db.session.object_session(post)
+    current_db_sessions.delete(post)
+    current_db_sessions.commit()
+  
+    return redirect(url_for('favorites'))

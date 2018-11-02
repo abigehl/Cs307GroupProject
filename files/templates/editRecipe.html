@@ -60,8 +60,7 @@
                      -->
                             <!--<input class="form-control" type="text" placeholder="Enter Recipe Name" name='food'>-->
                             {{ form.hidden_tag() }}
-                            <label for="inputurl" class="col-sm-4 col-form-label">Recipe Thumbnail</label>
-                                    {{ wtf.form_field(form.recipePic)}}
+                            {{ wtf.form_field(form.recipePic)}}
                             <br>
                             {{ wtf.form_field(form.rec_name, class_="form-control", placeholder="Enter Recipe Name") }}
                             <br>
