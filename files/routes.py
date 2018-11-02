@@ -456,7 +456,6 @@ def update_recipe(recipe_id):
     recipee = rec.query.get(recipe_id)
     formsearch = RecipeSearchForm()
 
-
     form = RecipeForm()
     if form.validate_on_submit():
         if form.recipePic.data:
@@ -489,7 +488,7 @@ def update_recipe(recipe_id):
         db.session.commit()
         return redirect(url_for('profile'))
 
-    return render_template('editRecipe.html',form = form)
+    return render_template('editRecipe.html',form = form, form5 = formsearch)
 
 
 @app.route("/recipe/<int:recipe_id>/delete", methods=['POST'])
