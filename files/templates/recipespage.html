@@ -1,7 +1,8 @@
 {% extends 'layout.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
+
 {% block body %}
 <!--Main layout-->
+  {% block content %}
 <main class=" pt-4">
     <div class="container dark-grey-text mt-5">
 
@@ -11,8 +12,7 @@
             <!--Grid column-->
             <div class="col-md-6 mb-4">
 
-                <img src="Images/lasagna.jpg" class="img-fluid" alt="">
-                <img class="d-flex mr-3 p-4" src="{{ image_file }}" alt="Generic placeholder image" style="width: 200px; height: 200px ;">
+                <img class="d-flex mr-3 p-4" src="/static/Images/{{rec.recipePic}}" alt="Generic placeholder image" style="width: 350px">
                 <button type="button" class="btn btn-outline-dark-green" value="Follow">Follow</button>
 
             </div>
@@ -92,4 +92,5 @@
 
     </div>
 </main>
+  {% endblock content %}
 {% endblock %}

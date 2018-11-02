@@ -217,10 +217,6 @@ def search():
     formNormalText = PostForm()
     formCurrent = PostFormCurrentlyEating()
 
-    # reciperesult = db.engine.execute("SELECT * from rec ")
-
-    # return render_template('editPost.html', reciperesult=reciperesult)
-
     if request.method == 'POST':
 
         minmax = request.form['minmax']
@@ -231,22 +227,18 @@ def search():
         calories = calories.replace('-', '')
         calories = calories.replace('$', '').split()
 
-    # reciperesult = db.engine.execute("SELECT * from rec ")
-
-    # return render_template('editPost.html', reciperesult=reciperesult)
-
     if formsearch.validate_on_submit():
         if is_filled(formsearch.keyWord.data):
             keywords = parser_first_round(formsearch.keyWord.data)
             print(keywords)
             print("HELLO IM IN THE IF")
-            reciperesult = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE)", minmax[1], minmax[0], calories[0], calories[1], keywords)
-
-            return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, reciperesult = reciperesult)
+            recipes = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE)", minmax[1], minmax[0], calories[0], calories[1], keywords)
+            return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
+            
         else:
             print("HELLO IM IN THE ELSE")
-            reciperesult = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s )", minmax[1], minmax[0], calories[0], calories[1])
-            return render_template('editPost.html', reciperesult=reciperesult)
+            recipes = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s )", minmax[1], minmax[0], calories[0], calories[1])
+            return render_template('editPost.html', recipes = recipes)
 
 
 
