@@ -459,6 +459,10 @@ def update_recipe(recipe_id):
 
     form = RecipeForm()
     if form.validate_on_submit():
+        if form.recipePic.data:
+            recipe_file = save_picture(form.recipePic.data)
+            print(recipe_file)
+            db.engine.execute("UPDATE rec SET recipePic = %s WHERE id = %s", (recipe_file, recipe_id))
         reRec_name = form.rec_name.data
         rePrep_time = form.prep_time.data
         reCook_time = form.cook_time.data
@@ -480,7 +484,8 @@ def update_recipe(recipe_id):
         reSodium = form.sodium.data
         reMinPrice = form.minPrice.data
         reMaxPrice = form.maxPrice.data
-        db.engine.execute("UPDATE rec SET rec_name = %s, prep_time = %s, cook_time = %s, rec_description = %s, rec_instruction = %s, ing_1 = %s, ing_2 = %s,ing_3 = %s,ing_4 = %s,ing_5 = %s,ing_6 = %s,ing_7 = %s, ing_8 = %s,ing_9 = %s,ing_10 = %s, minPrice = %s, maxPrice = %s,calories = %s,fat = %s, cholesterol = %s, sodium = %s WHERE ID = %s", (reRec_name, rePrep_time, reCook_time, reRec_description,reRec_instruction, reIng_1, reIng_2, reIng_3, reIng_4, reIng_5, reIng_6, reIng_7, reIng_8, reIng_9, reIng_10,reMinPrice,reMaxPrice, reCalories, reFat, reCholesterol, reSodium, recipe_id))  
+        print("add recipe")
+        db.engine.execute("UPDATE rec SET rec_name = %s, prep_time = %s, cook_time = %s, rec_description = %s, rec_instruction = %s, ing_1 = %s, ing_2 = %s,ing_3 = %s,ing_4 = %s,ing_5 = %s,ing_6 = %s,ing_7 = %s, ing_8 = %s,ing_9 = %s,ing_10 = %s, minPrice = %s, maxPrice = %s,calories = %s,fat = %s, cholesterol = %s, sodium = %s WHERE ID = %s", (reRec_name, rePrep_time, reCook_time, reRec_description,reRec_instruction, reIng_1, reIng_2, reIng_3, reIng_4, reIng_5, reIng_6, reIng_7, reIng_8, reIng_9, reIng_10,reMinPrice,reMaxPrice, reCalories, reFat, reCholesterol, reSodium, recipe_id))
         db.session.commit()
         return redirect(url_for('profile'))
 
