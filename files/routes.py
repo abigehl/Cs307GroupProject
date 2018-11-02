@@ -177,6 +177,7 @@ def homepage():
 
     formsearch = RecipeSearchForm()
 
+    favRecipes = favs.query.filter_by(user_id=current_user.id)
     form = PostFormHungryFor()
 
     if form.validate_on_submit():
@@ -205,7 +206,7 @@ def homepage():
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
 
-    return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
+    return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -409,6 +410,7 @@ def delete_post(post_id):
     return redirect(url_for('profile'))
 
 
+
 @app.route('/ProfilePage/<int:post_id>/update', methods=['POST'])
 @login_required
 def update_post(post_id):
@@ -513,6 +515,7 @@ def delete_recipe(recipe_id):
 def favorites():
     formsearch = RecipeSearchForm()
     favorites = favs.query.filter_by(user_id=current_user.id)
+    
     return render_template('favoritesPage.html', title='Favorites Page', favorites=favorites)
 
 
@@ -555,14 +558,13 @@ def add_fav(recipe_id):
     return redirect(url_for('profile'))
 
 
-@app.route("/favorites/<int:recipe_id>/delete", methods=['POST', 'GET'])
+@app.route("/favorites/<int:fav_id>/delete", methods=['POST', 'GET'])
 @login_required
-def delete_fav(recipe_id):
-    if request.methods == 'POST':
-        favorite = favs.query.get_or_404(recipe_id)
-        if favorite.user_id != current_user.id:
-            abort(403)
-            db.session.delete(favorite)
-            db.session.commit()
-            flash('Your post has been deleted!', 'success')
-    return redirect(url_for('delete_fav', recipe_id=recipe_id))
+def delete_fav(fav_id):
+    post = favs.query.filter_by(id=fav_id).first()
+    print (fav_id)
+    current_db_sessions = db.session.object_session(post)
+    current_db_sessions.delete(post)
+    current_db_sessions.commit()
+  
+    return redirect(url_for('favorites'))
