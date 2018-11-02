@@ -36,10 +36,6 @@
                     <div class="col-md-6 mb-4">
 
                        <!-- <img src="../static/Images/lasagna.jpg" class="img-fluid" alt="">-->
-                       <label for="inputurl" class="col-sm-4 col-form-label">Recipe Thumbnail</label>
-                       <div class="col-sm-8">
-                           <input type="text" class="form-control" id="inputurl" placeholder="Input Image Url", name = 'rec_url'>
-                       </div>
 
                     </div>
                     <!--Grid column-->
@@ -64,6 +60,9 @@
                      -->
                             <!--<input class="form-control" type="text" placeholder="Enter Recipe Name" name='food'>-->
                             {{ form.hidden_tag() }}
+                            <label for="inputurl" class="col-sm-4 col-form-label">Recipe Thumbnail</label>
+                                    {{ wtf.form_field(form.recipePic)}}
+                            <br>
                             {{ wtf.form_field(form.rec_name, class_="form-control", placeholder="Enter Recipe Name") }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Prep Time" name='prep-time'>-->

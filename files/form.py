@@ -54,6 +54,7 @@ class RecipeForm(FlaskForm):
     sodium = StringField('Sodium')
     minPrice = IntegerField('Min Price')
     maxPrice = IntegerField('Max Price')
+    recipePic = FileField('Update Recipe Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Post')
 
     def validate_price(self, minPrice, maxPrice):
@@ -128,7 +129,7 @@ class PostFormCurrentlyEating(FlaskForm):
 
 class RecipeSearchForm(FlaskForm):
     #title = StringField('Title', validators=[DataRequired()])
-    keyWord = StringField('', validators=[DataRequired()])
+    keyWord = StringField('')
     submit = SubmitField('Search')
 
 

@@ -174,11 +174,9 @@ def signup():
 @app.route('/', methods=['GET', 'POST'])
 #@login_required
 def homepage():
+
     formsearch = RecipeSearchForm()
 
-    # result = db.engine.execute("SELECT * FROM rec WHERE calories BETWEEN 40 AND 150")
-    # for row in result:
-    #     print(row)
     favRecipes = favs.query.filter_by(user_id=current_user.id)
     form = PostFormHungryFor()
 
@@ -214,47 +212,45 @@ def homepage():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
 
+    formsearch = RecipeSearchForm()
     form = PostFormHungryFor()
     formNormalText = PostForm()
     formCurrent = PostFormCurrentlyEating()
 
-    formsearch = RecipeSearchForm()
-    print('hello')
-    if formsearch.validate_on_submit():
+    # reciperesult = db.engine.execute("SELECT * from rec ")
 
-        print(formsearch.keyWord.data)
-        keywords = parser_first_round(formsearch.keyWord.data)
-        print(keywords)
-        result = db.engine.execute("SELECT * FROM rec WHERE MATCH (rec_name, rec_description, rec_instruction, ing_1) AGAINST (%s IN BOOLEAN MODE)", keywords)
-        for row in result:
-            print(row)
-
+    # return render_template('editPost.html', reciperesult=reciperesult)
+    
     if request.method == 'POST':
 
         minmax = request.form['minmax']
         minmax = minmax.replace('-', '')
         minmax = minmax.replace('$', '').split()
 
-        print(minmax[1])
-        print(minmax[0])
+        calories = request.form['calories']
+        calories = calories.replace('-', '')
+        calories = calories.replace('$', '').split()
 
-        reciperesult = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s)", minmax[1], minmax[0])
-        #reciperesult = rec.query(rec.minPrice <= minmax[1], rec.maxPrice >= minmax[0])
-        print(reciperesult)
-        minmax = request.form['calories']
-        minmax = minmax.replace('-', '')
-        minmax = minmax.replace('$', '').split()
+    # reciperesult = db.engine.execute("SELECT * from rec ")
 
-        for row in result:
-            print(row)
-        return render_template('editPost.html', reciperesult=reciperesult)
+    # return render_template('editPost.html', reciperesult=reciperesult)
+
+    if formsearch.validate_on_submit():
+        if is_filled(formsearch.keyWord.data):
+            keywords = parser_first_round(formsearch.keyWord.data)
+            print(keywords)
+            print("HELLO IM IN THE IF")
+            reciperesult = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE)", minmax[1], minmax[0], calories[0], calories[1], keywords)
+
+            return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, reciperesult = reciperesult)
+        else:
+            print("HELLO IM IN THE ELSE")
+            reciperesult = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s )", minmax[1], minmax[0], calories[0], calories[1])
+            return render_template('editPost.html', reciperesult=reciperesult)
+
+
 
     return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
-
-
-@app.route('/realhomepage')
-def realhomepage():
-    return render_template("homepageloggedin.html")
 
 
 @app.route('/advancedsearch', methods=['GET', 'POST'])
@@ -276,22 +272,6 @@ def ourmission():
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
     formsearch = RecipeSearchForm()
-
-    # if form4.validate_on_submit():
-    #     print(form4.keyWord.data)
-    #     keywords = parser_first_round(form4.keyWord.data)
-    #     print(keywords)
-    #     result = db.engine.execute("SELECT * FROM rec WHERE MATCH (rec_name, rec_description, rec_instruction, ing_1) AGAINST (%s IN BOOLEAN MODE)", keywords)
-    #     for row in result:
-    #         print(row)
-
-    #     result = db.engine.execute("SELECT * FROM rec WHERE (minPrice BETWEEN 10 AND 20) OR (maxPrice BETWEEN 10 AND  20)")
-    #     for row in result:
-    #         print(row)
-
-    #     result = db.engine.execute("SELECT * FROM rec WHERE calories BETWEEN 40 AND 150")
-    #     for row in result:
-    #         print(row)
 
     form = UpdateProfileForm()
     if form.validate_on_submit():
@@ -481,6 +461,10 @@ def update_recipe(recipe_id):
 
     form = RecipeForm()
     if form.validate_on_submit():
+        if form.recipePic.data:
+            recipe_file = save_picture(form.recipePic.data)
+            print(recipe_file)
+            db.engine.execute("UPDATE rec SET recipePic = %s WHERE id = %s", (recipe_file, recipe_id))
         reRec_name = form.rec_name.data
         rePrep_time = form.prep_time.data
         reCook_time = form.cook_time.data
@@ -502,7 +486,8 @@ def update_recipe(recipe_id):
         reSodium = form.sodium.data
         reMinPrice = form.minPrice.data
         reMaxPrice = form.maxPrice.data
-        db.engine.execute("UPDATE rec SET rec_name = %s, prep_time = %s, cook_time = %s, rec_description = %s, rec_instruction = %s, ing_1 = %s, ing_2 = %s,ing_3 = %s,ing_4 = %s,ing_5 = %s,ing_6 = %s,ing_7 = %s, ing_8 = %s,ing_9 = %s,ing_10 = %s, minPrice = %s, maxPrice = %s,calories = %s,fat = %s, cholesterol = %s, sodium = %s WHERE ID = %s", (reRec_name, rePrep_time, reCook_time, reRec_description,reRec_instruction, reIng_1, reIng_2, reIng_3, reIng_4, reIng_5, reIng_6, reIng_7, reIng_8, reIng_9, reIng_10,reMinPrice,reMaxPrice, reCalories, reFat, reCholesterol, reSodium, recipe_id))  
+        print("add recipe")
+        db.engine.execute("UPDATE rec SET rec_name = %s, prep_time = %s, cook_time = %s, rec_description = %s, rec_instruction = %s, ing_1 = %s, ing_2 = %s,ing_3 = %s,ing_4 = %s,ing_5 = %s,ing_6 = %s,ing_7 = %s, ing_8 = %s,ing_9 = %s,ing_10 = %s, minPrice = %s, maxPrice = %s,calories = %s,fat = %s, cholesterol = %s, sodium = %s WHERE ID = %s", (reRec_name, rePrep_time, reCook_time, reRec_description,reRec_instruction, reIng_1, reIng_2, reIng_3, reIng_4, reIng_5, reIng_6, reIng_7, reIng_8, reIng_9, reIng_10,reMinPrice,reMaxPrice, reCalories, reFat, reCholesterol, reSodium, recipe_id))
         db.session.commit()
         return redirect(url_for('profile'))
 
