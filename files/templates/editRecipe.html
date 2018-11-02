@@ -25,7 +25,7 @@
 <div style="background-image: url(../static/Images/bg.png)">
     <main class=" pt-4">
         <!--<form action="{{ url_for('create_recipe') }}" method="POST">-->
-        <form name="form" method="POST">
+        <form action="" method = "POST" enctype="multipart/form-data" > 
 
             <h5 class="text-center text-light">Edit Recipe</h5>
             <div class="container text-light mt-5">
@@ -65,6 +65,9 @@
                      -->
                             <!--<input class="form-control" type="text" placeholder="Enter Recipe Name" name='food'>-->
                             {{ form.hidden_tag() }}
+
+                            {{ wtf.form_field(form.recipePic)}}
+                            <br>
                             {{ wtf.form_field(form.rec_name, class_="form-control", placeholder="Enter Recipe Name") }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Prep Time" name='prep-time'>-->
