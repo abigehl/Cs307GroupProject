@@ -31,7 +31,7 @@
       }
 </style>
 {% include 'includes/navbar.html' %}
-<div style="background-image: url(../static/Images/bg.png); height:250vh; padding-top: 50px">
+
     <body>
           <!-- Start your project here-->
           <div class="row">
@@ -64,28 +64,29 @@
                     <div style="height: 100vh;" >
                       <div  >
                         <div class="card flex bg-dark nopadding" style="padding:0; margin:0; width:100%">
-                          <h4 class="animated fadeIn mb-4 flex-center text-light mt-2" >Friends</h4>
-                          <div class="card-body flex-center" style="padding:0; margin:0">
+                          <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0; padding-left: 10" >Friends</h4>
+                          <br>
+                          <div class="card-body" >
                             <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left">
                             <!--description needs to show a certain length of description-->
                             <p class="card-text mr-2 ml-2">Ben Malone</p>
                           </div>
-                          <div class="card-body flex-center">
+                          <div class="card-body">
                             <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left">
                             <!--description needs to show a certain length of description-->
                             <p class="card-text mr-2 ml-2">Sriharsha Vallurpalli</p>
                           </div>
-                          <div class="card-body flex-center">
+                          <div class="card-body">
                             <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left">
                             <!--description needs to show a certain length of description-->
                             <p class="card-text mr-2 ml-2">Andre Chang</p>
                           </div>
-                          <div class="card-body flex-center">
+                          <div class="card-body">
                             <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left">
                             <!--description needs to show a certain length of description-->
                             <p class="card-text mr-2 ml-2">Guillermo del Aguila</p>
                           </div>
-                          <div class="card-body flex-center">
+                          <div class="card-body">
                             <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left">
                             <!--description needs to show a certain length of description-->
                             <p class="card-text mr-2 ml-2">Annie Xu</p>
@@ -94,15 +95,15 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-7" style="padding:10; margin:0; height:50vh">
-                    <div class="" style="padding:30; margin:0" >
+                  <div class="col-7" style="padding:0; margin:0; height:50vh">
+                    <div class="" style="padding:0; margin:0" >
                       
                           {% include 'includes/formatForProfileRecipes.html' %}
                           {% include 'includes/formatForGroupPosts.html' %}
                       
                     </div>
                   </div>
-                  <div class="col-2"  style="padding:10; margin:0;">
+                  <div class="col-2"  style="padding:0; margin:0;">
                       {% include 'includes/favoritesBlock.html' %}
                   </div>
             </div>
