@@ -177,7 +177,7 @@ def homepage():
 
     formsearch = RecipeSearchForm()
 
-    favRecipes = favs.query.filter_by(user_id=current_user.id)
+    #favRecipes = favs.query.filter_by(user_id=current_user.id)
     form = PostFormHungryFor()
 
     if form.validate_on_submit():
@@ -206,10 +206,11 @@ def homepage():
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
 
-    return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+    return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
 
 
 @app.route('/search', methods=['GET', 'POST'])
+@login_required
 def search():
 
     formsearch = RecipeSearchForm()
@@ -262,6 +263,7 @@ def ourmission():
 
 
 @app.route('/settings', methods=['GET', 'POST'])
+@login_required
 def settings():
     formsearch = RecipeSearchForm()
 
