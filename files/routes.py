@@ -90,6 +90,23 @@ def parser_first_round(key_words):
     keywords = ' '.join(keywords)
     return keywords
 
+def parser_search_sufix(key_words):
+    remove_list = ['with', 'the']
+    keywords = key_words
+    keywords = re.sub(r'\b\w{1,2}\b', '', keywords)
+    keywords = keywords.split()
+    keywords = ' '.join([i for i in keywords if i not in remove_list])
+    output = []
+    for i in keywords.split():
+        element = i[len(i)-3:len(i)]
+        output.append(element)
+    keywords = ' '.join(word for word in output)
+    keywords = re.sub(r'\b\w{1,1}\b', '', keywords)
+    keywords = keywords.split()
+    keywords = ["%" + x + "%" for x in keywords]
+    keywords = ' '.join(keywords)
+    return keywords
+
 
 def flash_errors(form):
     for field, errors in form.errors.items():
@@ -231,15 +248,13 @@ def search():
     if formsearch.validate_on_submit():
         if is_filled(formsearch.keyWord.data):
             keywords = parser_first_round(formsearch.keyWord.data)
-            print(keywords)
-            print("HELLO IM IN THE IF")
-            recipes = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE)", minmax[1], minmax[0], calories[0], calories[1], keywords)
+            keywords_sufix = parser_search_sufix(formsearch.keyWord.data)
+            recipes = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND ((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))",minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
             return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
             
         else:
-            print("HELLO IM IN THE ELSE")
             recipes = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s )", minmax[1], minmax[0], calories[0], calories[1])
-            return render_template('editPost.html', recipes = recipes)
+            return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
 
 
 
@@ -441,9 +456,8 @@ def update_post(post_id):
 @login_required
 def create_recipe():
     formsearch = RecipeSearchForm()
-    print("before")
+    
     form = RecipeForm()
-    print("after")
 
     if form.validate_on_submit():
         if form.recipePic.data:
