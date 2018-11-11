@@ -1,14 +1,12 @@
 {% import "bootstrap/wtf.html" as wtf %}
-{% block body %}
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-        <title>Help Me Recipe</title>
-    
-        <!-- Font Awesome -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Help Me Recipe</title>
+
+    <!-- Font Awesome -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Bootstrap core CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
@@ -23,58 +21,17 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
 </head>
-<style>
-  body{
-         background-image: url(../static/Images/bgg.png);
-         background-size: 100%;
-         margin:0
-       }
- </style>
 
-        <!--Navbar-->
-        <nav style="background-image: url(../static/Images/navbar.jpg)">
-        <nav class="navbar navbar-expand-lg navbar-dark transparent">
-        
-          <!-- Collapse button -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-              aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- Collapsible content -->
-            <div class="collapse navbar-collapse" id="basicExampleNav">
-              <!-- Links -->
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item"> 
-                    <h3 class="text-white">Help Me Recipe</h3>
-                </li>
-                <li class="nav-item active">
-                  <a class="nav-link">Home
-                    <span class="sr-only">(current)</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('ourmission') }}">Our Mission</a>
-                  </li>
-              </ul>
-              <!-- Links -->
-            </div>
-            <!-- Collapsible content -->
-            <form class="form-inline">
-                <div class="md-form my-0">
-                  <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                </div>
-                <ul class="navbar-nav mr-auto"> 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('profile') }}"> My profile</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                    </li>
-                </ul>
-        
-              </form>
-          </nav>
-          </nav>
+<style>
+body{
+    background-image: url(/static/Images/bgg.png);
+    background-size: 100%;
+    margin:0;
+  }
+</style>
+
+{% block body %}
+{% include 'includes/navbar.html' %}
           <!--/.Navbar-->
         <body>
         
