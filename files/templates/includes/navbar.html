@@ -9,7 +9,7 @@
 
 <head>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
+ 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
@@ -69,10 +69,10 @@
   </script>
 </head>
 
-<div class="container" style="height:40px">
+<div class="container" style="height:40px; width: 100%">
 <!--Navbar-->
-<link href="../static/styles/navbar.css" rel="stylesheet">
-<nav class="navbar navbar-expand-lg navbar-dark transparent fixed-top" style="background-image: url(../static/Images/navbar.jpg); height:45">
+
+<nav class="navbar navbar-expand-lg navbar-dark transparent fixed-top" style="background-image: url(/static/Images/bg.png); height:45">
 
     
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
@@ -101,15 +101,15 @@
 
           {{ form5.hidden_tag() }}
 
-          {{form5.keyWord(class = "form-control", placeholder = "Search", style="height: 30px; padding:10px") }}
+          {{form5.keyWord(class = "form-control", placeholder = "Search", style="height: 40px; padding:10px") }}
         </div>
         <div class="col-xs-3">
-          {{ form5.submit(class="btn btn-outline-success btn-md", style="height:20; padding:0") }}
+          {{ form5.submit(class="btn btn-elegant btn-md", style="height:20; padding:0") }}
         </div>
 
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Filter
           </a>
           <div class="dropdown-menu text-center w-30" aria-labelledby="navbarDropdown">
@@ -141,7 +141,7 @@
           </div>
         </li>
       </form>
-      <a class="nav-link" href="{{ url_for('advancedsearch') }}">Advanced Search Options</a>
+      <a class="nav-link text-light" href="{{ url_for('advancedsearch') }}">Advanced Search Options</a>
     </ul>
 
     <ul class="navbar-nav">
@@ -149,11 +149,26 @@
                 
                 
           {% if current_user.is_authenticated %}
+          
+            <div class="btn-group bg-dark">
+              
+                <button type="button" class="btn btn-elegant btn-sm"><li><a class="nav-link text-light" href="{{ url_for('profile') }}">My Profile</a></li></button>
+                <button type="button" class="btn btn-elegant btn-sm dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu bg-dark text-light" style="width:200px ">
+                    <li><a class="text-light" href="{{ url_for('settings') }}">To my settings!</a></li>
+                    <li> <a class="text-light" href="{{ url_for('create_recipe') }}">Post a recipe!</a></li>
+                    <li><a class="text-light" href="{{ url_for('homepage') }}">View my friends!</a></li>
+                    <li><a class="text-light" href="{{ url_for('favorites') }}">View my favorites!</a></li>
+                    <div class="dropdown-divider"></div>
+                    <li><a class="text-light" href="{{ url_for('profile') }}">To my profile!</a></li>
+                  </ul>
+            </div>
+            
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('profile') }}"> My profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+              <button type="button" class="btn btn-elegant btn-sm"><li><a class="nav-link text-light" href="{{ url_for('logout') }}">Logout</a></li></button>
           </li>
           {% else %}
           <li class="nav-item">

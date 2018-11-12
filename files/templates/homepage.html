@@ -1,6 +1,6 @@
 
 {% import "bootstrap/wtf.html" as wtf %}
-{% block body %}
+
 <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,6 +30,7 @@
         margin:0;
       }
 </style>
+{% block body %}
 {% include 'includes/navbar.html' %}
           <!-- Start your project here-->
           <div style="height: 5vh">
@@ -85,14 +86,7 @@
             </div>
           </div>
 
-          {% include 'includes/formatForProfileRecipes.html' %}
-          
-          {% for rec in recipe %}
-              rec.rec_name.data
-              
-          {% endfor %}
-
-          {% include 'includes/formatForProfileRecipes.html' %}
+          {%include 'includes/formatforSearchRecipes.html' %}
           
 
           

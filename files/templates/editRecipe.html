@@ -1,28 +1,39 @@
-{% extends 'layout.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
-{% block body %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% import "bootstrap/wtf.html" as wtf %}
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Help Me Recipe</title>
+
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Bootstrap core CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/css/mdb.min.css" rel="stylesheet">
-    <!-- JQuery -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- Bootstrap tooltips -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/css/mdb.min.css" rel="stylesheet">
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
 </head>
 
-<div style="background-image: url(../static/Images/bg.png)">
+<style>
+body{
+    background-image: url(/static/Images/bgg.png);
+    background-size: 100%;
+    margin:0;
+  }
+</style>
+
+{% block body %}
+{% include 'includes/navbar.html' %}
+
     <main class=" pt-4">
         <!--<form action="{{ url_for('create_recipe') }}" method="POST">-->
         <form action="" method = "POST" enctype="multipart/form-data" > 
@@ -68,26 +79,26 @@
 
                             {{ wtf.form_field(form.recipePic)}}
                             <br>
-                            {{ wtf.form_field(form.rec_name, class_="form-control", placeholder="Enter Recipe Name") }}
+                            {{ wtf.form_field(form.rec_name, class_="form-control", placeholder="Enter Recipe Name", value=rec.rec_name) }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Prep Time" name='prep-time'>-->
-                            {{ wtf.form_field(form.prep_time, class_="form-control", placeholder="Enter Prep Time") }}
+                            {{ wtf.form_field(form.prep_time, class_="form-control", placeholder="Enter Prep Time", value=rec.prep_time) }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Cook Time" name='cook-time'>-->
-                            {{ wtf.form_field(form.cook_time, class_="form-control", placeholder="Enter Cook Time") }}
+                            {{ wtf.form_field(form.cook_time, class_="form-control", placeholder="Enter Cook Time", value=rec.cook_time) }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Description" name='description'>
                             <br>-->
                             Price Range
                             <!--<input class="form-control" type="text" placeholder="Minimum Price" name="minPrice">-->
-                            {{ wtf.form_field(form.minPrice, class_="form-control", placeholder="Minimum Price") }}
+                            {{ wtf.form_field(form.minPrice, class_="form-control", placeholder="Minimum Price", value=rec.minPrice) }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Maximum Price" name="maxPrice">-->
-                            {{ wtf.form_field(form.maxPrice, class_="form-control", placeholder="Maximum Price") }}
+                            {{ wtf.form_field(form.maxPrice, class_="form-control", placeholder="Maximum Price", value=rec.maxPrice) }}
                             <br>
                             <label for="exampleFormControlTextarea1">Recipe Description (include tags/cuisine here)</label>
                             <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name="instruction"></textarea>-->
-                            {{ wtf.form_field(form.rec_description, class_="form-control rounded-0", rows="5") }}
+                            {{ wtf.form_field(form.rec_description, class_="form-control rounded-0", rows="5",placeholder=rec.rec_description) }}
                             <br>
 
                             <div class="row d-flex justify-content-left wow fadeIn">
@@ -96,34 +107,34 @@
 
                                     <h4 class="my-4 h4">Enter Ingredients</h4>
                                     <!--<input class="form-control" type="text" placeholder="Ingredient 1" name="ing1">-->
-                                    {{ wtf.form_field(form.ing_1, class_="form-control", type="text") }}
+                                    {{ wtf.form_field(form.ing_1, class_="form-control", type="text", value=rec.ing_1) }}
                                     <br>
                                     <!--<input class="form-control" type="text" placeholder="Ingredient 2" name="ing2">-->
-                                    {{ wtf.form_field(form.ing_2, class_="form-control", type="text") }}
+                                    {{ wtf.form_field(form.ing_2, class_="form-control", type="text", value=rec.ing_2) }}
                                     <br>
                                     <!--<input class="form-control" type="text" placeholder="Ingredient 3" name="ing3">-->
-                                    {{ wtf.form_field(form.ing_3, class_="form-control", type="text") }}
+                                    {{ wtf.form_field(form.ing_3, class_="form-control", type="text", value=rec.ing_3) }}
                                     <br>
                                     <!--<input class="form-control" type="text" placeholder="Ingredient 4" name="ing4">-->
-                                    {{ wtf.form_field(form.ing_4, class_="form-control", type="text") }}
+                                    {{ wtf.form_field(form.ing_4, class_="form-control", type="text", value=rec.ing_4) }}
                                     <br>
                                     <!--<input class="form-control" type="text" placeholder="Ingredient 5" name="ing5">-->
-                                    {{ wtf.form_field(form.ing_5, class_="form-control", type="text") }}
+                                    {{ wtf.form_field(form.ing_5, class_="form-control", type="text", value=rec.ing_5) }}
                                     <br>
                                     <!--<input class="form-control" type="text" placeholder="Ingredient 6" name="ing6">-->
-                                    {{ wtf.form_field(form.ing_6, class_="form-control", type="text") }}
+                                    {{ wtf.form_field(form.ing_6, class_="form-control", type="text", value=rec.ing_6) }}
                                     <br>
                                     <!--<input class="form-control" type="text" placeholder="Ingredient 7" name="ing7">-->
-                                    {{ wtf.form_field(form.ing_7, class_="form-control", type="text") }}
+                                    {{ wtf.form_field(form.ing_7, class_="form-control", type="text", value=rec.ing_7) }}
                                     <br>
                                     <!--<input class="form-control" type="text" placeholder="Ingredient 8" name="ing8">-->
-                                    {{ wtf.form_field(form.ing_8, class_="form-control", type="text") }}
+                                    {{ wtf.form_field(form.ing_8, class_="form-control", type="text", value=rec.ing_8) }}
                                     <br>
                                     <!--<input class="form-control" type="text" placeholder="Ingredient 9" name="ing9">-->
-                                    {{ wtf.form_field(form.ing_9, class_="form-control", type="text") }}
+                                    {{ wtf.form_field(form.ing_9, class_="form-control", type="text", value=rec.ing_9) }}
                                     <br>
                                     <!--<input class="form-control" type="text" placeholder="Ingredient 10" name="ing10">-->
-                                    {{ wtf.form_field(form.ing_10, class_="form-control", type="text") }}
+                                    {{ wtf.form_field(form.ing_10, class_="form-control", type="text", value=rec.ing_10) }}
                                     <br>
                                     <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
                                 </div>
@@ -150,22 +161,22 @@
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Enter your instructions</label>
                         <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>-->
-                        {{ wtf.form_field(form.rec_instruction, class_="form-control rounded-0", rows="5") }}
+                        {{ wtf.form_field(form.rec_instruction, class_="form-control rounded-0", rows="5", placeholder=rec.rec_instruction) }}
                     </div>
                     <h4 class="my-4 h4">Enter Nutritional Facts (Optional)</h4>
                     <br>
                     <!--<input class="form-control" type="text" placeholder="Calories" name=Calories>-->
-                    {{ wtf.form_field(form.calories, class_="form-control") }}
+                    {{ wtf.form_field(form.calories, class_="form-control", value=rec.calories) }}
                     <br>
                     <!--<input class="form-control" type="text" placeholder="Fat" name=Fat>-->
-                    {{ wtf.form_field(form.fat, class_="form-control") }}
+                    {{ wtf.form_field(form.fat, class_="form-control", value=rec.fat) }}
                     <br>
                     <!--<input class="form-control" type="text" placeholder="Cholesterol" name=Cholesterol>
                     -->
-                    {{ wtf.form_field(form.cholesterol, class_="form-control") }}
+                    {{ wtf.form_field(form.cholesterol, class_="form-control", value=rec.cholesterol) }}
                     <br>
                     <!--<input class="form-control" type="text" placeholder="Sodium" name=Sodium>-->
-                    {{ wtf.form_field(form.sodium, class_="form-control") }}
+                    {{ wtf.form_field(form.sodium, class_="form-control", value=rec.sodium) }}
                     <br>
                     <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
                     {{ wtf.form_field(form.submit) }}
@@ -178,6 +189,6 @@
             <!--Grid row-->
         </form>
     </main>
-</div>
+
 
 {% endblock %}

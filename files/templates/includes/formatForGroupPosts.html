@@ -1,6 +1,17 @@
 {% block body %}         
-            <h4 class="animated fadeIn mb-4 flex-center text-light mt-2 " >Trending</h4>
+            <h4 class="animated fadeIn mb-4 flex-center text-light mt-2 " >Your Posts</h4>
             {% block content %}
+                {% if allPosts %}
+                {% else %}
+                <div class="card flex bg-light" style="height:80">
+                    <div class="card-body flex-center">
+                        
+                        <p class="card-text mr-2 ml-2" style="width:93%">Post some stuff!!!</p> 
+                         
+                       
+                    </div>
+                </div>
+                {% endif %}
                 {% for post in allPosts %}
                     {% if post.user_id == current_user.id %}
                         {% if post.post_type == "hungryFor" %}

@@ -2,7 +2,7 @@
 
 {% block body %}
 <!--Main layout-->
-  {% block content %}
+{% block content %}
 <main class=" pt-4">
     <div class="container dark-grey-text mt-5">
 
@@ -12,8 +12,9 @@
             <!--Grid column-->
             <div class="col-md-6 mb-4">
 
-                <img class="d-flex mr-3 p-4" src="/static/Images/{{rec.recipePic}}" alt="Generic placeholder image" style="width: 350px">
-                <button type="button" class="btn btn-outline-dark-green" value="Follow">Follow</button>
+                <img class="d-flex mr-3 p-4" src="/static/Images/{{rec.recipePic}}" alt="Generic placeholder image"
+                    style="width: 350px">
+
 
             </div>
             <!--Grid column-->
@@ -23,6 +24,17 @@
 
                 <!--Content-->
                 <div class="p-4">
+                    <div class="mb-3">
+                        <a href="">
+                            <span class="badge purple mr-1">Category 2</span>
+                        </a>
+                        <a href="">
+                            <span class="badge blue mr-1">New</span>
+                        </a>
+                        <a href="">
+                            <span class="badge red mr-1">Bestseller</span>
+                        </a>
+                    </div>
 
                     <p class="lead font-weight-bold text-light">
                         {{ rec.rec_name }}
@@ -30,15 +42,14 @@
                     <p class="text-light">Difficulty:</p>
                     <p class="text-light">Prep Time: {{rec.prep_time}}</p>
                     <p class="text-light">Cook Time: {{rec.cook_time}}</p>
+                    <p class="text-light">Minimum Price: {{rec.minPrice}}</p>
+                    <p class="text-light">Maximum Price: {{rec.maxPrice}}</p>
                     <!--<p class="lead font-weight-bold">Description</p>-->
 
                     <p class="text-light">{{rec.rec_description}}</p>
 
-                    <form class="d-flex justify-content-left">
-                        <!-- Default input -->
-                        <button class="btn btn-dark-green btn-md my-0 p" type="submit">Favorite
-                        </button>
-
+                    <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
+                        <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
                     </form>
 
                 </div>
@@ -81,16 +92,16 @@
         </ul>
         <br>
         <ul class="list-group " style="width:30vh">
-                <li class="list-group-item">Calories:{{rec.calories}}</li>
-                <li class="list-group-item">Fat:{{rec.fat}}</li>
-                <li class="list-group-item">Cholesterol:{{rec.cholesterol}}</li>
-                <li class="list-group-item">Sodium:{{rec.sodium}}</li>
-            </ul>
+            <li class="list-group-item">Calories:{{rec.calories}}</li>
+            <li class="list-group-item">Fat:{{rec.fat}}</li>
+            <li class="list-group-item">Cholesterol:{{rec.cholesterol}}</li>
+            <li class="list-group-item">Sodium:{{rec.sodium}}</li>
+        </ul>
         <!--Grid row-->
         <div class="row wow fadeIn"></div>
         <!--Grid row-->
 
     </div>
 </main>
-  {% endblock content %}
+{% endblock content %}
 {% endblock %}
