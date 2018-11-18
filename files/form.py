@@ -135,3 +135,9 @@ class RecipeSearchForm(FlaskForm):
 
 class PriceRangeForm(FlaskForm):
     rangef = DecimalRangeField('Price Range', default=0)
+
+
+class CommentForm(FlaskForm):
+    commentBox = TextAreaField(validators = [DataRequired()])
+    submitComment = SubmitField("Post Comment")
+

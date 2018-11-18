@@ -4,8 +4,8 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from files import app, db, bcrypt, mail
 from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
                         UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
-                        RecipeSearchForm, RecipeSearchForm)
-from files.__init__ import users, rec, postss, favs
+                        RecipeSearchForm, RecipeSearchForm, CommentForm)
+from files.__init__ import users, rec, postss, favs, post_comments
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -547,7 +547,7 @@ def favorites():
     formsearch = RecipeSearchForm()
     favorites = favs.query.filter_by(user_id=current_user.id)
     
-    return render_template('favoritesPage.html', title='Favorites Page', favorites=favorites)
+    return render_template('favoritesPage.html', title='Favorites Page', favorites=favorites, form5=formsearch)
 
 
 @app.route("/favorites/<int:recipe_id>/add", methods=['POST', 'GET'])
@@ -599,3 +599,38 @@ def delete_fav(fav_id):
     current_db_sessions.commit()
   
     return redirect(url_for('favorites'))
+
+
+
+
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+# COMMENT SECTION
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+@app.route("/post/<int:post_id>/comment", methods=['POST', 'GET'])
+@login_required
+def comment_post(post_id):
+    
+    commentForm = CommentForm()
+    if commentForm.validate_on_submit():
+        comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id)
+        db.session.add(comm)
+        db.session.commit()
+        
+        return redirect(url_for('all_comments'))
+
+    return render_template('testComment.html', commentForm=commentForm)
+
+@app.route("/allComments", methods=['POST', 'GET'])
+@login_required
+def all_comments():
+
+    allComments = post_comments.query.filter_by(post_id=65)
+    return render_template('testComment2.html', allComments = allComments)
+#--------------------------------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
