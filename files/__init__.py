@@ -91,6 +91,16 @@ class postss(db.Model):
         return "postss('{self.user_id}')"
 
 
+
+class post_comments(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    post_id = db.Column(db.Integer, nullable = False)
+    commentPost = db.Column(db.String(5000))
+    user_id = db.Column(db.Integer, nullable = False)
+
+    def __repr__(self):
+        return "post_comments('{self.post_id}')"
+
 class users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
