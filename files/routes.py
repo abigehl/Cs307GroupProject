@@ -251,7 +251,7 @@ def search():
             keywords_sufix = parser_search_sufix(formsearch.keyWord.data)
             recipes = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND ((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))",minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
             return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
-            
+
         else:
             recipes = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s )", minmax[1], minmax[0], calories[0], calories[1])
             return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
@@ -456,7 +456,7 @@ def update_post(post_id):
 @login_required
 def create_recipe():
     formsearch = RecipeSearchForm()
-    
+
     form = RecipeForm()
 
     if form.validate_on_submit():
@@ -488,7 +488,7 @@ def update_recipe(recipe_id):
     formsearch = RecipeSearchForm()
 
     form = RecipeForm()
-  
+
     if form.validate_on_submit():
         if form.recipePic.data:
             recipe_file = save_picture(form.recipePic.data)
@@ -546,7 +546,7 @@ def delete_recipe(recipe_id):
 def favorites():
     formsearch = RecipeSearchForm()
     favorites = favs.query.filter_by(user_id=current_user.id)
-    
+
     return render_template('favoritesPage.html', title='Favorites Page', favorites=favorites, form5=formsearch)
 
 
@@ -597,7 +597,7 @@ def delete_fav(fav_id):
     current_db_sessions = db.session.object_session(post)
     current_db_sessions.delete(post)
     current_db_sessions.commit()
-  
+
     return redirect(url_for('favorites'))
 
 
@@ -612,13 +612,13 @@ def delete_fav(fav_id):
 @app.route("/post/<int:post_id>/comment", methods=['POST', 'GET'])
 @login_required
 def comment_post(post_id):
-    
+
     commentForm = CommentForm()
     if commentForm.validate_on_submit():
         comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id)
         db.session.add(comm)
         db.session.commit()
-        
+
         return redirect(url_for('all_comments'))
 
     return render_template('testComment.html', commentForm=commentForm)
@@ -632,5 +632,10 @@ def all_comments():
 #--------------------------------------------------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
+@app.route("/discovery", methods=['POST', 'GET'])
+@login_required
+def discovery():
 
-
+    recipes = rec.query.all();
+    posts = postss.quert.all();
+    return render_template('discovery.html', recipes = recipes, posts = posts)
