@@ -452,7 +452,7 @@ def update_post(post_id):
     return render_template('editPost.html', form=form)
 
 
-@app.route("/repcipe/new", methods=['GET', 'POST'])
+@app.route("/recipe/new", methods=['GET', 'POST'])
 @login_required
 def create_recipe():
     formsearch = RecipeSearchForm()
