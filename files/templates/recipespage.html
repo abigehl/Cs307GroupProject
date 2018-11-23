@@ -12,15 +12,23 @@
             <!--Grid column-->
             <div class="col-md-6 mb-4">
 
-                <img class="d-flex mr-3 p-4" src="/static/Images/{{rec.recipePic}}" alt="Generic placeholder image"
+                <img class="d-flex mr-3 p-4" src="/static/Images/{{rec.recipePic}}" alt="recipe image"
                     style="width: 350px">
 
 
             </div>
             <!--Grid column-->
 
+            <ul class="rating">
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star-o"></i></li>
+                </ul>
             <!--Grid column-->
             <div class="col-md-6 mb-4">
+
 
                 <!--Content-->
                 <div class="p-4">
@@ -51,8 +59,11 @@
                     <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
                     </form>
+                    <button type="submit" class="btn btn-elegant"> <i class="fa fa-thumbs-up"></i></button>
+                    <button type="submit" class="btn btn-elegant"> <i class="fa fa-thumbs-down"></i></button>
 
                 </div>
+                
                 <!--Content-->
 
             </div>
@@ -102,6 +113,11 @@
         <!--Grid row-->
 
     </div>
+    <script>
+        function myFunction(x) {
+            x.classList.toggle("fa-thumbs-down");
+        }
+    </script>
 </main>
 {% endblock content %}
 {% endblock %}

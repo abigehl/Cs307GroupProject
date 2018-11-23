@@ -16,23 +16,23 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
-    <style>
-            body{
-             font-family: 'Poppins', sans-serif;
-                   background-image: url(/static/Images/bg.png);
-                   background-size: 100%;
-                   margin:0;
-                 }
-           </style>
 </head>
+
+{% block body %}  
+{% block content %}
+
+                {% for com in allComments %}  
+     
+
 <div class="card flex flex-end flex-center bg-dark">
     <div style="height: 100vh w-20" class="card-body flex-center">
         <img class="rounded-circle d-flex mr-3 p-4" src="../static/Images/emptyProf.png" alt="Generic Image" height="100" width="115">
-        <p class="left card-text mr-2 ml-2">{{current_user.username}}</p>
-        <p class="card-text mr-2 ml-2">{{rec.rec_name}}</p>
+        <p class="left card-text mr-2 ml-2">{{current_user.id}}</p>
+        <p class="card-text mr-2 ml-2">{{com.commentPost}}</p>
     </div>
-    <div class="card-body flex-center">
-        <p class="card-text mr-2 ml-2">{{rec.rec_description}}</p>
-        <a href="#" class="card-link text-light">Take me there</a>
-        </div>
 </div>
+
+                {% endfor %}
+{% endblock content %}
+
+{% endblock %}
