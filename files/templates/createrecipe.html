@@ -30,6 +30,23 @@
                background-size: 100%;
                margin:0;
              }
+             .tags
+             {
+                 background-color: white;
+                 min-width: 50;
+                 min-height: 100;
+             }
+             .roundt {
+                background-color: #d5dfe2;
+                display: inline;
+                height: 20;
+                border-radius: 50px;
+                border: 50px;
+                padding: 5px 5px 5px 5px;
+                padding-right: 7px;
+                padding-left: 7px;
+                position: relative;
+              } 
        </style>
 
 {% block body %}
@@ -165,7 +182,12 @@
                         </form>
                         <p><span id='display'></span></p>
                     </div>
-                    
+                    <label for="tags" style="padding-top: 50">Tags</label>
+                    <div class="container" style="border-radius: 10px; background-color: white; min-width: 50; min-height: 100;padding-bottom: 10;  ">
+                        <input autocomplete= "off" class="form-control\" id="searchinput" type="text" style="border: 0px; background: transparent; min-width:800; outline: none; -webkit-box-shadow:none; -moz-box-shadow:none; box-shadow: none; cursor: default; " placeholder="Type to input tags...">
+                        <br>  
+                        <div id="contain" style="padding-top: 10" ></div>
+                    </div>
                 </div>
                 <!--Grid column-->
             </div>
@@ -228,6 +250,71 @@
         
         //document.write(document.getElementById('arr[]').value);
     }
+
+
+
+
+    //tags stuff
+    var tags= new Array();
+    var idnum=0;
+   function deleteob( i)
+    {
+      var oof=tags.splice(i,1);
+      
+      var container = document.getElementById("contain");
+      
+      var hold="";
+      var i=0;
+      idnum--;
+                  while(i<idnum)
+                  {
+                    var temp='<p class="form-control roundt" style="color:black;" onclick="deleteob('+i+');" id="'+i+'tag ">&#10006   ';
+                  temp+=tags[i];
+                  temp+='</p>';
+                  temp+='&nbsp';
+                      hold+=temp;
+                      i++;
+                  }
+                   // container.appendChild(document.createTextNode(number));
+                
+                  container.innerHTML=hold;
+                  
+    }
+
+ 
+    var input = document.getElementById("searchinput");
+    input.addEventListener("keyup", function(event) {
+    
+      var o=document.getElementById("searchinput").value;
+        if (event.keyCode === 13 && o && o!=" ") {
+          
+             // Number of inputs to create
+                  var number = document.getElementById("searchinput").value;
+                  var container = document.getElementById("contain");
+                  document.getElementById("searchinput").value="";
+                  submit+=";;"+number;  
+                  tags[idnum]=number;
+                  idnum++;
+                  var i=0;
+                  var hold="";
+                  while(i<idnum)
+                  {
+                    var temp='<p class="form-control roundt" style="color:black;" onclick="deleteob('+i+');" id="'+i+'tag ">&#10006   ';
+                  temp+=tags[i];
+                  temp+='</p>';
+                  temp+='&nbsp';
+                      hold+=temp;
+                      i++;
+                  }
+                   // container.appendChild(document.createTextNode(number));
+                
+                  container.innerHTML=hold;
+                     
+                  
+            
+        }
+    });
+
 </script>
 
 {% endblock %}
