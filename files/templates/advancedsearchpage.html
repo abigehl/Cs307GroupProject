@@ -27,7 +27,7 @@
           
           <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
  
-      
+          
           
           </div>
           <style>
@@ -39,13 +39,24 @@
                 margin:0
               }     
               .round {
-                  width: 100%;
-                  height: 77;
+                
+                  min-height: 77;
                   border-radius: 50px;
                   border: 1px;
                   padding: 5px 5px 5px 25px;
-                 
-              }  
+                  overflow:auto; 
+              } 
+              .roundt {
+                background-color: #d5dfe2;
+                display: inline;
+                height: 20;
+                border-radius: 50px;
+                border: 50px;
+                padding: 5px 5px 5px 5px;
+                padding-right: 7px;
+                padding-left: 7px;
+                position: relative;
+              } 
         .searchSec form .inner-form .input-field {
           width: 100%;
           position: relative;
@@ -70,6 +81,8 @@
               justify-content: center;
           align-items: center;
         }
+       
+        
               </style>  
    
     
@@ -79,14 +92,17 @@
   {% include 'includes/navbar.html' %}
    
   <div class="searchSec flex-center">
-      <form>
-        <fieldset>
+      <form id="form" onsubmit="return false">
+      
           <legend style="font-size: 36px; color: #fff; font-weight: 800; text-align: center; padding-bottom: 40">WHAT ARE YOU LOOKING FOR?</legend>
-          <div class="inner-form" style="width:100%">
-            <div class="input-field" style="width:100%">
-              <input autocomplete= "off" class="form-control round" id="choices-text-preset-values" type="text" style="width:800" placeholder="Type to input search..." />
-              
-               <button class="btn-search" type="button">
+          <div class="inner-form" >
+            <div class="input-field" >
+              <div class="form-control round" style="overflow:auto;">
+              <input autocomplete= "off" class="form-control flex-center" id="searchinput" type="text" style="border: 0px; background: transparent; min-width:800; outline: none; -webkit-box-shadow:none; -moz-box-shadow:none; box-shadow: none; cursor: default; " placeholder="Type to input search...">
+              <div id="contain" ></div>
+            </div>
+            </input>
+               <button class="btn-search" type="button" id="btns" onclick="form.submit()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
                 </svg>
@@ -95,25 +111,80 @@
           </div>
           <div class="suggestion-wrap" style="font-size: 14px; padding-top: 10; display: inline-block;  line-height: 32px; color: #fff; border-radius: 16px; margin-right: 10px; margin-bottom: 10px;">
             
-            <span  style="padding-left: 20; padding-right:20 ;">Breakfast</span>
+            <span  style="padding-left: 20; padding-right:20 ;">Breakfast SEARCH NEEDED FOR THESE</span>
+            
             <span style="padding-left: 20; padding-right:20 ;">Lunch</span>
             <span style="padding-left: 20; padding-right:20 ;">Dinner</span>
             <span style="padding-left: 20; padding-right:20 ;">Fast</span>
             <span style="padding-left: 20; padding-right:20 ;">Easy</span>
           </div>
-        </fieldset>
+      
+     
       </form>
    
     </div>
 
+<script>
+  var searchElements= new Array();
+var idnum=0;
+   function deleteob( i)
+    {
+      var oof=searchElements.splice(i,1);
+      
+      var container = document.getElementById("contain");
+      
+      var hold="";
+      var i=0;
+      idnum--;
+                  while(i<idnum)
+                  {
+                    var temp='<p class="form-control roundt" style="color:black;" onclick="deleteob('+i+');" id="'+i+'tag ">&#10006   ';
+                  temp+=searchElements[i];
+                  temp+='</p>';
+                      hold+=temp;
+                      i++;
+                  }
+                   // container.appendChild(document.createTextNode(number));
+                
+                  container.innerHTML=hold;
+                  
+    }
+
  
-    <script>
-      var textPresetVal = new Choices('#choices-text-preset-values',
-      {
-        removeItemButton: true,
-      });
-     
-    </script>
+    var input = document.getElementById("searchinput");
+    input.addEventListener("keyup", function(event) {
+    
+      var o=document.getElementById("searchinput").value;
+        if (event.keyCode === 13 && o && o!=" ") {
+          
+             // Number of inputs to create
+                  var number = document.getElementById("searchinput").value;
+                  var container = document.getElementById("contain");
+                  document.getElementById("searchinput").value="";
+                  submit+=";;"+number;  
+                  searchElements[idnum]=number;
+                  idnum++;
+                  var i=0;
+                  var hold="";
+                  while(i<idnum)
+                  {
+                    var temp='<p class="form-control roundt" style="color:black;" onclick="deleteob('+i+');" id="'+i+'tag ">&#10006   ';
+                  temp+=searchElements[i];
+                  temp+='</p>';
+                      hold+=temp;
+                      i++;
+                  }
+                   // container.appendChild(document.createTextNode(number));
+                
+                  container.innerHTML=hold;
+                     
+                  
+            
+        }
+    });
+
+   
+</script>
   </body>
 </html>
 
