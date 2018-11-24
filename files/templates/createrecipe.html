@@ -1,30 +1,42 @@
 {% import "bootstrap/wtf.html" as wtf %}
-{% block body %}
-
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Help Me Recipe</title>
+
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Bootstrap core CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/css/mdb.min.css" rel="stylesheet">
-    <!-- JQuery -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- Bootstrap tooltips -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/css/mdb.min.css" rel="stylesheet">
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
+
 </head>
+
+<style>
+        body{
+         font-family: 'Poppins', sans-serif;
+               background-image: url(/static/Images/bg.png);
+               background-size: 100%;
+               margin:0;
+             }
+       </style>
+
+{% block body %}
 {% include 'includes/navbar.html' %}
 <div style="background-image: url(../static/Images/bg.png)">
     <main class=" pt-4">
-        <!--<form action="{{ url_for('create_recipe') }}" method="POST">-->
-        <form action="" method = "POST" enctype="multipart/form-data" > 
+        <!--<form action="" method = "POST" enctype="multipart/form-data" > -->
 
             <h5 class="text-center text-light">Create a Recipe</h5>
             <div class="container text-light mt-5">
@@ -45,19 +57,6 @@
 
                         <!--Content-->
                         <div class="p-4">
-
-                            <!-- <div class="mb-3">
-                        <a href="">
-                            <span class="badge purple mr-1">Italian</span>
-                        </a>
-                        <a href="">
-                            <span class="badge blue mr-1">Hot</span>
-                        </a>
-                        <a href="">
-                            <span class="badge red mr-1">Trash</span>
-                        </a>
-                    </div>
-                     -->
                             <!--<input class="form-control" type="text" placeholder="Enter Recipe Name" name='food'>-->
                             {{ form.hidden_tag() }}
                             {{ wtf.form_field(form.recipePic)}}
@@ -83,43 +82,50 @@
                             {{ wtf.form_field(form.rec_description, class_="form-control rounded-0", rows="5") }}
                             <br>
 
+                            <style type="text/css">
+                                [data-role="dynamic-fields"] > .form-inline [data-role="add"] {
+                                    display: none;
+                                }
+
+                                [data-role="dynamic-fields"] > .form-inline:last-child [data-role="add"] {
+                                    display: inline-block;
+                                }
+
+                                [data-role="dynamic-fields"] > .form-inline:last-child [data-role="remove"] {
+                                    display: none;
+                                }
+                            </style>
+
                             <div class="row d-flex justify-content-left wow fadeIn">
+                                <h2 class="my-4 h2">ENTER BETTER INGREDIENTS</h2>
 
-                                <div class="col-md-6 text-left">
-
-                                    <h4 class="my-4 h4">Enter Ingredients</h4>
-                                    <!--<input class="form-control" type="text" placeholder="Ingredient 1" name="ing1">-->
-                                    {{ wtf.form_field(form.ing_1, class_="form-control", type="text") }}
-                                    <br>
-                                    <!--<input class="form-control" type="text" placeholder="Ingredient 2" name="ing2">-->
-                                    {{ wtf.form_field(form.ing_2, class_="form-control", type="text") }}
-                                    <br>
-                                    <!--<input class="form-control" type="text" placeholder="Ingredient 3" name="ing3">-->
-                                    {{ wtf.form_field(form.ing_3, class_="form-control", type="text") }}
-                                    <br>
-                                    <!--<input class="form-control" type="text" placeholder="Ingredient 4" name="ing4">-->
-                                    {{ wtf.form_field(form.ing_4, class_="form-control", type="text") }}
-                                    <br>
-                                    <!--<input class="form-control" type="text" placeholder="Ingredient 5" name="ing5">-->
-                                    {{ wtf.form_field(form.ing_5, class_="form-control", type="text") }}
-                                    <br>
-                                    <!--<input class="form-control" type="text" placeholder="Ingredient 6" name="ing6">-->
-                                    {{ wtf.form_field(form.ing_6, class_="form-control", type="text") }}
-                                    <br>
-                                    <!--<input class="form-control" type="text" placeholder="Ingredient 7" name="ing7">-->
-                                    {{ wtf.form_field(form.ing_7, class_="form-control", type="text") }}
-                                    <br>
-                                    <!--<input class="form-control" type="text" placeholder="Ingredient 8" name="ing8">-->
-                                    {{ wtf.form_field(form.ing_8, class_="form-control", type="text") }}
-                                    <br>
-                                    <!--<input class="form-control" type="text" placeholder="Ingredient 9" name="ing9">-->
-                                    {{ wtf.form_field(form.ing_9, class_="form-control", type="text") }}
-                                    <br>
-                                    <!--<input class="form-control" type="text" placeholder="Ingredient 10" name="ing10">-->
-                                    {{ wtf.form_field(form.ing_10, class_="form-control", type="text") }}
-                                    <br>
-                                    <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div data-role="dynamic-fields">
+                                                <div class="form-inline">
+                                                    <div class="form-group">
+                                                        <!--<label class="sr-only" for="field-name">Field Name</label>-->
+                                                        <input type="text" class="form-control" id="text-field" placeholder="Ingredient" name="arr">
+                                                    </div>
+                                                    
+                                                    <button class="btn btn-danger" data-role="remove">
+                                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                                    </button>
+                                                    <button class="btn btn-primary" data-role="add">
+                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>  <!-- /div.form-inline -->
+                                            </div>  <!-- /div[data-role="xdynamic-fields"] -->
+                                        </div>  <!-- /div.col-md-12 -->
+                                    </div>  <!-- /div.row -->
                                 </div>
+                                <!--</form>-->
+
+                                <form>
+                                    <button onclick="showInput()">SHOW_INGREDIENTS</button>
+                                </form>
+                                <p><span id='display'></span></p>
                             </div>
                             <!--</form>-->
 
@@ -169,8 +175,60 @@
             <!--Grid row-->
             <!--Grid row-->
             <!--Grid row-->
-        </form>
+        <!--</form>-->
     </main>
+
+
 </div>
+
+<script type="text/javascript">
+    $(function() {
+        // Remove button click
+        $(document).on(
+            'click',
+            '[data-role="dynamic-fields"] > .form-inline [data-role="remove"]',
+            function(e) {
+                e.preventDefault();
+                $(this).closest('.form-inline').remove();
+            }         
+        );
+
+        // Add button click
+        $(document).on(
+            'click',
+            '[data-role="dynamic-fields"] > .form-inline [data-role="add"]',
+            function(e) {
+                e.preventDefault();
+                var container = $(this).closest('[data-role="dynamic-fields"]');
+                new_field_group = container.children().filter('.form-inline:first-child').clone();
+                new_field_group.find('input').each(function(){
+                    $(this).val('');
+                });
+                container.append(new_field_group);
+            }
+        );
+    });
+
+    function showInput() {
+        var container = $(this).closest('[data-role="dynamic-fields"]');
+        var x = document.getElementsByName("arr");
+        var ingr_arr = new Array();
+
+
+        var i;
+        for (i = 0; i < x.length; i++) {
+            ingr_arr.push(x[i]);
+        }
+        //document.write(ingr_arr[0].value);
+        //document.write(ingr_arr[1].value);
+        for (var k=0;k<ingr_arr.length;k++) {
+            document.write(ingr_arr[k].value + ", ");
+        }
+        //document.write(document.getElementsByName("arr[]").length);
+    
+        
+        //document.write(document.getElementById('arr[]').value);
+    }
+</script>
 
 {% endblock %}
