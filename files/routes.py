@@ -196,7 +196,11 @@ def homepage():
 
     #favRecipes = favs.query.filter_by(user_id=current_user.id)
     form = PostFormHungryFor()
-    allrecipes = db.engine.execute("select * from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) left join followers on (followers.followedid = rec.user_id and followerid = %s)", current_user.id)
+    if current_user.is_authenticated:
+        allrecipes = db.engine.execute("select * from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) left join followers on (followers.followedid = rec.user_id and followerid = %s)", current_user.id)
+    else: 
+        allrecipes = db.engine.execute("SELECT * FROM rec WHERE 1 = 0")
+
     if form.validate_on_submit():
         toSend = "I am hungry for " + form.content.data
         post = postss(content=toSend, user_id=current_user.id, post_type="hungryFor")
