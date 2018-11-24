@@ -138,6 +138,10 @@ class PriceRangeForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-    commentBox = TextAreaField(validators = [DataRequired()])
+    commentBox = TextAreaField(validators=[DataRequired()])
     submitComment = SubmitField("Post Comment")
 
+
+class FindFriends(FlaskForm):
+    friend = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    submit = SubmitField("Find Friend")

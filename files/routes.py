@@ -4,8 +4,8 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from files import app, db, bcrypt, mail
 from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
                         UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
-                        RecipeSearchForm, RecipeSearchForm, CommentForm)
-from files.__init__ import users, rec, postss, favs, post_comments
+                        RecipeSearchForm, RecipeSearchForm, CommentForm, FindFriends)
+from files.__init__ import users, rec, postss, favs, post_comments, followers
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -196,7 +196,7 @@ def homepage():
 
     #favRecipes = favs.query.filter_by(user_id=current_user.id)
     form = PostFormHungryFor()
-
+    allrecipes = db.engine.execute("select * from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) left join followers on (followers.followedid = rec.user_id and followerid = %s)", current_user.id)
     if form.validate_on_submit():
         toSend = "I am hungry for " + form.content.data
         post = postss(content=toSend, user_id=current_user.id, post_type="hungryFor")
@@ -223,7 +223,7 @@ def homepage():
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
 
-    return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
+    return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, allrecipes = allrecipes)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -234,6 +234,7 @@ def search():
     form = PostFormHungryFor()
     formNormalText = PostForm()
     formCurrent = PostFormCurrentlyEating()
+
 
     if request.method == 'POST':
 
@@ -363,11 +364,13 @@ def logout():
     logout_user()
     return redirect(url_for('homepage'))
 
-
+############################################################# PROFILE PAGE #############################################################################
 @app.route('/ProfilePage', methods=['GET', 'POST'])
 @login_required
 def profile():
 
+    followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", current_user.id)
+    following = db.engine.execute("SELECT followedname FROM followers where followerid = %s", current_user.id)
     formsearch = RecipeSearchForm()
 
     form = PostFormHungryFor()
@@ -414,16 +417,16 @@ def profile():
     for x in favRecipes:
         count = count + 1
 
-
     if count == 0 and count2 != 0:
-        return render_template('ProfilePage.html', title='Profile', form5=formsearch, recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+        return render_template('ProfilePage.html', title='Profile', form5=formsearch, followers = followers, following = following, recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
     elif count == 0 and count2 == 0:
-        return render_template('ProfilePage.html', title='Profile', form5=formsearch, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+        return render_template('ProfilePage.html', title='Profile', form5=formsearch, followers = followers, following = following, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
     elif count != 0 and count2 == 0:
-        return render_template('ProfilePage.html', title='Profile', form5=formsearch, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+        return render_template('ProfilePage.html', title='Profile', form5=formsearch, followers = followers, following = following, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
     else:
-        return render_template('ProfilePage.html', title='Profile', form5=formsearch, recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+        return render_template('ProfilePage.html', title='Profile', form5=formsearch, followers = followers, following = following, recipes=recipes, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
 
+########################################################################## POST DELETE PROFILE PAGE #############################################################
 @app.route('/ProfilePage/<int:post_id>/delete', methods=['POST'])
 @login_required
 def delete_post(post_id):
@@ -434,7 +437,7 @@ def delete_post(post_id):
     current_db_sessions.commit()
 
     return redirect(url_for('profile'))
-
+######################################################################### POST UPDATE PROFILE PAGE ##############################################################
 
 @app.route('/ProfilePage/<int:post_id>/update', methods=['GET', 'POST'])
 @login_required
@@ -456,7 +459,7 @@ def update_post(post_id):
         
     return render_template('editPost.html', form=form, form5=formsearch, post=post)
 
-
+######################################################################## CREATE NEW RECIPE ########################################################################
 @app.route("/recipe/new", methods=['GET', 'POST'])
 @login_required
 def create_recipe():
@@ -478,14 +481,14 @@ def create_recipe():
         return redirect(url_for('profile'))
     return render_template('createrecipe.html', title='New Recipe', form=form, form5=formsearch)
 
-
+###################################################################### FULL RECIPE DISPLAY ######################################################################
 @app.route("/recipe/<int:recipe_id>", methods=['POST'])
 def showrecipe(recipe_id):
     formsearch = RecipeSearchForm()
     recc = rec.query.get_or_404(recipe_id)
     return render_template('recipespage.html', title=recc.rec_name, rec=recc, form5=formsearch)
 
-
+###################################################################### RECIPE UPDATE ###########################################################################3
 @app.route("/recipe/<int:recipe_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_recipe(recipe_id):
@@ -533,7 +536,7 @@ def update_recipe(recipe_id):
 
     return render_template('editRecipe.html',form = form, form5 = formsearch, rec=recipee)
 
-
+############################################################################ RECIPE DELETE ####################################################################
 @app.route("/recipe/<int:recipe_id>/delete", methods=['POST'])
 @login_required
 def delete_recipe(recipe_id):
@@ -545,7 +548,7 @@ def delete_recipe(recipe_id):
 
     return redirect(url_for('profile'))
 
-
+#############################################################################
 @app.route("/favorites/all", methods=['GET'])
 @login_required
 def favorites():
@@ -554,7 +557,7 @@ def favorites():
 
     return render_template('favoritesPage.html', title='Favorites Page', favorites=favorites, form5=formsearch)
 
-
+##############################################################################3
 @app.route("/favorites/<int:recipe_id>/add", methods=['POST', 'GET'])
 @login_required
 def add_fav(recipe_id):
@@ -642,5 +645,48 @@ def all_comments():
 def discovery():
 
     recipes = rec.query.all();
-    posts = postss.quert.all();
-    return render_template('discovery.html', recipes = recipes, posts = posts)
+    posts = postss.query.all();
+    formsearch = RecipeSearchForm()
+    return render_template('discovery.html', recipes = recipes, posts = posts, form5=formsearch)
+
+
+@app.route("/findfriends", methods=['POST', 'GET'])
+@login_required
+def findfriends():
+
+    formsearch = RecipeSearchForm()
+    findfriends = FindFriends()
+    return render_template('findfriends.html',  form5=formsearch, findfriends = findfriends)
+
+############################################################################# FOLLOW OTHER USERS #######################################
+
+@app.route("/follow/<int:followedid><string:followedname>/add", methods=['POST', 'GET'])
+@login_required
+def add_follower(followedid, followedname):
+    
+
+    follower = followers(followerid = current_user.id, followedid = followedid, followername = current_user.username, followedname = followedname)
+    db.session.add(follower)
+    db.session.commit()
+
+    formsearch = RecipeSearchForm()
+    form = PostFormHungryFor()
+    formNormalText = PostForm()
+    formCurrent = PostFormCurrentlyEating()
+
+    return redirect(url_for('homepage'))
+
+############################################################################# UNFOLLOW OTHER USERS ################################3##
+@app.route("/follow/<int:followedid><int:followerid>/remove", methods=['POST', 'GET'])
+@login_required
+def remove_follower(followedid, followerid):
+    
+
+    db.engine.execute("DELETE FROM followers WHERE followedid = %s AND followerid = %s", followedid, followerid)
+
+    formsearch = RecipeSearchForm()
+    form = PostFormHungryFor()
+    formNormalText = PostForm()
+    formCurrent = PostFormCurrentlyEating()
+
+    return redirect(url_for('homepage'))

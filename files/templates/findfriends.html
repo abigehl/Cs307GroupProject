@@ -1,0 +1,68 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Help Me Recipe</title>
+
+    <!-- Font Awesome -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/css/mdb.min.css" rel="stylesheet">
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
+</head>
+
+<style>
+    body{
+     font-family: 'Poppins', sans-serif;
+           background-image: url(/static/Images/bg.png);
+           background-size: 100%;
+           margin:0;
+         }
+   </style>
+
+{% block body %}
+{% include 'includes/navbar.html' %}
+          <!--/.Navbar-->
+        <body>
+        <p>
+        <p>
+        <p>
+        <form id="loginMember" role="form" action="{{ url_for('login') }}" method="post">
+          <div class="container  text-left" style="width: 88%">
+            {{ findfriends.hidden_tag() }}
+            {{ findfriends.friend(class = "form-control", placeholder = "Enter your friend's name here", style="height: 40px; padding:10px") }}
+          </div>
+          <div class="container  text-center" style="width: 100%">
+            {{ wtf.form_field(findfriends.submit)}}
+          </div>
+        </form>
+
+
+        {%include 'includes/formatForSearchFriends.html' %}
+
+
+          <!-- SCRIPTS -->
+          <!-- JQuery -->
+          <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+          <!-- Bootstrap tooltips -->
+          <script type="text/javascript" src="js/popper.min.js"></script>
+          <!-- Bootstrap core JavaScript -->
+          <script type="text/javascript" src="js/bootstrap.min.js"></script>
+          <!-- MDB core JavaScript -->
+          <script type="text/javascript" src="js/mdb.min.js"></script>
+        </body>
+        </div>
+
+        </html>
+        {% endblock %}
