@@ -35,28 +35,24 @@
 {% block body %}
 {% include 'includes/navbar.html' %}
 <div style="background-image: url(../static/Images/bg.png)">
-    <main class=" pt-4">
+    
         <!--<form action="" method = "POST" enctype="multipart/form-data" > -->
-
-            <h5 class="text-center text-light">Create a Recipe</h5>
-            <div class="container text-light mt-5">
-
+            <br>
+            <h5 class="text-light text-left" style="padding-top: 0 px; padding-left: 20; font-size: 40; margin: 10">Create a Recipe</h5>
+            <div class="container text-light " style="padding-top: 20 px">
+                <div class="row">
                 <!--Grid row-->
-                <div class="row wow fadeIn">
+            
 
                     <!--Grid column-->
-                    <div class="col-md-6 mb-4">
-
-                       <!-- <img src="../static/Images/lasagna.jpg" class="img-fluid" alt="">-->
-
-                    </div>
+                   
                     <!--Grid column-->
 
                     <!--Grid column-->
-                    <div class="col-md-6 mb-4">
+                    <div class="col-md-4" >
 
                         <!--Content-->
-                        <div class="p-4">
+                        <div class="p-4" >
                             <!--<input class="form-control" type="text" placeholder="Enter Recipe Name" name='food'>-->
                             {{ form.hidden_tag() }}
                             {{ wtf.form_field(form.recipePic)}}
@@ -73,60 +69,29 @@
                             Price Range
                             <!--<input class="form-control" type="text" placeholder="Minimum Price" name="minPrice">-->
                             {{ wtf.form_field(form.minPrice, class_="form-control", placeholder="Minimum Price") }}
-                            <br>
+                            
                             <!--<input class="form-control" type="text" placeholder="Maximum Price" name="maxPrice">-->
                             {{ wtf.form_field(form.maxPrice, class_="form-control", placeholder="Maximum Price") }}
+                            
                             <br>
-                            <label for="exampleFormControlTextarea1">Recipe Description (include tags/cuisine here)</label>
-                            <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name="instruction"></textarea>-->
-                            {{ wtf.form_field(form.rec_description, class_="form-control rounded-0", rows="5") }}
+                            <h4 class="my-4 h4">Enter Nutritional Facts (Optional)</h4>
                             <br>
-
-                            <style type="text/css">
-                                [data-role="dynamic-fields"] > .form-inline [data-role="add"] {
-                                    display: none;
-                                }
-
-                                [data-role="dynamic-fields"] > .form-inline:last-child [data-role="add"] {
-                                    display: inline-block;
-                                }
-
-                                [data-role="dynamic-fields"] > .form-inline:last-child [data-role="remove"] {
-                                    display: none;
-                                }
-                            </style>
-
-                            <div class="row d-flex justify-content-left wow fadeIn">
-                                <h2 class="my-4 h2">ENTER BETTER INGREDIENTS</h2>
-
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div data-role="dynamic-fields">
-                                                <div class="form-inline">
-                                                    <div class="form-group">
-                                                        <!--<label class="sr-only" for="field-name">Field Name</label>-->
-                                                        <input type="text" class="form-control" id="text-field" placeholder="Ingredient" name="arr">
-                                                    </div>
-                                                    
-                                                    <button class="btn btn-danger" data-role="remove">
-                                                        <i class="fa fa-minus" aria-hidden="true"></i>
-                                                    </button>
-                                                    <button class="btn btn-primary" data-role="add">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>  <!-- /div.form-inline -->
-                                            </div>  <!-- /div[data-role="xdynamic-fields"] -->
-                                        </div>  <!-- /div.col-md-12 -->
-                                    </div>  <!-- /div.row -->
-                                </div>
-                                <!--</form>-->
-
-                                <form>
-                                    <button onclick="showInput()">SHOW_INGREDIENTS</button>
-                                </form>
-                                <p><span id='display'></span></p>
-                            </div>
+                            <!--<input class="form-control" type="text" placeholder="Calories" name=Calories>-->
+                            {{ wtf.form_field(form.calories, class_="form-control") }}
+                            <br>
+                            <!--<input class="form-control" type="text" placeholder="Fat" name=Fat>-->
+                            {{ wtf.form_field(form.fat, class_="form-control") }}
+                            <br>
+                            <!--<input class="form-control" type="text" placeholder="Cholesterol" name=Cholesterol>
+                            -->
+                            {{ wtf.form_field(form.cholesterol, class_="form-control") }}
+                            <br>
+                            <!--<input class="form-control" type="text" placeholder="Sodium" name=Sodium>-->
+                            {{ wtf.form_field(form.sodium, class_="form-control") }}
+                            <br>
+                            <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
+                            {{ wtf.form_field(form.submit) }}
+                           
                             <!--</form>-->
 
                         </div>
@@ -135,65 +100,87 @@
                     </div>
                     <!--Grid column-->
 
-                </div>
+              
                 <!--Grid row-->
 
-                <hr>
+            
 
                 <!--Grid row-->
 
                 <!--Grid column-->
-                <div class="col-md-6 text-left">
+                <div class="col-md-8">
 
                     <br>
                     <div class="form-group">
+                            <br>
+                            <label for="exampleFormControlTextarea1">Recipe Description (include tags/cuisine here)</label>
+                            <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name="instruction"></textarea>-->
+                            {{ wtf.form_field(form.rec_description, class_="form-control rounded-0", rows="5") }}
                         <label for="exampleFormControlTextarea1">Enter your instructions</label>
                         <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>-->
                         {{ wtf.form_field(form.rec_instruction, class_="form-control rounded-0", rows="5") }}
                     </div>
-                    <h4 class="my-4 h4">Enter Nutritional Facts (Optional)</h4>
-                    <br>
-                    <!--<input class="form-control" type="text" placeholder="Calories" name=Calories>-->
-                    {{ wtf.form_field(form.calories, class_="form-control") }}
-                    <br>
-                    <!--<input class="form-control" type="text" placeholder="Fat" name=Fat>-->
-                    {{ wtf.form_field(form.fat, class_="form-control") }}
-                    <br>
-                    <!--<input class="form-control" type="text" placeholder="Cholesterol" name=Cholesterol>
-                    -->
-                    {{ wtf.form_field(form.cholesterol, class_="form-control") }}
-                    <br>
-                    <!--<input class="form-control" type="text" placeholder="Sodium" name=Sodium>-->
-                    {{ wtf.form_field(form.sodium, class_="form-control") }}
-                    <br>
-                    <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
-                    {{ wtf.form_field(form.submit) }}
+                    <style type="text/css">
+                        [data-role="dynamic-fields"] > .form-inline [data-role="add"] {
+                            display: none;
+                        }
+
+                        [data-role="dynamic-fields"] > .form-inline:last-child [data-role="add"] {
+                            display: inline-block;
+                        }
+
+                        [data-role="dynamic-fields"] > .form-inline:last-child [data-role="remove"] {
+                            display: none;
+                        }
+                    </style>
+
+                    <div class="row d-flex justify-content-left wow fadeIn">
+                        <h2 class="my-4 h2">Enter Ingredients</h2>
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div data-role="dynamic-fields">
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <!--<label class="sr-only" for="field-name">Field Name</label>-->
+                                                <input type="text" class="form-control" id="text-field" placeholder="Ingredient" name="arr">
+                                            </div>
+                                            
+                                            <button class="btn btn-danger" data-role="remove">
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-primary" data-role="add">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </button>
+                                        </div>  <!-- /div.form-inline -->
+                                    </div>  <!-- /div[data-role="xdynamic-fields"] -->
+                                </div>  <!-- /div.col-md-12 -->
+                            </div>  <!-- /div.row -->
+                        </div>
+                        <!--</form>-->
+
+                        <form>
+                   <!--        <button onclick="showInput()">SHOW_INGREDIENTS</button>--> 
+                        </form>
+                        <p><span id='display'></span></p>
+                    </div>
+                    
                 </div>
                 <!--Grid column-->
-
+            </div>
             </div>
             <!--Grid row-->
             <!--Grid row-->
             <!--Grid row-->
         <!--</form>-->
-    </main>
+   
 
 
 </div>
 
 <script type="text/javascript">
     $(function() {
-        // Remove button click
-        $(document).on(
-            'click',
-            '[data-role="dynamic-fields"] > .form-inline [data-role="remove"]',
-            function(e) {
-                e.preventDefault();
-                $(this).closest('.form-inline').remove();
-            }         
-        );
-
-        // Add button click
         $(document).on(
             'click',
             '[data-role="dynamic-fields"] > .form-inline [data-role="add"]',
@@ -207,6 +194,18 @@
                 container.append(new_field_group);
             }
         );
+        // Remove button click
+        $(document).on(
+            'click',
+            '[data-role="dynamic-fields"] > .form-inline [data-role="remove"]',
+            function(e) {
+                e.preventDefault();
+                $(this).closest('.form-inline').remove();
+            }         
+        );
+
+        // Add button click
+       
     });
 
     function showInput() {
