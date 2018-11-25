@@ -229,7 +229,7 @@ def homepage():
 
     return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, allrecipes = allrecipes)
 
-
+################################################################## RECIPE SEARCH ###################################################
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
@@ -660,7 +660,9 @@ def findfriends():
 
     formsearch = RecipeSearchForm()
     findfriends = FindFriends()
-    return render_template('findfriends.html',  form5=formsearch, findfriends = findfriends)
+    if findfriends.validate_on_submit:
+        friends = db.engine.execute("SELECT username FROM users where username = %s", findfriends.friend.data)
+    return render_template('findfriends.html',  form5=formsearch, findfriends = findfriends, friends = friends)
 
 ############################################################################# FOLLOW OTHER USERS #######################################
 

@@ -1,1 +1,23 @@
+{% block body %}         
+           
+            {% block content %}
+
+                {% for friend in friends %}
+                    {% if friend.id != current_user.id %}
+                        
+                                <div class="card flex bg-light" style="height:80">
+                                    <div class="card-body flex-center">
+                                        
+                                        <p class="card-text mr-2 ml-2" style="width:93%">{{ friend.username }}</p> 
+                                         
+                                    </div>
+                                </div>
+                                <br>
+                      
+
+                    {% endif %}
+                {% endfor %}
+            {% endblock content %}
+
+{% endblock %}
 

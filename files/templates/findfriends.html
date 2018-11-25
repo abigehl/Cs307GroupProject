@@ -35,14 +35,15 @@
 {% include 'includes/navbar.html' %}
           <!--/.Navbar-->
         <body>
-        <p>
-        <p>
-        <p>
-        <form id="loginMember" role="form" action="{{ url_for('login') }}" method="post">
+        <form id="loginMember" role="form" action="{{ url_for('findfriends') }}" method="post">
+          <p>
+          <p>
+          <br>
           <div class="container  text-left" style="width: 88%">
             {{ findfriends.hidden_tag() }}
             {{ findfriends.friend(class = "form-control", placeholder = "Enter your friend's name here", style="height: 40px; padding:10px") }}
           </div>
+          <p>
           <div class="container  text-center" style="width: 100%">
             {{ wtf.form_field(findfriends.submit)}}
           </div>
