@@ -155,7 +155,7 @@
                 
           {% if current_user.is_authenticated %}
           
-            <div class="btn-group" style="padding:0 ;padding-top: 10;">
+            <div class="btn-group" style="padding:0 ;padding-top: 15;">
               
                 <button type="button" class="btn btn-link btn-sm text-light mr-auto" style="padding: 0; text-decoration: none"><li><a class="nav-link text-light" href="{{ url_for('profile') }}">My Profile</a></li></button>
                 <button type="button" class="btn btn-link btn-sm px-3 text-light" data-toggle="dropdown" aria-haspopup="true"
@@ -173,15 +173,17 @@
                   </ul>
             </div>
             
-          <li class="nav-item" style="padding-top: 10 ">
+          <li class="nav-item" style="padding-top: 15 ">
               <button type="button" class="btn btn-link btn-sm" style="text-decoration: none" ><li><a class="nav-link text-light" href="{{ url_for('logout') }}" >Logout</a></li></button>
           </li>
           {% else %}
-          <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+          <li class="nav-item" style="padding-top: 15 ">
+              <button type="button" class="btn btn-link btn-sm" style="text-decoration: none" ><li><a class="nav-link text-light" href="{{ url_for('login') }}" >Login</a></li></button>
+          
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('signup') }}">Register</a>
+            <li class="nav-item" style="padding-top: 15 ">
+                <button type="button" class="btn btn-link btn-sm" style="text-decoration: none" ><li><a class="nav-link text-light" href="{{ url_for('signup') }}" >Register</a></li></button>
+       
             </li>
           {% endif %}
         </form>

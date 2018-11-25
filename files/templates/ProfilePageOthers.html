@@ -1,0 +1,108 @@
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% block body %}
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Help Me Recipe</title>
+
+        <!-- Font Awesome -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/css/mdb.min.css" rel="stylesheet">
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
+</head>
+
+<style>
+ body{
+  font-family: 'Poppins', sans-serif;
+        background-image: url(/static/Images/bg.png);
+        background-size: 100%;
+        margin:0;
+      }
+</style>
+{% include 'includes/navbar.html' %}
+    <body>
+          <!-- Start your project here-->
+          <div class="row">
+              <div class="col-12 col-sm-6 col-lg-8" style="width: 50vh; height: 50vh">
+                  <div class="media">
+                      <img class="d-flex mr-3 p-4" src="{{ image_file }}" alt="Generic placeholder image" style="width: 200px">
+                  <!--   <button type="button" class="btn btn-outline-dark-green" value="Follow">Follow</button>--> 
+                      <div class="media-body p-4">
+                            <h3 class="font-weight-bold text-light" style="margin-top: 50px">
+                            {{ user.username }}: {{ user.cookingExperience }}</h3>
+                            <h3 class="font-weight-bold text-light" style="margin-top: 10px">
+                            {{ user.firstName }} {{ user.lastName }}</h3>
+                            <h3 class="font-weight-bold text-light" style="margin-top: 10px">
+                            {{ user.email}}</h3>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-6 col-lg-4" style="width: 50vh; height:35vh">
+                  <h5 class="font-weight-bold text-light" style="margin-top: 25px">
+                      <div class="row">
+                        <button type="button" class="btn btn-outline-dark-green" value="Follow">Follow</button>
+                        {% include 'includes/postPop.html' %}
+                      </div>        
+                  </h5>
+              </div>      
+            </div>
+            <div class="row" style="padding:20">
+                  <div class="col-2 " style="height:50vh; padding:0; padding-left: 30px; margin:0;">
+                    <div style="height: 100vh;" >
+                      <div  >
+                        <div class="card flex bg-dark nopadding" style="padding:0; margin:0; width:100%">
+                          <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0; padding-left: 10" >Followers</h4>
+                        
+                          {% for follower in followers%}
+                          <div class="card-body" >
+                            <!-- <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left"> -->
+                            <!--description needs to show a certain length of description-->
+                            <p class="card-text mr-2 ml-2">{{ follower.followername }}</p>
+                          </div>
+                          {% endfor %}
+                          <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0; padding-left: 10" >Following</h4>
+
+                          {% for followed in following%}
+                          <div class="card-body" >
+                            <!-- <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left"> -->
+                            <!--description needs to show a certain length of description-->
+                            <p class="card-text mr-2 ml-2">{{ followed.followedname }}</p>
+                          </div>
+                          {% endfor %}
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-7" style="padding:10; margin:0; height:50vh">
+                    <div class="" style="padding:10; margin:0" >
+                      
+                          {% include 'includes/formatForProfileRecipes.html' %}
+                          {% include 'includes/formatForGroupPosts.html' %}
+                      
+                    </div>
+                  </div>
+                  <div class="col-2"  style="padding:10; margin:0;">
+                      {% include 'includes/favoritesBlock.html' %}
+                  </div>
+            </div>
+             
+
+      </body>
+
+{% endblock %}
