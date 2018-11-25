@@ -661,7 +661,8 @@ def findfriends():
     formsearch = RecipeSearchForm()
     findfriends = FindFriends()
     if findfriends.validate_on_submit:
-        friends = db.engine.execute("SELECT username FROM users where username = %s", findfriends.friend.data)
+
+        friends = db.engine.execute("SELECT * from (users left join followers on followers.followedid = users.id and followerid = %s) where username = %s", current_user.id, findfriends.friend.data)
     return render_template('findfriends.html',  form5=formsearch, findfriends = findfriends, friends = friends)
 
 ############################################################################# FOLLOW OTHER USERS #######################################
@@ -696,3 +697,45 @@ def remove_follower(followedid, followerid):
     formCurrent = PostFormCurrentlyEating()
 
     return redirect(url_for('homepage'))
+
+@app.route('/otherprofilepage/<int:hisid>', methods=['GET', 'POST'])
+@login_required
+def showprofile(hisid):
+
+    
+    #users = db.engine.execute("SELECT * FROM users WHERE id = %s", hisid)
+    userss = users.query.filter_by(id = hisid).first()
+
+    
+    image_file = url_for('static', filename='Images/' + userss.profilePic)
+
+    formsearch = RecipeSearchForm()
+    form = PostFormHungryFor()
+    formNormalText = PostForm()
+    formCurrent = PostFormCurrentlyEating()
+
+    allposts = postss.query.all()
+    recipes = rec.query.filter_by(user_id=hisid)
+    favRecipes = favs.query.filter_by(user_id=hisid)
+    followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", hisid)
+    following = db.engine.execute("SELECT followedname FROM followers where followerid = %s", hisid)
+
+    count2 = 0
+
+    for x in recipes:
+        count2 = count2 + 1
+
+    count = 0
+
+    for x in favRecipes:
+        count = count + 1
+
+    if count == 0 and count2 != 0:
+        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+    elif count == 0 and count2 == 0:
+        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+    elif count != 0 and count2 == 0:
+        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+    else:
+        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file,recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+

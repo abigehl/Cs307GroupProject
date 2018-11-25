@@ -40,22 +40,25 @@
                       <img class="d-flex mr-3 p-4" src="{{ image_file }}" alt="Generic placeholder image" style="width: 200px">
                   <!--   <button type="button" class="btn btn-outline-dark-green" value="Follow">Follow</button>--> 
                       <div class="media-body p-4">
+
+                       
                             <h3 class="font-weight-bold text-light" style="margin-top: 50px">
-                            {{ user.username }}: {{ user.cookingExperience }}</h3>
+                            {{ users.username }}: {{ users.cookingExperience }}</h3>
                             <h3 class="font-weight-bold text-light" style="margin-top: 10px">
-                            {{ user.firstName }} {{ user.lastName }}</h3>
+                            {{ users.firstName }} {{ users.lastName }}</h3>
                             <h3 class="font-weight-bold text-light" style="margin-top: 10px">
-                            {{ user.email}}</h3>
+                            {{ users.email}}</h3>
+
+                        
                       </div>
                   </div>
               </div>
               <div class="col-6 col-lg-4" style="width: 50vh; height:35vh">
-                  <h5 class="font-weight-bold text-light" style="margin-top: 25px">
+                  <h3 class="font-weight-bold text-light" style="margin-top: 25px">
                       <div class="row">
-                        <button type="button" class="btn btn-outline-dark-green" value="Follow">Follow</button>
                         {% include 'includes/postPop.html' %}
                       </div>        
-                  </h5>
+                  </h3>
               </div>      
             </div>
             <div class="row" style="padding:20">
