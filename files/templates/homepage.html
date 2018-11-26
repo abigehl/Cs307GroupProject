@@ -40,15 +40,15 @@
                 <div class=" col-sm">
 
                 </div>
-             
+
               <div class="col-sm float-right">
                 <div class="row">
                   <div class="col-sm ">
                   </div>
                   {% if current_user.is_authenticated %}
-          
+
               {% include 'includes/postPop.html' %}
-              
+
           {% endif %}
                     {% if current_user.is_authenticated %}
                   <div class="col-sm"  style="padding-top: 40px; width: 70px">
@@ -87,9 +87,9 @@
             </div>
           </div>
 
-          {%include 'includes/formatforSearchRecipes.html' %}
+          {%include 'includes/formatForSearchRecipes.html' %}
           {%include 'includes/formatForAllRecipes.html' %}
-          
 
-          
+
+
  {% endblock %}

@@ -14,6 +14,7 @@ from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 import re
+from sqlalchemy import func
 
 google_blueprint = make_google_blueprint(
     client_id="640840633381-8rrcgg5r9hru2al5e853jq95valimmd5.apps.googleusercontent.com",
@@ -208,7 +209,7 @@ def homepage():
                                             left join followers on (followers.followedid = postss.user_id and followerid = %s) \
                                         ORDER BY dateposted desc;", current_user.id, current_user.id)\
 
-    else: 
+    else:
         allrecipes = db.engine.execute("SELECT * FROM rec WHERE 1 = 0")
 
 
@@ -471,7 +472,7 @@ def update_post(post_id):
         db.engine.execute("UPDATE postss SET content = %s WHERE ID = %s", (hungryFood, post_id))
         db.session.commit()
         return redirect(url_for('profile'))
-        
+
     return render_template('editPost.html', form=form, form5=formsearch, post=post)
 
 ######################################################################## CREATE NEW RECIPE ########################################################################
@@ -660,10 +661,14 @@ def all_comments():
 @login_required
 def discovery():
 
-    recipes = rec.query.all();
-    posts = postss.query.all();
+    #recipes = rec.query.all();
+    #posts = postss.query.all();
+    obj = rec.query.count()
+    recipes = rec.query.order_by(func.rand()).first()
+    recuser = users.query.get(recipes.user_id) 
+    print(recipes.dateposted)
     formsearch = RecipeSearchForm()
-    return render_template('discovery.html', recipes = recipes, posts = posts, form5=formsearch)
+    return render_template('discovery.html', rec = recipes, recuser = recuser, form5=formsearch)
 
 
 @app.route("/findfriends", methods=['POST', 'GET'])
@@ -682,7 +687,7 @@ def findfriends():
 @app.route("/follow/<int:followedid><string:followedname>/add", methods=['POST', 'GET'])
 @login_required
 def add_follower(followedid, followedname):
-    
+
 
     follower = followers(followerid = current_user.id, followedid = followedid, followername = current_user.username, followedname = followedname)
     db.session.add(follower)
@@ -699,7 +704,7 @@ def add_follower(followedid, followedname):
 @app.route("/follow/<int:followedid><int:followerid>/remove", methods=['POST', 'GET'])
 @login_required
 def remove_follower(followedid, followerid):
-    
+
 
     db.engine.execute("DELETE FROM followers WHERE followedid = %s AND followerid = %s", followedid, followerid)
 
@@ -714,11 +719,11 @@ def remove_follower(followedid, followerid):
 @login_required
 def showprofile(hisid):
 
-    
+
     #users = db.engine.execute("SELECT * FROM users WHERE id = %s", hisid)
     userss = users.query.filter_by(id = hisid).first()
 
-    
+
     image_file = url_for('static', filename='Images/' + userss.profilePic)
 
     formsearch = RecipeSearchForm()
@@ -750,4 +755,3 @@ def showprofile(hisid):
         return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
     else:
         return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file,recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
-
