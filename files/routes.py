@@ -187,7 +187,7 @@ def signup():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-
+################################################################## HOME ##########################################
 @app.route('/', methods=['GET', 'POST'])
 #@login_required
 def homepage():
@@ -197,9 +197,20 @@ def homepage():
     #favRecipes = favs.query.filter_by(user_id=current_user.id)
     form = PostFormHungryFor()
     if current_user.is_authenticated:
-        allrecipes = db.engine.execute("select * from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) left join followers on (followers.followedid = rec.user_id and followerid = %s)", current_user.id)
+        # allrecipes = db.engine.execute("SELECT rec_name, rec_description, user_id, recipePic, dateposted, username, followername, rating from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) left join followers on (followers.followedid = rec.user_id and followerid = %s)", current_user.id)
+        # allposts = db.engine.execute("SELECT content_current, content, user_id, link_current, post_date, username, followername, followerid from \
+        #                                 postss left join (select id, username from users) as a on postss.user_id = a.id \
+        #                                     left join followers on (followers.followedid = postss.user_id and followerid = %s)", current_user.id )
+        allrecipes = db.engine.execute("SELECT rec.id, rec_name, rec_description, user_id, recipePic, dateposted, username, followername, rating  from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) \
+                                            left join followers on (followers.followedid = rec.user_id and followerid = %s) \
+                                        UNION \
+                                        select postss.id, content_current, content, user_id, link_current, post_date, username, followername, followerid from postss left join (select id, username from users) as a on postss.user_id = a.id \
+                                            left join followers on (followers.followedid = postss.user_id and followerid = %s) \
+                                        ORDER BY dateposted desc;", current_user.id, current_user.id)\
+
     else: 
         allrecipes = db.engine.execute("SELECT * FROM rec WHERE 1 = 0")
+
 
     if form.validate_on_submit():
         toSend = "I am hungry for " + form.content.data
