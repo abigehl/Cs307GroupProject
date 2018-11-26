@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Index
+from sqlalchemy import Index, func
 
 from flask_bootstrap import Bootstrap
 from flask_bcrypt import Bcrypt
@@ -73,7 +73,7 @@ class rec(db.Model):
     sodium = db.Column('sodium', db.String(10), default="")
     user_id = db.Column(db.Integer, nullable=False)
     recipePic = db.Column(db.String(80), default="spicy.jpg")
-
+    dateposted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     def __repr__(self):
         return 'rec({self.rec_name}, {self.prep_time}, {self.cook_time}, {self.rec_instruction}, {self.rec_description}, {self.fat}, {self.cholesterol}, {self.sodium}, {self.calories})'
 
