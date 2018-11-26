@@ -5,7 +5,7 @@ from files import app, db, bcrypt, mail
 from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
                         UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
                         RecipeSearchForm, RecipeSearchForm, CommentForm, FindFriends)
-from files.__init__ import users, rec, postss, favs, post_comments, followers
+from files.__init__ import users, rec, postss, favs, post_comments, followers, likers
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -204,7 +204,7 @@ def homepage():
         allrecipes = db.engine.execute("SELECT rec.id, rec_name, rec_description, user_id, recipePic, dateposted, username, followername, rating  from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) \
                                             left join followers on (followers.followedid = rec.user_id and followerid = %s) \
                                         UNION \
-                                        select postss.id, content_current, content, user_id, link_current, post_date, username, followername, followerid from postss left join (select id, username from users) as a on postss.user_id = a.id \
+                                        select postss.id, scontent_current, content, user_id, link_current, post_date, username, followername, followerid from postss left join (select id, username from users) as a on postss.user_id = a.id \
                                             left join followers on (followers.followedid = postss.user_id and followerid = %s) \
                                         ORDER BY dateposted desc;", current_user.id, current_user.id)\
 

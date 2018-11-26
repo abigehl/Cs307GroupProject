@@ -167,6 +167,11 @@ class followers(db.Model):
     followername = db.Column(db.String(80))
     followedname = db.Column(db.String(80))
 
+
+class likers(db.Model):
+    liked_post = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True)
+
 #from models import users, rec, postss
 # if __name__ == '__main__':
 # manager.run()
