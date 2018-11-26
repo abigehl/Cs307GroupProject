@@ -170,7 +170,7 @@ class followers(db.Model):
 
 class likers(db.Model):
     liked_post = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.Integer, primary_key=True)
 
 #from models import users, rec, postss
 # if __name__ == '__main__':

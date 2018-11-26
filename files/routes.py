@@ -201,12 +201,13 @@ def homepage():
         # allposts = db.engine.execute("SELECT content_current, content, user_id, link_current, post_date, username, followername, followerid from \
         #                                 postss left join (select id, username from users) as a on postss.user_id = a.id \
         #                                     left join followers on (followers.followedid = postss.user_id and followerid = %s)", current_user.id )
-        allrecipes = db.engine.execute("SELECT rec.id, rec_name, rec_description, user_id, recipePic, dateposted, username, followername, rating  from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) \
+        allrecipes = db.engine.execute("SELECT rec.id, rec_name, rec_description, user_id, recipePic, dateposted, username, followername, rating, number_of_ratings  from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) \
                                             left join followers on (followers.followedid = rec.user_id and followerid = %s) \
                                         UNION \
-                                        select postss.id, scontent_current, content, user_id, link_current, post_date, username, followername, followerid from postss left join (select id, username from users) as a on postss.user_id = a.id \
-                                            left join followers on (followers.followedid = postss.user_id and followerid = %s) \
-                                        ORDER BY dateposted desc;", current_user.id, current_user.id)\
+                                        select b.id, content_current, content, user_id, link_current, post_date, username, followername, userid, nlikes from \
+                                        (select * from postss left join likers on postss.id = likers.liked_post and likers.userid = %s) as b left join (select id, username from users) as a on b.user_id = a.id \
+                                            left join followers on (followers.followedid = b.user_id and followerid = %s) \
+                                        ORDER BY dateposted desc;", current_user.id, current_user.id, current_user.id)
 
     else: 
         allrecipes = db.engine.execute("SELECT * FROM rec WHERE 1 = 0")
@@ -710,6 +711,42 @@ def remove_follower(followedid, followerid):
 
     return redirect(url_for('homepage'))
 
+########################################################################## REMOVE LIKE ######################################
+@app.route("/like/<int:postid>/remove", methods=['POST', 'GET'])
+@login_required
+def remove_like(postid):
+    
+
+    db.engine.execute("DELETE FROM likers WHERE liked_post = %s AND userid = %s", postid, current_user.id)
+    db.engine.execute("UPDATE postss SET nlikes = nlikes - 1")
+
+    formsearch = RecipeSearchForm()
+    form = PostFormHungryFor()
+    formNormalText = PostForm()
+    formCurrent = PostFormCurrentlyEating()
+
+    return redirect(url_for('homepage'))
+
+########################################################################### ADD LIKE ########################################
+@app.route("/like/<int:postid>/add", methods=['POST', 'GET'])
+@login_required
+def add_like(postid):
+    
+
+    like = likers(liked_post = postid, userid = current_user.id)
+    db.engine.execute("UPDATE postss SET nlikes = nlikes + 1 where id = %s", postid)
+    db.session.add(like)
+    db.session.commit()
+
+    formsearch = RecipeSearchForm()
+    form = PostFormHungryFor()
+    formNormalText = PostForm()
+    formCurrent = PostFormCurrentlyEating()
+
+    return redirect(url_for('homepage'))
+
+
+########################################################################### OTHER PROFILE PAGE VIEW ##################################
 @app.route('/otherprofilepage/<int:hisid>', methods=['GET', 'POST'])
 @login_required
 def showprofile(hisid):
