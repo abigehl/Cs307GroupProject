@@ -653,7 +653,6 @@ def all_comments():
     allComments = post_comments.query.filter_by(post_id=65)
     return render_template('testComment2.html', allComments = allComments)
 #--------------------------------------------------------------------------------------------------------------------------------------------
-#COMMENT SECTION
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
 @app.route("/discovery", methods=['POST', 'GET'])
