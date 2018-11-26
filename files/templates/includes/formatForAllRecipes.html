@@ -80,6 +80,24 @@
                                               <button type="submit" class="btn btn-default login-popup-btn" name="UNFOLLOW" value="1">UNFOLLOW {{rec.username}} </button>
                                           </form>
                                         {% endif %}
+
+                                        {% if  rec.rating == none %}
+                                          <form action="{{ url_for('add_like', postid = rec.id )}}" method="post">
+                                              <button type="submit" class="btn btn-default login-popup-btn" name="LIKE" value="1">LIKE
+                                              </button>
+                                          </form>
+                                          <p class="card-text text-light"> {{rec.number_of_ratings}} likes </p>
+                                        
+                                        {% else %}
+
+                                          <form action="{{ url_for('remove_like', postid = rec.id) }}" method="post">
+                                              <button type="submit" class="btn btn-default login-popup-btn" name="REMOVELIKE" value="1">LIKED </button>
+                                              
+                                          </form>
+                                          <p class="card-text text-light"> {{rec.number_of_ratings}} likes </p>
+                                        {% endif %}
+
+
                           {% endif %}
                         </div>
                       </div>
