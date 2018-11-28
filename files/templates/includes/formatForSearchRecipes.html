@@ -6,7 +6,7 @@
                     <div class="card-body flex-center" style="height:500px; padding-top: 0">
                         <div class="card-body bg-dark">
                             <p class="h4 text-light" style="padding-left: 5px"> {{rec.rec_name}}</p>
-                            <img class="d-flex mr-3 p-4" src="static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="width: 200px">
+                            <img class="d-flex mr-3 p-4" src="../static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="width: 200px">
                             <p class="card-text mr-2 ml-2 text-light" style="padding-right: 100px; height: 100px">{{rec.rec_description}}</p>
                             <p class="left card-text mr-2 ml-2 text-light">By: {{rec.user_id}}</p>
                       
@@ -16,9 +16,11 @@
                                                     <!--<a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>-->
                                                     <button type="submit" class="btn btn-elegant">Take me there</button>
                                             </form>
+                                {% if current_user.is_authenticated %}
                                 <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
                                     <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
                                 </form>
+                                {% endif %}
                                 {% if current_user.id == rec.user_id %}
                                 <form action="{{ url_for('update_recipe', recipe_id=rec.id) }}" method="post">
                                   <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>

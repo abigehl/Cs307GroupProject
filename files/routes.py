@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from files import app, db, bcrypt, mail
 from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
                         UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
-                        RecipeSearchForm, RecipeSearchForm, CommentForm, FindFriends)
+                        RecipeSearchForm,  RecipeSearchForm, CommentForm, FindFriends)
 from files.__init__ import users, rec, postss, favs, post_comments, followers, likers
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
@@ -244,7 +244,6 @@ def homepage():
 
 ################################################################## RECIPE SEARCH ###################################################
 @app.route('/search', methods=['GET', 'POST'])
-
 def search():
 
     formsearch = RecipeSearchForm()
@@ -263,20 +262,37 @@ def search():
         calories = calories.replace('-', '')
         calories = calories.replace('$', '').split()
 
-    if formsearch.validate_on_submit():
+    if formsearch.validate_on_submit():   
         if is_filled(formsearch.keyWord.data):
             keywords = parser_first_round(formsearch.keyWord.data)
             keywords_sufix = parser_search_sufix(formsearch.keyWord.data)
             recipes = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND ((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))",minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
-            return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
+            return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
 
         else:
+
             recipes = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s )", minmax[1], minmax[0], calories[0], calories[1])
-            return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
+            return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
 
 
 
-    return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
+    return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
+
+@app.route('/searchthing/<string:thing>', methods=['GET', 'POST'])
+def searchthings(thing):
+
+    formsearch = RecipeSearchForm()
+    form = PostFormHungryFor()
+    formNormalText = PostForm()
+    formCurrent = PostFormCurrentlyEating()
+
+    if thing is "":
+        return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
+
+    else:
+        
+        recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE)))", thing)
+        return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
 
 
 @app.route('/advancedsearch', methods=['GET', 'POST'])

@@ -111,12 +111,12 @@
           </div>
           <div class="suggestion-wrap" style="font-size: 14px; padding-top: 10; display: inline-block;  line-height: 32px; color: #fff; border-radius: 16px; margin-right: 10px; margin-bottom: 10px;">
             
-            <span  style="padding-left: 20; padding-right:20 ;">Breakfast SEARCH NEEDED FOR THESE</span>
+            <a  class="card-link text-light" style="padding-left: 20; padding-right:20 ;" href="{{url_for('searchthings', thing='breakfast')}}">Breakfast</a>
             
-            <span style="padding-left: 20; padding-right:20 ;">Lunch</span>
-            <span style="padding-left: 20; padding-right:20 ;">Dinner</span>
-            <span style="padding-left: 20; padding-right:20 ;">Fast</span>
-            <span style="padding-left: 20; padding-right:20 ;">Easy</span>
+            <a  class="card-link text-light" style="padding-left: 20; padding-right:20 ;" href="{{url_for('searchthings', thing='lunch')}}">Lunch</a>
+            <a  class="card-link text-light" style="padding-left: 20; padding-right:20 ;"  href="{{url_for('searchthings', thing='dinner')}}">Dinner</a>
+            <a class="card-link text-light"  style="padding-left: 20; padding-right:20 ;"  href="{{url_for('searchthings', thing='fast')}}">Fast</a>
+            <a class="card-link text-light" style="padding-left: 20; padding-right:20 ;"  href="{{url_for('searchthings', thing='easy')}}">Easy</a>
           </div>
       
      
