@@ -25,58 +25,58 @@
 
 <style>
  body{
-        background-image: url(../static/Images/bgg.png);
+  
+
         font-family: 'Poppins', sans-serif;
         background-size: 100%;
         margin:0;
       }
 </style>
-{% block body %}
 {% include 'includes/navbar.html' %}
+<body style=" background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54)); background-repeat: no-repeat; size:100%">
+  <div style="height:30">
+  {% if current_user.is_authenticated %}
+
+    {% include 'includes/postPop.html' %}
+
+      {% endif %}
+    </div> 
           <!-- Start your project here-->
-          <div style="height: 5vh">
+
+          <div >
             <div class="flex-start">
-              <div class="row">
-                <div class=" col-sm">
+             <div class="row">
 
-                </div>
-
-              <div class="col-sm float-right">
-                <div class="row">
-                  <div class="col-sm ">
+                  <div class="col-10" style="padding-top: 40px">
+                    
+                      {%include 'includes/formatForSearchRecipes.html' %}
+{%include 'includes/formatForFriendsRecipes.html' %}
                   </div>
-                  {% if current_user.is_authenticated %}
-
-              {% include 'includes/postPop.html' %}
-
-          {% endif %}
-
-                    {% if current_user.is_authenticated %}
-                  <div class="col-sm"  style="padding-top: 40px; width: 70px">
-                      {% include 'includes/favoritesBlock.html' %}
-                  </div>
-                  {% else %}
-                  <div class="col-sm"  style="padding-top: 40px;">
+                  <div class="col-2"  style="padding-top: 40px;">
+                      {% if current_user.is_authenticated %}
+                          
+                      {% else %}
                       <div class="card background-color:transparent;">
                         <ul class="list-group list-group-flush">
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Breakfast</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Lunch</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Dinner</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Soup</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Salad</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Vegan</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Cheap</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Quick</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Spicy</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Snack</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Dessert</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Vegetarian</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Cold</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Hot</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">College</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Asian</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">BBQ</a></li>
-                          <li class="list-group-item bg-dark"><a href="#" class="card-link text-light">Mexican</a></li>
+                          
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='crepe')}}" class="card-link text-light">Breakfast</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='lunch')}}" class="card-link text-light">Lunch</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='dinner')}}" class="card-link text-light">Dinner</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='soup')}}" class="card-link text-light">Soup</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='salad')}}" class="card-link text-light">Salad</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='vegan')}}" class="card-link text-light">Vegan</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='cheap')}}" class="card-link text-light">Cheap</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='quick')}}" class="card-link text-light">Quick</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='spicy')}}" class="card-link text-light">Spicy</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='snack')}}" class="card-link text-light">Snack</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='dessert')}}" class="card-link text-light">Dessert</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='vegetarian')}}" class="card-link text-light">Vegetarian</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='cold')}}" class="card-link text-light">Cold</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='hot')}}" class="card-link text-light">Hot</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='college')}}" class="card-link text-light">College</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='asian')}}" class="card-link text-light">Asian</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='bbq')}}" class="card-link text-light">BBQ</a></li>
+                          <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='mexican')}}" class="card-link text-light">Mexican</a></li>
                         </ul>
                       </div>
                     </div>
@@ -106,6 +106,7 @@
           </div>
 
           {%include 'includes/formatForSearchRecipes.html' %}
+{%include 'includes/formatForFriendsRecipes.html' %}
           <br>
           <br>
           <br>
@@ -115,7 +116,11 @@
           <br>
           <br>
           <br>
-          {%include 'includes/formatForFriendsRecipes.html' %}
+          {%include 'includes/formatForSearchRecipes.html' %}
+{%include 'includes/formatForFriendsRecipes.html' %}
 
 
- {% endblock %}
+
+        </div>
+        </div>
+</body>
