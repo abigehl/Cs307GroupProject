@@ -92,7 +92,7 @@
   {% include 'includes/navbar.html' %}
    
   <div class="searchSec flex-center">
-      <form id="form" onsubmit="return false">
+      <form id="form" action="searchadvanced" method='POST' onsubmit="return false">
       
           <legend style="font-size: 36px; color: #fff; font-weight: 800; text-align: center; padding-bottom: 40">WHAT ARE YOU LOOKING FOR?</legend>
           <div class="inner-form" >
@@ -162,8 +162,11 @@ var idnum=0;
         stringtags+=";";
         index++;
       }
+      var apple= "this sucks";
+      var container = document.getElementById("contain");
+      container.innerHTML=stringtags;
    
-      window.location.href("{{ url_for('searchadvanced', things = stringtags) }}");
+      window.location.href('../searchadvanced/'+stringtags);
     }
  
     var input = document.getElementById("searchinput");

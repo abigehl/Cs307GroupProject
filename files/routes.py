@@ -302,6 +302,7 @@ def searchthings(thing):
 def searchadvanced(things):
     print("things")
     print(things)
+    
     formsearch = RecipeSearchForm()
     form = PostFormHungryFor()
     formNormalText = PostForm()
@@ -313,6 +314,7 @@ def searchadvanced(things):
 
     else:
         words = things.split(';')
+        words= list(filter(None, words))
         print(words)
         recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE)))", words)
         return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
