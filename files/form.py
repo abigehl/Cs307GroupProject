@@ -38,6 +38,9 @@ class RecipeForm(FlaskForm):
     prep_time = StringField('Preperation Time', validators=[DataRequired()])
     cook_time = StringField('Cook Time', validators=[DataRequired()])
     rec_instruction = TextAreaField('Instruction')
+
+    #ingredients = FieldList(StringField(), min_entries=1);
+
     ing_1 = StringField('Ingredient 1', validators=[DataRequired()])
     ing_2 = StringField('Ingredient 2')
     ing_3 = StringField('Ingredient 3')

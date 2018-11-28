@@ -161,7 +161,8 @@
                                         <div class="form-inline">
                                             <div class="form-group">
                                                 <!--<label class="sr-only" for="field-name">Field Name</label>-->
-                                                <input type="text" class="form-control" id="text-field" placeholder="Ingredient" name="arr">
+                                                <!--<input type="text" class="form-control" id="text-field" placeholder="Ingredient" name="arr">-->
+                                                {{ wtf.form_field(form.ing_1, class_="form-control", placeholder="ingredient") }}
                                             </div>
                                             
                                             <button class="btn btn-danger" data-role="remove">
@@ -214,6 +215,7 @@
                     $(this).val('');
                 });
                 container.append(new_field_group);
+                showInput();
             }
         );
         // Remove button click
@@ -223,6 +225,7 @@
             function(e) {
                 e.preventDefault();
                 $(this).closest('.form-inline').remove();
+                showInput();
             }         
         );
 
@@ -235,15 +238,17 @@
         var x = document.getElementsByName("arr");
         var ingr_arr = new Array();
 
-
         var i;
         for (i = 0; i < x.length; i++) {
             ingr_arr.push(x[i]);
         }
         //document.write(ingr_arr[0].value);
         //document.write(ingr_arr[1].value);
+        print("whats up\n");
         for (var k=0;k<ingr_arr.length;k++) {
-            document.write(ingr_arr[k].value + ", ");
+            //document.write(ingr_arr[k].value + ", ");
+
+
         }
         //document.write(document.getElementsByName("arr[]").length);
     
