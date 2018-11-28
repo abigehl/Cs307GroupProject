@@ -3,12 +3,12 @@
  
     {% for rec in recipes %}
               
-                    <div class="card-body flex-center" style="height:500px; padding-top: 0">
+                    <div class="card-body flex-center" style="height:500px; padding-left: 250px; padding-right: 300px">
                         <div class="card-body bg-dark">
                             <p class="h4 text-light" style="padding-left: 5px"> {{rec.rec_name}}</p>
                             <img class="d-flex mr-3 p-4" src="static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="width: 200px">
                             <p class="card-text mr-2 ml-2 text-light" style="padding-right: 100px; height: 100px">{{rec.rec_description}}</p>
-                            <p class="left card-text mr-2 ml-2 text-light">By: {{rec.user_id}}</p>
+                            <p class="left card-text mr-2 ml-2 text-light">By: {{rec.username}}</p>
                       
                             <div class="container">
                               <div class="row">
@@ -31,7 +31,7 @@
                             </div>
                           </div>
                     </div>
-                <br>
+
 
     {% endfor %}
    

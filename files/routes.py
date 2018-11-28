@@ -202,7 +202,7 @@ def homepage():
         # allposts = db.engine.execute("SELECT content_current, content, user_id, link_current, post_date, username, followername, followerid from \
         #                                 postss left join (select id, username from users) as a on postss.user_id = a.id \
         #                                     left join followers on (followers.followedid = postss.user_id and followerid = %s)", current_user.id )
-        allrecipes = db.engine.execute("SELECT rec.id, rec_name, rec_description, user_id, recipePic, dateposted, username, followername, rating, number_of_ratings  from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) \
+        allrecipes = db.engine.execute("SELECT rec.id as id, rec_name, rec_description, user_id, recipePic, dateposted, username, followername, rating, number_of_ratings  from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) \
                                             left join followers on (followers.followedid = rec.user_id and followerid = %s) \
                                         UNION \
                                         select b.id, content_current, content, user_id, link_current, post_date, username, followername, userid, nlikes from \
@@ -267,7 +267,9 @@ def search():
         if is_filled(formsearch.keyWord.data):
             keywords = parser_first_round(formsearch.keyWord.data)
             keywords_sufix = parser_search_sufix(formsearch.keyWord.data)
-            recipes = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND ((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))",minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
+            recipes = db.engine.execute("SELECT * FROM (SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND \
+                ((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) \
+                    AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd",minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
             return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
 
         else:
@@ -563,6 +565,12 @@ def delete_recipe(recipe_id):
     current_db_sessions.delete(recipee)
     current_db_sessions.commit()
 
+    favrecipee = favs.query.filter_by(id=recipe_id).first()
+
+    current_db_sessions = db.session.object_session(favrecipee)
+    current_db_sessions.delete(favrecipee)
+    current_db_sessions.commit()
+
     return redirect(url_for('profile'))
 
 #############################################################################
@@ -682,10 +690,17 @@ def findfriends():
 
     formsearch = RecipeSearchForm()
     findfriends = FindFriends()
+    allrecipes = db.engine.execute("SELECT rec.id as id, rec_name, rec_description, user_id, recipePic, dateposted, username, followername, rating, number_of_ratings  from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) \
+                                            left join followers on (followers.followedid = rec.user_id and followerid = %s) \
+                                        UNION \
+                                        select b.id, content_current, content, user_id, link_current, post_date, username, followername, userid, nlikes from \
+                                        (select * from postss left join likers on postss.id = likers.liked_post and likers.userid = %s) as b left join (select id, username from users) as a on b.user_id = a.id \
+                                            left join followers on (followers.followedid = b.user_id and followerid = %s) \
+                                        ORDER BY dateposted desc;", current_user.id, current_user.id, current_user.id)
     if findfriends.validate_on_submit:
 
         friends = db.engine.execute("SELECT * from (users left join followers on followers.followedid = users.id and followerid = %s) where username = %s", current_user.id, findfriends.friend.data)
-    return render_template('findfriends.html',  form5=formsearch, findfriends = findfriends, friends = friends)
+    return render_template('findfriends.html',  form5=formsearch, findfriends = findfriends, friends = friends, allrecipes = allrecipes)
 
 ############################################################################# FOLLOW OTHER USERS #######################################
 
@@ -727,7 +742,7 @@ def remove_like(postid):
     
 
     db.engine.execute("DELETE FROM likers WHERE liked_post = %s AND userid = %s", postid, current_user.id)
-    db.engine.execute("UPDATE postss SET nlikes = nlikes - 1")
+    db.engine.execute("UPDATE postss SET nlikes = nlikes - 1 where id = %s", postid)
 
     formsearch = RecipeSearchForm()
     form = PostFormHungryFor()
@@ -741,8 +756,11 @@ def remove_like(postid):
 @login_required
 def add_like(postid):
     
+    print("Hello : ", postid)
 
     like = likers(liked_post = postid, userid = current_user.id)
+
+    # luike = postss.query.filter_by(id=postid).first()
     db.engine.execute("UPDATE postss SET nlikes = nlikes + 1 where id = %s", postid)
     db.session.add(like)
     db.session.commit()
