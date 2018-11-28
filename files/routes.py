@@ -666,11 +666,15 @@ def discovery():
     #posts = postss.query.all();
     obj = rec.query.count()
     recipes = rec.query.order_by(func.rand()).first()
-    recuser = users.query.get(recipes.user_id) 
+    recuser = users.query.get(recipes.user_id)
     print(recipes.dateposted)
     formsearch = RecipeSearchForm()
     return render_template('discovery.html', rec = recipes, recuser = recuser, form5=formsearch)
 
+@app.route("/map", methods=['POST', 'GET'])
+def map():
+    formsearch = RecipeSearchForm()
+    return render_template('map.html',  form5=formsearch)
 
 @app.route("/findfriends", methods=['POST', 'GET'])
 @login_required
