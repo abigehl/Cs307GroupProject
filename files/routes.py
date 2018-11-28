@@ -294,6 +294,27 @@ def searchthings(thing):
         recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE)))", thing)
         return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
 
+@app.route('/searchadvanced/<string:things>', methods=['GET', 'POST'])
+def searchadvanced(things):
+    print("things")
+    print(things)
+    formsearch = RecipeSearchForm()
+    form = PostFormHungryFor()
+    formNormalText = PostForm()
+    formCurrent = PostFormCurrentlyEating()
+
+    if things is "":
+        
+        return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
+
+    else:
+        words = things.split(';')
+        print(words)
+        recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE)))", words)
+        return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
+    
+    return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
+
 
 @app.route('/advancedsearch', methods=['GET', 'POST'])
 def advancedsearch():

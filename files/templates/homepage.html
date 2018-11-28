@@ -34,28 +34,28 @@
 </style>
 {% include 'includes/navbar.html' %}
 <body style=" background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54)); background-repeat: no-repeat; size:100%">
+  <div style="height:30">
+  {% if current_user.is_authenticated %}
 
+    {% include 'includes/postPop.html' %}
 
+      {% endif %}
+    </div> 
           <!-- Start your project here-->
 
           <div >
             <div class="flex-start">
              <div class="row">
-                  {% if current_user.is_authenticated %}
 
-              {% include 'includes/postPop.html' %}
-
-                {% endif %}
-
-                    {% if current_user.is_authenticated %}
-                  <div class="col-sm"  style="padding-top: 40px; width: 70px">
-                      {% include 'includes/favoritesBlock.html' %}
-                  </div>
-                  {% else %}
                   <div class="col-10" style="padding-top: 40px">
+                    
                       {%include 'includes/formatForSearchRecipes.html' %}
+                      {%include 'includes/formatForAllRecipes.html' %}
                   </div>
                   <div class="col-2"  style="padding-top: 40px;">
+                      {% if current_user.is_authenticated %}
+                          
+                      {% else %}
                       <div class="card background-color:transparent;">
                         <ul class="list-group list-group-flush">
                           
@@ -99,8 +99,7 @@
             </div>
           </div>
 
-          {%include 'includes/formatForSearchRecipes.html' %}
-          {%include 'includes/formatForAllRecipes.html' %}
+          
 
         </div>
         </div>
