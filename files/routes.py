@@ -244,7 +244,7 @@ def homepage():
 
 ################################################################## RECIPE SEARCH ###################################################
 @app.route('/search', methods=['GET', 'POST'])
-@login_required
+
 def search():
 
     formsearch = RecipeSearchForm()
