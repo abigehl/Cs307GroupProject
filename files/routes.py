@@ -528,17 +528,22 @@ def create_recipe():
     form = RecipeForm()
 
     if form.validate_on_submit():
+        
+
         if form.recipePic.data:
             recipe_file = save_picture(form.recipePic.data)
-            recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ings=form.ings.data, tags = form.tags.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data, recipePic=recipe_file)
+
+            recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ings=form.ings.data, tags=form.tags.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data, recipePic=recipe_file)
         else:
             print("RECIPE NAME: " + form.rec_name.data)
-            recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ings=form.ings.data, tags = form.tags.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data)
+            recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ings=form.ings.data, tags=form.tags.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data)
+
         print("add")
         db.session.add(recipe)
         db.session.commit()
         flash('Your post has been created!', 'success')
         return redirect(url_for('profile'))
+
     return render_template('createrecipe.html', title='New Recipe', form=form, form5=formsearch)
 
 ###################################################################### FULL RECIPE DISPLAY ######################################################################
