@@ -232,7 +232,8 @@
                                   <h6 class="text-light flex-left"><br>Let your friends know what you are hungry for so they can suggest food for you!</h6>
                                   
                                   {{ form.hidden_tag() }}
-                                  {{ wtf.form_field(form.content, class_="yellow-text") }}
+                                  {{ form.content( style="color:white; background-color:transparent; outline:green; width: 100%;") }}
+                                  
                                   
                                 
                               </div>
@@ -271,7 +272,7 @@
                                <h6 class="text-light flex-left"><br> Enter your text here: </h6>
 
                                {{ form2.hidden_tag() }}
-                               {{ wtf.form_field(form2.contentNormal) }}
+                               {{ form2.contentNormal( style="color:white; background-color:transparent; outline:green; width: 100%;") }}
                             
                             </div>
                             </div>
@@ -312,19 +313,22 @@
                                         <h6 class="text-light flex-center">Paste a link to the recipe you're eating!</h6>
                                       <div class="form">
                                           {{ form3.hidden_tag() }}
-                                          {{ wtf.form_field(form3.linkCurrent) }}
+                                          {{ form3.linkCurrent(style="color:white; background-color:transparent; outline:green; width:100%") }}
                                         </div>
                                       <br>
                                       <h2 class="flex-center text-light">OR</h2>
-                                      <h6 class="text-light flex-center"><br> post your recipe instead!</h6>
+                                     
 
                                       <br>
-                                          <a class="nav-link text-light flex-center bg-dark" href="{{ url_for('create_recipe') }}">Post my recipe!</a>
+                                          <a class="nav-link text-light flex-center bg-dark" href="{{ url_for('create_recipe') }}">Post your recipe!</a>
                                       <br>
                                       <h2 class="flex-center text-light">OR</h2>
                                       <h6 class="text-light flex-center"> <br>just post text!</h6>
                                       {{ form3.hidden_tag() }}
-                                      {{ wtf.form_field(form3.contentCurrent) }}
+                                      {{ form3.contentCurrent(style="color:white; background-color:transparent; outline:green; width:100%") }}
+                                      <br>
+                                      <br>
+                                      <br>
                                       <br>
                                       
                                 </div>
@@ -334,6 +338,7 @@
                           <div class="modal-footer justify-content-center">
                             <button type="button" class="btn btn-secondary btn-elegant" data-dismiss="modal">Close</button>
                             {{ wtf.form_field(form3.submitCurrent) }}
+                            
                           </div>
                         </div>
                       </div>
