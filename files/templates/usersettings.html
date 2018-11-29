@@ -24,7 +24,14 @@
 
 <style>
  body{
-    font-family: 'Poppins', sans-serif;
+    background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54)); 
+    background-repeat: no-repeat;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
+    background-attachment: fixed;
+        font-family: 'Poppins', sans-serif;
         background-size: 100%;
         margin:0;
       }
@@ -33,10 +40,11 @@
 {% block body %}
 {% include 'includes/navbar.html' %}
 
-    <div class="card">
-        <div style=" background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54)); ">
+    
+        <div style=" background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54)); background-repeat: no-repeat; ">
         <div style="height:100px; padding-bottom:40px ">
-            <h1 class="text-white flex-center"><br> {{ current_user.username}}'s User Settings</h1>
+            <h1 class="text-white flex-center" style="padding-bottom:20"><br> {{ current_user.username}}'s User Settings</h1>
+            <br>
         </div>
             <div class="d-flex flex-center bd-highlight mb-3">
                 <div class="card w-50">
@@ -76,7 +84,7 @@
             <div style="padding:40px">
         </div>
         </div>
-    </div>
+ 
     <!-- /Start your project here-->
 
 {% endblock %}

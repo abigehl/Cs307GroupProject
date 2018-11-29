@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, IntegerField, HiddenField
 from wtforms.fields.html5 import DecimalRangeField
 from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired, ValidationError, Optional
 from files.__init__ import users, rec, postss
@@ -38,16 +38,9 @@ class RecipeForm(FlaskForm):
     prep_time = StringField('Preperation Time', validators=[DataRequired()])
     cook_time = StringField('Cook Time', validators=[DataRequired()])
     rec_instruction = TextAreaField('Instruction')
-    ing_1 = StringField('Ingredient 1', validators=[DataRequired()])
-    ing_2 = StringField('Ingredient 2')
-    ing_3 = StringField('Ingredient 3')
-    ing_4 = StringField('Ingredient 4')
-    ing_5 = StringField('Ingredient 5')
-    ing_6 = StringField('Ingredient 6')
-    ing_7 = StringField('Ingredient 7')
-    ing_8 = StringField('Ingredient 8')
-    ing_9 = StringField('Ingredient 9')
-    ing_10 = StringField('Ingredient 10')
+
+    ings = HiddenField()
+    tags = HiddenField()
     calories = IntegerField('Calories')
     fat = StringField('Fat')
     cholesterol = StringField('Cholesterol')
