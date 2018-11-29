@@ -25,7 +25,7 @@
 <style>
     body{
      font-family: 'Poppins', sans-serif;
-           background-image: url(/static/Images/bg.png);
+     background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54));
            background-size: 100%;
            margin:0;
          }
@@ -49,12 +49,16 @@
           </div>
         </form>
 
-        <div class="flex-center">
-        {%include 'includes/formatForSearchFriends.html' %}
-      </div>
+          <div>
+      {%include 'includes/formatForSearchFriends.html' %}
+
+        </div>
+
+      {%include 'includes/formatForNonfriendsRecipes.html' %}
+
 
         </body>
-        </div>
+      
 
         </html>
         {% endblock %}
