@@ -42,16 +42,6 @@ class RecipeForm(FlaskForm):
     ingr_string = HiddenField();
     tags_string = HiddenField();
 
-    ing_1 = StringField('Ingredient 1')
-    ing_2 = StringField('Ingredient 2')
-    ing_3 = StringField('Ingredient 3')
-    ing_4 = StringField('Ingredient 4')
-    ing_5 = StringField('Ingredient 5')
-    ing_6 = StringField('Ingredient 6')
-    ing_7 = StringField('Ingredient 7')
-    ing_8 = StringField('Ingredient 8')
-    ing_9 = StringField('Ingredient 9')
-    ing_10 = StringField('Ingredient 10')
     calories = IntegerField('Calories')
     fat = StringField('Fat')
     cholesterol = StringField('Cholesterol')
