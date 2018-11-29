@@ -1,6 +1,8 @@
 import secrets
 import os
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+import json
+from pusher import Pusher
 from files import app, db, bcrypt, mail
 from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
                         UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
@@ -39,6 +41,13 @@ facebook_blueprint = make_facebook_blueprint(
 app.register_blueprint(google_blueprint, url_prefix="/google_login")
 app.register_blueprint(facebook_blueprint, url_prefix="/facebook_login")
 
+pusher = Pusher(
+  app_id='660232',
+  key='9ced8d8f4b58d86d28c2',
+  secret='8b3a15b1a4e6f0334ba6',
+  cluster='us2',
+  ssl=True
+)
 
 def send_reset_email(user):
     token = user.get_reset_token()
@@ -262,7 +271,7 @@ def search():
         calories = calories.replace('-', '')
         calories = calories.replace('$', '').split()
 
-    if formsearch.validate_on_submit():   
+    if formsearch.validate_on_submit():
         if is_filled(formsearch.keyWord.data):
             keywords = parser_first_round(formsearch.keyWord.data)
             keywords_sufix = parser_search_sufix(formsearch.keyWord.data)
@@ -294,7 +303,7 @@ def searchthings(thing):
         return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
 
     else:
-        
+
         recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE)))", thing)
         return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
 
@@ -302,14 +311,14 @@ def searchthings(thing):
 def searchadvanced(things):
     print("things")
     print(things)
-    
+
     formsearch = RecipeSearchForm()
     form = PostFormHungryFor()
     formNormalText = PostForm()
     formCurrent = PostFormCurrentlyEating()
 
     if things is "":
-        
+
         return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
 
     else:
@@ -318,7 +327,7 @@ def searchadvanced(things):
         print(words)
         recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE)))", words)
         return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
-    
+
     return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
 
 
@@ -725,6 +734,35 @@ def map():
     formsearch = RecipeSearchForm()
     return render_template('map.html',  form5=formsearch)
 
+@app.route("/checklist", methods=['POST', 'GET'])
+def checklist():
+    formsearch = RecipeSearchForm()
+    return render_template('checklist.html',  form5=formsearch)
+
+# endpoint for storing todo item
+@app.route('/add-todo', methods = ['POST'])
+def addTodo():
+  data = json.loads(request.data) # load JSON data from request
+  pusher.trigger('todo', 'item-added', data) # trigger `item-added` event on `todo` channel
+  return jsonify(data)
+
+# endpoint for deleting todo item
+@app.route('/remove-todo/<item_id>')
+def removeTodo(item_id):
+  data = {'id': item_id }
+  pusher.trigger('todo', 'item-removed', data)
+  return jsonify(data)
+
+# endpoint for updating todo item
+@app.route('/update-todo/<item_id>', methods = ['POST'])
+def updateTodo(item_id):
+  data = {
+    'id': item_id,
+    'completed': json.loads(request.data).get('completed', 0)
+  }
+  pusher.trigger('todo', 'item-updated', data)
+  return jsonify(data)
+
 @app.route("/findfriends", methods=['POST', 'GET'])
 @login_required
 def findfriends():
@@ -780,7 +818,7 @@ def remove_follower(followedid, followerid):
 @app.route("/like/<int:postid>/remove", methods=['POST', 'GET'])
 @login_required
 def remove_like(postid):
-    
+
 
     db.engine.execute("DELETE FROM likers WHERE liked_post = %s AND userid = %s", postid, current_user.id)
     db.engine.execute("UPDATE postss SET nlikes = nlikes - 1 where id = %s", postid)
@@ -796,7 +834,7 @@ def remove_like(postid):
 @app.route("/like/<int:postid>/add", methods=['POST', 'GET'])
 @login_required
 def add_like(postid):
-    
+
     print("Hello : ", postid)
 
     like = likers(liked_post = postid, userid = current_user.id)
