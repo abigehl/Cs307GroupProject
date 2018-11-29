@@ -152,6 +152,7 @@ class favs(db.Model):
     fav_fat = db.Column(db.String(10), default="")
     fav_cholestrol = db.Column(db.String(10), default="")
     fav_sodium = db.Column(db.String(10), default="")
+    recipe_id = db.Column(db.Integer)
 
 
 class followers(db.Model):

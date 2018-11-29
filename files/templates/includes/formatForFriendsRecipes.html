@@ -85,13 +85,14 @@
 
                     {% if  rec.rating == none %}
                       <form action="{{ url_for('add_like', postid = rec.id )}}" method="post">
-                         <button type="submit" class="btn btn-default login-popup-btn" name="LIKE" value="1">LIKE
+                         <button type="submit" class="btn btn-elegant" name="LIKE" value="1"><i class="fa fa-thumbs-up"></i>LIKE
                          </button>
                       </form>
-                       <p class="card-text text-light"> {{rec.number_of_ratings}} likes </p>   
+                       <p class="card-text text-light centered"> {{rec.number_of_ratings}} likes </p>   
                     {% else %}
                       <form action="{{ url_for('remove_like', postid = rec.id) }}" method="post">
-                         <button type="submit" class="btn btn-default login-popup-btn" name="REMOVELIKE" value="1">LIKED </button>    
+                        <button type="submit" class="btn btn-elegant" name="LIKE" value="1"><i class="fa fa-thumbs-up"></i>LIKED
+                         </button>  
                       </form>
                       <p class="card-text text-light"> {{rec.number_of_ratings}} likes </p>
                     {% endif %}

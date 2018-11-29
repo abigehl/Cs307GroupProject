@@ -602,14 +602,9 @@ def update_recipe(recipe_id):
 def delete_recipe(recipe_id):
     recipee = rec.query.filter_by(id=recipe_id).first()
 
+    print(recipee)
     current_db_sessions = db.session.object_session(recipee)
     current_db_sessions.delete(recipee)
-    current_db_sessions.commit()
-
-    favrecipee = favs.query.filter_by(id=recipe_id).first()
-
-    current_db_sessions = db.session.object_session(favrecipee)
-    current_db_sessions.delete(favrecipee)
     current_db_sessions.commit()
 
     return redirect(url_for('profile'))
@@ -634,24 +629,16 @@ def add_fav(recipe_id):
     reCook_time = recipee.cook_time
     reRec_description = recipee.rec_description
     reRec_instruction = recipee.rec_instruction
-    reIng_1 = recipee.ing_1
-    reIng_2 = recipee.ing_2
-    reIng_3 = recipee.ing_3
-    reIng_4 = recipee.ing_4
-    reIng_5 = recipee.ing_5
-    reIng_6 = recipee.ing_6
-    reIng_7 = recipee.ing_7
-    reIng_8 = recipee.ing_8
-    reIng_9 = recipee.ing_9
-    reIng_10 = recipee.ing_10
+    reIng_1 = recipee.ings
     reCalories = recipee.calories
     reFat = recipee.fat
     reCholesterol = recipee.cholesterol
     reSodium = recipee.sodium
     reMinPrice = recipee.minPrice
     reMaxPrice = recipee.maxPrice
+    recipe_id = recipee.id
 
-    favorite = favs(user_id=current_user.id, fav_rec_name=reRec_name, fav_prep_time = rePrep_time, fav_cook_time=reCook_time, fav_rec_description=reRec_description, fav_rec_instruction=reRec_instruction,fav_ing1 = reIng_1,fav_ing2 = reIng_2,fav_ing3 = reIng_3,fav_ing4 = reIng_4,fav_ing5 = reIng_5,fav_ing6 = reIng_6,fav_ing7 = reIng_7,fav_ing8 = reIng_8,fav_ing9 = reIng_9,fav_ing10 = reIng_10,fav_minPrice = reMinPrice, fav_maxPrice = reMaxPrice, fav_calories=reCalories, fav_fat = reFat, fav_cholestrol = reCholesterol,fav_sodium=reSodium)
+    favorite = favs(user_id=current_user.id, fav_rec_name=reRec_name, fav_prep_time = rePrep_time, fav_cook_time=reCook_time, fav_rec_description=reRec_description, fav_rec_instruction=reRec_instruction,fav_ing1 = reIng_1,fav_minPrice = reMinPrice, fav_maxPrice = reMaxPrice, fav_calories=reCalories, fav_fat = reFat, fav_cholestrol = reCholesterol,fav_sodium=reSodium, recipe_id = recipe_id)
     db.session.add(favorite)
     db.session.commit()
 
