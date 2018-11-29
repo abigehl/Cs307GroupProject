@@ -51,12 +51,15 @@
             <div class="flex-start">
              <div class="row">
               <div class="col-1" style="padding-top: 40px">
-                <form action="{{ url_for('discovery')}}" method="post">
-                  <button type="submit" class="btn btn-default login-popup-btn " name="randomize">Randome Recipe </button>
-              </form>
-              <form action="{{ url_for('map')}}" method="post">
-                <button type="submit" class="btn btn-default login-popup-btn " name="randomize">Nearby Store </button>
-            </form>
+                  {% if current_user.is_authenticated %}
+                  {% else %}
+                      <form action="{{ url_for('discovery')}}" method="post">
+                        <button type="submit" class="btn btn-default login-popup-btn " name="randomize">Random Recipe </button>
+                    </form>
+                    <form action="{{ url_for('map')}}" method="post">
+                      <button type="submit" class="btn btn-default login-popup-btn " name="randomize">Nearby Store </button>
+                  </form>
+                  {% endif %}
             </div>
                   <div class="col-9" style="padding: 40px">
                     {% if current_user.is_authenticated %}
@@ -67,7 +70,12 @@
                   </div>
                   <div class="col-2"  style="padding-top: 40px;">
                       {% if current_user.is_authenticated %}
-                          
+                      <form action="{{ url_for('discovery')}}" method="post">
+                          <button type="submit" class="btn btn-default login-popup-btn " name="randomize">Random Recipe </button>
+                      </form>
+                      <form action="{{ url_for('map')}}" method="post">
+                        <button type="submit" class="btn btn-default login-popup-btn " name="randomize">Nearby Store </button>
+                    </form>
                       {% else %}
                       <div class="card background-color:transparent;">
                         <ul class="list-group list-group-flush">

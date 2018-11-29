@@ -96,7 +96,7 @@
     
     <ul class="navbar-nav mr-auto" style="padding-top:0">
       <li class="nav-item">
-          <a class="text-white nav-link h3" href="{{ url_for('homepage') }}">Help Me Recipe</a>
+          <a class="text-white nav-link h3" href="{{ url_for('homepage') }}" style="padding-top: 20">Help Me Recipe</a>
       </li>
     </ul>
     
@@ -146,7 +146,7 @@
           </div>
         </li>
       </form>
-      <a class="nav-link text-light" href="{{ url_for('advancedsearch') }}" style="padding-bottom: 20; font-size: 12">Advanced Search Options</a>
+      <a class="nav-link text-light" href="{{ url_for('advancedsearch') }}" style="padding-bottom: 25; font-size: 12">Advanced Search Options</a>
     </ul>
 
     <ul class="navbar-nav">
@@ -157,10 +157,10 @@
           
             <div class="btn-group" style="padding:0 ;padding-top: 15;">
               
-                <button type="button" class="btn btn-link btn-sm text-light mr-auto" style="padding: 0; text-decoration: none"><li><a class="nav-link text-light" href="{{ url_for('profile') }}">My Profile</a></li></button>
+                <button type="button" class="btn btn-link btn-sm text-light mr-auto" style="padding:0;padding-top: 5; text-decoration: none"><li><a class="nav-link text-light" href="{{ url_for('profile') }}">My Profile</a></li></button>
                 <button type="button" class="btn btn-link btn-sm px-3 text-light" data-toggle="dropdown" aria-haspopup="true"
                   aria-expanded="false" >
-                  <span class="caret text-light" style="font-size: 20"> 	&#9663; </span>
+                  <span class="caret text-light" style="font-size: 20; padding-top: 5"> 	&#9663; </span>
                 </button>
                 <ul class="dropdown-menu bg-light text-dark" style="width:200px ">
                     <li><a class="text-dark"  href="{{ url_for('settings') }}">To my settings!</a></li>
