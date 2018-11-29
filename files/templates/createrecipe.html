@@ -53,7 +53,7 @@
 {% include 'includes/navbar.html' %}
 <div style="background-image: url(../static/Images/bg.png)">
     
-        <!--<form action="" method = "POST" enctype="multipart/form-data" > -->
+        <form action="" method = "POST" enctype="multipart/form-data"> 
             <br>
             <h5 class="text-light text-left" style="padding-top: 0 px; padding-left: 20; font-size: 40; margin: 10">Create a Recipe</h5>
             <div class="container text-light " style="padding-top: 20 px">
@@ -107,7 +107,13 @@
                             {{ wtf.form_field(form.sodium, class_="form-control") }}
                             <br>
                             <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
-                            {{ wtf.form_field(form.submit) }}
+                            <div id="ingr_div">
+                                {{ wtf.form_field(form.ingr_string, id="ingr_string") }}
+                                {{ wtf.form_field(form.tags_string, id="tags_string") }}
+                            </div>
+
+                            {{ wtf.form_field(form.submit, onclick="showInput()") }}
+
                            
                             <!--</form>-->
 
@@ -129,10 +135,11 @@
 
                     <br>
                     <div class="form-group">
-                            <br>
-                            <label for="exampleFormControlTextarea1">Recipe Description (include tags/cuisine here)</label>
-                            <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name="instruction"></textarea>-->
-                            {{ wtf.form_field(form.rec_description, class_="form-control rounded-0", rows="5") }}
+                        <br>
+                        <label for="exampleFormControlTextarea1">Recipe Description (include tags/cuisine here)</label>
+                        <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name="instruction"></textarea>-->
+                        {{ wtf.form_field(form.rec_description, class_="form-control rounded-0", rows="5") }}
+
                         <label for="exampleFormControlTextarea1">Enter your instructions</label>
                         <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>-->
                         {{ wtf.form_field(form.rec_instruction, class_="form-control rounded-0", rows="5") }}
@@ -161,8 +168,7 @@
                                         <div class="form-inline">
                                             <div class="form-group">
                                                 <!--<label class="sr-only" for="field-name">Field Name</label>-->
-                                                <!--<input type="text" class="form-control" id="text-field" placeholder="Ingredient" name="arr">-->
-                                                {{ wtf.form_field(form.ing_1, class_="form-control", placeholder="ingredient") }}
+                                                <input type="text" class="form-control" id="text-field" placeholder="Ingredient" name="arr">
                                             </div>
                                             
                                             <button class="btn btn-danger" data-role="remove">
@@ -178,9 +184,10 @@
                         </div>
                         <!--</form>-->
 
-                        <form>
-                   <!--        <button onclick="showInput()">SHOW_INGREDIENTS</button>--> 
-                        </form>
+                        <!--<form>
+                           <button onclick="showInput()">SHOW_INGREDIENTS</button>
+                        </form>-->
+
                         <p><span id='display'></span></p>
                     </div>
                     <label for="tags" style="padding-top: 50">Tags</label>
@@ -189,6 +196,9 @@
                         <br>  
                         <div id="contain" style="padding-top: 10" ></div>
                     </div>
+                    <!--<form>
+                        <button onclick="showInput()">SHOW_TAGS</button>
+                    </form>-->
                 </div>
                 <!--Grid column-->
             </div>
@@ -196,8 +206,7 @@
             <!--Grid row-->
             <!--Grid row-->
             <!--Grid row-->
-        <!--</form>-->
-   
+        </form>
 
 
 </div>
@@ -215,7 +224,6 @@
                     $(this).val('');
                 });
                 container.append(new_field_group);
-                showInput();
             }
         );
         // Remove button click
@@ -225,13 +233,16 @@
             function(e) {
                 e.preventDefault();
                 $(this).closest('.form-inline').remove();
-                showInput();
             }         
         );
 
         // Add button click
        
     });
+
+    //tags stuff
+    var tags= new Array();
+    var idnum=0;
 
     function showInput() {
         var container = $(this).closest('[data-role="dynamic-fields"]');
@@ -242,26 +253,32 @@
         for (i = 0; i < x.length; i++) {
             ingr_arr.push(x[i]);
         }
-        //document.write(ingr_arr[0].value);
-        //document.write(ingr_arr[1].value);
-        print("whats up\n");
+ 
+        var ingr_str = new String();
+        var tags_str = new String();
+
         for (var k=0;k<ingr_arr.length;k++) {
             //document.write(ingr_arr[k].value + ", ");
-
-
+            ingr_str += ingr_arr[k].value + ",";
         }
+
+        //document.write(tags.length);
+
+        for (var z=0;z<tags.length;z++) {
+            tags_str += tags[z] + ",";
+        }
+
+        //document.write(ingr_str + "...." + tags_str);
+
+        document.getElementById("ingr_string").value = ingr_str;
+        document.getElementById("tags_string").value = tags_str;
+
+        //document.write(formElement.name);
         //document.write(document.getElementsByName("arr[]").length);
     
-        
-        //document.write(document.getElementById('arr[]').value);
     }
 
 
-
-
-    //tags stuff
-    var tags= new Array();
-    var idnum=0;
    function deleteob( i)
     {
       var oof=tags.splice(i,1);
@@ -318,6 +335,16 @@
                   
             
         }
+    });
+
+    //prevents form being submitted when trying to input tags by pressing enter
+    $(document).ready(function() {
+      $(window).keydown(function(event){
+        if(event.keyCode == 13) {
+          event.preventDefault();
+          return false;
+        }
+      });
     });
 
 </script>
