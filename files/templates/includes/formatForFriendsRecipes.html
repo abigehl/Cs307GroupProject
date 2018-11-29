@@ -63,13 +63,13 @@
 
     {% else %}
       {% if  rec.followername != none %}
-        <div class="card-body flex-center" style="height:150; padding-left: 250px; padding-right: 300px; padding-bottom: 100;  padding-top: 100">
+        <div class="card-body flex-center" style="height:100; padding-left: 250px; padding-right: 300px; padding-bottom: 100;  padding-top: 100">
           <div class="card-body bg-dark">
             <div class="container">
               <div class>
                   <p class="card-text text-light">{{rec.username }}  : {{ rec.rec_description }}</p> 
                  
-                  <p class="text-light" style="font-size:10; padding: 0; width:100%">( {{ rec.dateposted }} )</p>
+                  <p class="text-light"style="width:93%">( {{ rec.dateposted }} )</p>
               </div>
               <div class="row">
                   {% if current_user.id != rec.user_id%}

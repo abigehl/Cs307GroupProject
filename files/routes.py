@@ -268,7 +268,7 @@ def search():
             keywords_sufix = parser_search_sufix(formsearch.keyWord.data)
 
             recipes = db.engine.execute("SELECT * FROM (SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND \
-                ((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) \
+                ((MATCH (rec_name, rec_description, rec_instruction, ings, tags) \
                     AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd",minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
             return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
 
@@ -295,7 +295,7 @@ def searchthings(thing):
 
     else:
         
-        recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE)))", thing)
+        recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ings, tags) AGAINST (%s IN BOOLEAN MODE)))", thing)
         return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
 
 @app.route('/searchadvanced/<string:things>', methods=['GET', 'POST'])
@@ -316,7 +316,7 @@ def searchadvanced(things):
         words = things.split(';')
         words= list(filter(None, words))
         print(words)
-        recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ing_1, ing_2, ing_3, ing_4, ing_5, ing_6, ing_7, ing_8, ing_9, ing_10) AGAINST (%s IN BOOLEAN MODE)))", words)
+        recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ings, tags) AGAINST (%s IN BOOLEAN MODE)))", words)
         return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
     
     return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
@@ -530,10 +530,10 @@ def create_recipe():
     if form.validate_on_submit():
         if form.recipePic.data:
             recipe_file = save_picture(form.recipePic.data)
-            recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ing_1=form.ing_1.data, ing_2=form.ing_2.data, ing_3=form.ing_3.data, ing_4=form.ing_4.data, ing_5=form.ing_5.data, ing_6=form.ing_6.data, ing_7=form.ing_7.data, ing_8=form.ing_8.data, ing_9=form.ing_9.data, ing_10=form.ing_10.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data, recipePic=recipe_file)
+            recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ings=form.ings.data, tags = form.tags.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data, recipePic=recipe_file)
         else:
             print("RECIPE NAME: " + form.rec_name.data)
-            recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ing_1=form.ing_1.data, ing_2=form.ing_2.data, ing_3=form.ing_3.data, ing_4=form.ing_4.data, ing_5=form.ing_5.data, ing_6=form.ing_6.data, ing_7=form.ing_7.data, ing_8=form.ing_8.data, ing_9=form.ing_9.data, ing_10=form.ing_10.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data)
+            recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ings=form.ings.data, tags = form.tags.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data)
         print("add")
         db.session.add(recipe)
         db.session.commit()
@@ -573,16 +573,10 @@ def update_recipe(recipe_id):
             reRec_instruction= recipee.rec_instruction
         else:
             reRec_instruction = form.rec_instruction.data
-        reIng_1 = form.ing_1.data
-        reIng_2 = form.ing_2.data
-        reIng_3 = form.ing_3.data
-        reIng_4 = form.ing_4.data
-        reIng_5 = form.ing_5.data
-        reIng_6 = form.ing_6.data
-        reIng_7 = form.ing_7.data
-        reIng_8 = form.ing_8.data
-        reIng_9 = form.ing_9.data
-        reIng_10 = form.ing_10.data
+        ings = form.ings.data
+
+        tags = form.tags.data
+        
         reCalories = form.calories.data
         reFat = form.fat.data
         reCholesterol = form.cholesterol.data
@@ -590,7 +584,8 @@ def update_recipe(recipe_id):
         reMinPrice = form.minPrice.data
         reMaxPrice = form.maxPrice.data
         print("add recipe")
-        db.engine.execute("UPDATE rec SET rec_name = %s, prep_time = %s, cook_time = %s, rec_description = %s, rec_instruction = %s, ing_1 = %s, ing_2 = %s,ing_3 = %s,ing_4 = %s,ing_5 = %s,ing_6 = %s,ing_7 = %s, ing_8 = %s,ing_9 = %s,ing_10 = %s, minPrice = %s, maxPrice = %s,calories = %s,fat = %s, cholesterol = %s, sodium = %s WHERE ID = %s", (reRec_name, rePrep_time, reCook_time, reRec_description,reRec_instruction, reIng_1, reIng_2, reIng_3, reIng_4, reIng_5, reIng_6, reIng_7, reIng_8, reIng_9, reIng_10,reMinPrice,reMaxPrice, reCalories, reFat, reCholesterol, reSodium, recipe_id))
+        db.engine.execute("UPDATE rec SET rec_name = %s, prep_time = %s, cook_time = %s, rec_description = %s, rec_instruction = %s, ings = %s, tags = %s, minPrice = %s, maxPrice = %s,calories = %s,fat = %s, cholesterol = %s, sodium = %s WHERE ID = %s", 
+            (reRec_name, rePrep_time, reCook_time, reRec_description,reRec_instruction, ings, tags,reMinPrice,reMaxPrice, reCalories, reFat, reCholesterol, reSodium, recipe_id))
         db.session.commit()
         return redirect(url_for('profile'))
 

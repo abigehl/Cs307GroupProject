@@ -55,16 +55,8 @@ class rec(db.Model):
     cook_time = db.Column('cook_time', db.String(50), default="")
     rec_description = db.Column('rec_description', db.Text, nullable=False)
     rec_instruction = db.Column('rec_instruction', db.Text, nullable=False)
-    ing_1 = db.Column('ing_1', db.String(50), nullable=False)
-    ing_2 = db.Column('ing_2', db.String(50), default="")
-    ing_3 = db.Column('ing_3', db.String(50), default="")
-    ing_4 = db.Column('ing_4', db.String(50), default="")
-    ing_5 = db.Column('ing_5', db.String(50), default="")
-    ing_6 = db.Column('ing_6', db.String(50), default="")
-    ing_7 = db.Column('ing_7', db.String(50), default="")
-    ing_8 = db.Column('ing_8', db.String(50), default="")
-    ing_9 = db.Column('ing_9', db.String(50), default="")
-    ing_10 = db.Column('ing_10', db.String(50), default="")
+    ings = db.Column('ings', db.String(1000), nullable=False)
+    tags = db.Column('tags', db.String(500), nullable=False)
     minPrice = db.Column('minPrice', db.Integer)
     maxPrice = db.Column('maxprice', db.Integer)
     calories = db.Column('calories', db.Integer)
@@ -74,6 +66,7 @@ class rec(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
     recipePic = db.Column(db.String(80), default="spicy.jpg")
     dateposted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
     def __repr__(self):
         return 'rec({self.rec_name}, {self.prep_time}, {self.cook_time}, {self.rec_instruction}, {self.rec_description}, {self.fat}, {self.cholesterol}, {self.sodium}, {self.calories})'
 
