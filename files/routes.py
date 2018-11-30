@@ -703,7 +703,8 @@ def delete_fav(fav_id):
 @app.route("/post/<int:post_id>/comment", methods=['POST', 'GET'])
 @login_required
 def comment_post(post_id):
-
+    formsearch = RecipeSearchForm()
+    post = postss.query.filter_by(id=post_id).first()
     commentForm = CommentForm()
     if commentForm.validate_on_submit():
         comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id)
@@ -712,7 +713,7 @@ def comment_post(post_id):
 
         return redirect(url_for('all_comments'))
 
-    return render_template('testComment.html', commentForm=commentForm)
+    return render_template('testComment.html', commentForm=commentForm,  form5 = formsearch, post=post)
 
 @app.route("/allComments", methods=['POST', 'GET'])
 @login_required
