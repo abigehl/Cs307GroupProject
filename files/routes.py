@@ -594,10 +594,13 @@ def showrecipe(recipe_id):
     formsearch = RecipeSearchForm()
     recc = db.engine.execute("SELECT * from (select * from rec where id = %s) as a left join raters on raters.userid = %s and raters.rated_recipe = %s LIMIT 1", recipe_id, current_user.id, recipe_id).first()
 
+    
+
+
     if recc.number_of_ratings is 0: 
         totalRating = 0
     else:
-        totalRating = recc.rating/recc.number_of_ratings
+        totalRating = float(recc.rating)/float(recc.number_of_ratings)
 
     # checkRating = raters.query.filter_by(rated_recipe = recipe_id, userid = current_user.id)
     

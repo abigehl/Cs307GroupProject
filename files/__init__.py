@@ -68,9 +68,8 @@ class rec(db.Model):
     rating = db.Column(db.Integer)
     number_of_ratings = db.Column(db.Integer)
 
-    def __init__(self, rating=rating, number_of_ratings=number_of_ratings):
-        self.rating = rating
-        self.number_of_ratings = number_of_ratings
+    def __repr__(self, rating=rating, number_of_ratings=number_of_ratings):
+       return "rec('{self.rating}',{self.number_of_ratings}'')"
 
 
 class postss(db.Model):
