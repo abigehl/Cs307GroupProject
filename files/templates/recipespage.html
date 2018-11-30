@@ -101,7 +101,7 @@
                     </div>
                     {% if rec.user_id != current_user.id %}
 
-
+                    {% if rec.rated_recipe == none %}
                     <div class="rate">
                         <form action="{{ url_for('rate_recipe',rec_id=rec.id) }}" method="post">
                                 
@@ -117,11 +117,11 @@
                         <label for="star1" title="text"style="color: white">5 </label>
                         <button type="submit" name="submit_ratings_button" class="btn btn-elegant" style="color: white">Rate</button>
                         </form>
-                    </div>
-                    
+                    </div>              
                     <br>
                     <br>
                     <br>
+                    {% endif %}
                     {% endif %}
  
                     <p class="lead font-weight-bold text-light">
@@ -139,8 +139,6 @@
                     <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
                     </form>
-                    <button type="submit" class="btn btn-elegant"> <i class="fa fa-thumbs-up"></i></button>
-                    <button type="submit" class="btn btn-elegant"> <i class="fa fa-thumbs-down"></i></button>
 
                 </div>
 

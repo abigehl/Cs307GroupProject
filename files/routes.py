@@ -570,8 +570,8 @@ def create_recipe():
 def showrecipe(recipe_id):
 
     formsearch = RecipeSearchForm()
-    recc = rec.query.get_or_404(recipe_id)
 
+    recc = db.engine.execute("SELECT * from (select * from rec where id = %s) as a left join raters on raters.userid = %s and raters.rated_recipe = %s LIMIT 1", recipe_id, current_user.id, recipe_id).first()
 
     if recc.number_of_ratings is 0: 
         totalRating = 0
@@ -936,7 +936,8 @@ def rate_recipe(rec_id):
             
 
     formsearch = RecipeSearchForm()
-    recc = rec.query.get_or_404(rec_id)
+    recc = db.engine.execute("SELECT * from (select * from rec where id = %s) as a left join raters on raters.userid = %s and raters.rated_recipe = %s LIMIT 1", rec_id, current_user.id, rec_id).first()
+
 
 
     if recc.number_of_ratings is 0: 
