@@ -282,13 +282,18 @@ def search():
         if is_filled(formsearch.keyWord.data):
             keywords = parser_first_round(formsearch.keyWord.data)
             keywords_sufix = parser_search_sufix(formsearch.keyWord.data)
+            print(keywords_sufix)
 
             print(keywords)
 
             recipes = db.engine.execute("SELECT * FROM (SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND \
                 ((MATCH (rec_name, rec_description, rec_instruction, ings, tags) \
                     AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd", minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
+
+
             return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
+
+
 
         else:
 
