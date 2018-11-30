@@ -7,7 +7,7 @@ from files import app, db, bcrypt, mail
 from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
                         UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
                         RecipeSearchForm, RecipeSearchForm, CommentForm, FindFriends)
-from files.__init__ import users, rec, postss, favs, post_comments, followers, likers, raters
+from files.__init__ import users, rec, postss, favs, post_comments, followers, likers, raters, recipe_comments
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
