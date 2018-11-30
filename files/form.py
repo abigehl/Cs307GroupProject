@@ -38,7 +38,6 @@ class RecipeForm(FlaskForm):
     prep_time = StringField('Preperation Time', validators=[DataRequired()])
     cook_time = StringField('Cook Time', validators=[DataRequired()])
     rec_instruction = TextAreaField('Instruction')
-
     ings = HiddenField()
     tags = HiddenField()
     calories = StringField('Calories')
