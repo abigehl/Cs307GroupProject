@@ -13,13 +13,14 @@
                 </div>
                 {% endif %}
                 {% for post in allPosts %}
-                    {% if post.user_id == current_user.id %}
+                    
+
                         {% if post.post_type == "hungryFor" %}
                                 <div class="card flex bg-light" style="height:80">
                                     <div class="card-body flex-center">
                                         
                                         <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p> 
-                                         
+                                         {% if current_user.id == post.user_id %}
                                         <form action="{{ url_for('update_post', post_id=post.id) }}" method="post">
                                             <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
                                         </form>                                  
@@ -30,7 +31,7 @@
                                             <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
                                     </form>
                                     
-                                    
+                                    {% endif %}
                                     </div>
                                 </div>
                                 <br>
@@ -81,8 +82,7 @@
                                 <br>
                                 {% endif %}
                             {% endif %}
-                            
-                       {% endif %}                       
+                                                   
 
                     {% endif %}
                 {% endfor %}

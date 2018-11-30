@@ -877,7 +877,7 @@ def showprofile(hisid):
     formNormalText = PostForm()
     formCurrent = PostFormCurrentlyEating()
 
-    allposts = postss.query.all()
+    allposts = postss.query.filter_by(user_id=hisid)
     recipes = rec.query.filter_by(user_id=hisid)
     favRecipes = favs.query.filter_by(user_id=hisid)
     followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", hisid)
