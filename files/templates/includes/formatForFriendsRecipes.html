@@ -1,211 +1,108 @@
+
 {% block content %}
-
   {% for rec in allrecipes %}
-
     {% if rec.rec_name != none and rec.rec_description != none %}
 
-
-
       {% if current_user.id != rec.user_id %}
-
         {% if  rec.followername != none %}
-
         <div class="card-body" style="padding: 10; padding-bottom: 20">
-
           <div class="card-body bg-dark" style="">
-
             <p class="h4 text-light" style="padding-left: 5px"> {{rec.rec_name}} </p>
-
             <p class="text-light" style="font-size:10; padding: 0">( {{ rec.dateposted }} )</p>
-
             <img class="rounded float-right" src="static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="width: 200px">
-
             <p class="card-text mr-2 ml-2 text-light" style="padding-right: 100px; height: 80px">{{rec.rec_description}}</p>
-
             <p class="left card-text mr-2 ml-2 text-light">By: {{rec.username}}</p>          
-
               <div class="container">
-
                 <div class="row">
-
                   <form action="{{ url_for('showrecipe', recipe_id=rec.id) }}" method="POST">
-
                     <button type="submit" class="btn btn-elegant">Take me there</button>
-
                   </form>
-
                   <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
-
                     <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
-
                   </form>
-
                   <form action="{{ url_for('remove_follower', followedid = rec.user_id, followerid = current_user.id) }}" method="post">
-
                     <button type="submit" class="btn btn-default login-popup-btn" name="UNFOLLOW" value="1">UNFOLLOW {{rec.username}} </button>
-
                   </form>
-
                 </div>
-
               </div>
-
           </div>
-
         </div>
-
         {% endif %}
-
       {% endif %}
-
-
 
       {% if current_user.id == rec.user_id %}
-
       <div class="card-body " style="padding: 10; padding-bottom: 20">
-
         <div class="card-body bg-dark" >
-
             <p class="h4 text-light" style="padding-left: 5px"> {{rec.rec_name}}  </p>
-
             <p class="text-light" style="font-size:10; padding: 0">( {{ rec.dateposted }} )</p>
-
             <img class="rounded float-right" src="static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="width: 200px">
-
             <p class="card-text mr-2 ml-2 text-light" style="padding-right: 100px; height: 80px">{{rec.rec_description}}</p>
-
             <p class="left card-text mr-2 ml-2 text-light">By: {{rec.username}}</p>
-
       
-
             <div class="container">
-
               <div class="row">
-
                 <form action="{{ url_for('showrecipe', recipe_id=rec.id) }}" method="POST">
-
                   <button type="submit" class="btn btn-elegant">Take me there</button>
-
                 </form>
-
                 <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
-
                   <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
-
                 </form>
-
                 <form action="{{ url_for('update_recipe', recipe_id=rec.id) }}" method="post">
-
                   <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
-
                 </form>
-
                 <form action="{{ url_for('delete_recipe', recipe_id=rec.id) }}" method="post">
-
                   <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
-
                 </form>
-
                
-
               </div>
-
             </div>
-
           </div>
-
       </div>
-
       {% endif %}
-
-
-
 
 
     {% else %}
-
       {% if  rec.followername != none %}
-
         <div class="card-body " style="padding: 10; padding-bottom: 20">
-
           <div class="card-body bg-dark">
-
             <div class="container">
-
               <div class>
-
                   <p class="card-text text-light">{{rec.username }}  : {{ rec.rec_description }}</p> 
-
                  
-
                   <p class="text-light"style="width:93%">( {{ rec.dateposted }} )</p>
-
               </div>
-
               <div class="row">
-
                   {% if current_user.id != rec.user_id%}
-
                     {% if  rec.followername == none %}
-
                       <form action="{{ url_for('add_follower', followedid = rec.user_id, followedname = rec.username) }}" method="post">
-
                           <button type="submit" class="btn btn-default login-popup-btn" name="FOLLOW" value="1">FOLLOW {{rec.username}}</button>
-
                       </form>
-
                     {% else %}
-
                       <form action="{{ url_for('remove_follower', followedid = rec.user_id, followerid = current_user.id) }}" method="post">
-
                           <button type="submit" class="btn btn-default login-popup-btn" name="UNFOLLOW" value="1">UNFOLLOW {{rec.username}} </button>
-
                       </form>
-
                     {% endif %}
-
-
 
                     {% if  rec.rating == none %}
-
                       <form action="{{ url_for('add_like', postid = rec.id )}}" method="post">
-
-                         <button type="submit" class="btn btn-default login-popup-btn" name="LIKE" value="1">LIKE
-
+                         <button type="submit" class="btn btn-elegant" name="LIKE" value="1"><i class="fa fa-thumbs-up"></i>LIKE
                          </button>
-
                       </form>
-
                        <p class="card-text text-light"> {{rec.number_of_ratings}} likes </p>   
-
                     {% else %}
-
                       <form action="{{ url_for('remove_like', postid = rec.id) }}" method="post">
-
-                         <button type="submit" class="btn btn-default login-popup-btn" name="REMOVELIKE" value="1">LIKED </button>    
-
+                        <button type="submit" class="btn btn-elegant" name="LIKE" value="1"><i class="fa fa-thumbs-up"></i>LIKED
+                         </button>  
                       </form>
-
                       <p class="card-text text-light"> {{rec.number_of_ratings}} likes </p>
-
                     {% endif %}
-
                   {% endif %}
-
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       {% endif %}
 
-
-
     {% endif %}
-
   {% endfor %}
-
 {% endblock content %}
