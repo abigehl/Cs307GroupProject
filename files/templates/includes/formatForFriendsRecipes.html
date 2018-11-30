@@ -72,8 +72,11 @@
           <div class="card-body bg-dark">
             <div class="container">
               <div class>
-                  <p class="card-text text-light">{{rec.username }}  : {{ rec.rec_description }}</p> 
-                 
+                  {% if rec.rec_name == none %}
+                  <p class="card-text text-light">{{rec.username }}  : {{ rec.rec_description }} </p> 
+                  {% else %}
+                  <p class="card-text text-light">{{rec.username }}  : {{ rec.rec_name }} </p> 
+                  {% endif %}
                   <p class="text-light"style="width:93%">( {{ rec.dateposted }} )</p>
               </div>
               <div class="row">
