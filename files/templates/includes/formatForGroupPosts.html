@@ -3,7 +3,7 @@
             {% block content %}
                 {% if allPosts %}
                 {% else %}
-                <div class="card flex bg-light" style="height:80">
+                <div class="card flex bg-light" style="height:auto">
                     <div class="card-body flex-center">
                         
                         <p class="card-text mr-2 ml-2" style="width:93%">Post some stuff!!!</p> 
@@ -16,7 +16,7 @@
                     
 
                         {% if post.post_type == "hungryFor" %}
-                                <div class="card flex bg-light" style="height:80">
+                                <div class="card flex bg-light" style="height:auto">
                                     <div class="card-body flex-center">
                                         
                                         <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p> 
@@ -37,7 +37,7 @@
                                 <br>
                         {% endif %}
                         {% if post.post_type == "boringPost" %}
-                                <div class="card flex bg-light" style="height:80">
+                                <div class="card flex bg-light" style="height:auto">
                                     <div class="card-body flex-center">
                                         <p class="card-text mr-2 ml-2" style="width:93%"> {{ post.content }}</p>
                                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>        
@@ -51,7 +51,7 @@
                         {% if post.post_type == "currentlyEating" %}
                             {% if post.link_current == "" or post.link_current == null %}
                                 {% if post.content_current != "" %}
-                                <div class="card flex bg-light" style="height:80">
+                                <div class="card flex bg-light" style="height:auto">
                                     <div class="card-body flex-center">
                                         <p class="card-text mr-2 ml-2" style="width:93%"> {{ post.content_current }}</p>
                                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>        
@@ -68,7 +68,7 @@
                             {% endif %}
                             {% if post.content_current == "" or post.content_current == null %}
                                 {% if post.link != null %}
-                                <div class="card flex bg-light" style="height:80">
+                                <div class="card flex bg-light" style="height:auto">
                                     <div class="card-body flex-center">
                                         <p class="card-text mr-2 ml-2" style="width:93%">The link to is recipe I'm currently eating is: {{ post.link_current }}</p>
 
