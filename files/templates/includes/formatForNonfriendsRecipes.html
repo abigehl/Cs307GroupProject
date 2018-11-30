@@ -11,7 +11,7 @@
                     <div class="card-body" style="height:auto; padding:50">
                         <div class="card-body bg-dark">
                             <p class="h4 text-light" style="padding-left: 5px"> {{rec.rec_name}}  ({{rec.dateposted}})</p>
-                            <img class="rounded" src="static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="max-width: 200px; max-height:150px">
+                            <img class="rounded" src="../static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="max-width: 200px; max-height:150px">
                             <p class="card-text mr-2 ml-2 text-light" style="padding-right: 100px; height:auto">{{rec.rec_description}}</p>
                             <p class="left card-text mr-2 ml-2 text-light">By: {{rec.username}}</p>
                             <div class="container">
@@ -23,7 +23,9 @@
                                 <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
                                     <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
                                 </form>
-
+                                <form action="{{ url_for('comment_recipe', rec_id=rec.id) }}" method="post">
+                                    <button type="submit" class="btn btn-elegant float-right"><i class="fa fa-comment-o"></i></button>
+                                  </form>
 
                                       <form action="{{ url_for('add_follower', followedid = rec.user_id, followedname = rec.username) }}" method="post">
                                           <button type="submit" class="btn btn-default login-popup-btn" name="UNFOLLOW" value="1">FOLLOW {{rec.username}} </button>

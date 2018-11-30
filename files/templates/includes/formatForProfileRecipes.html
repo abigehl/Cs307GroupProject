@@ -19,6 +19,9 @@
                                 <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
                                     <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
                                 </form>
+                                <form action="{{ url_for('comment_recipe', rec_id=rec.id) }}" method="post">
+                                    <button type="submit" class="btn btn-elegant float-right"><i class="fa fa-comment-o"></i></button>
+                                  </form>
                                 {% if current_user.id == rec.user_id %}
                                 <form action="{{ url_for('update_recipe', recipe_id=rec.id) }}" method="post">
                                   <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
