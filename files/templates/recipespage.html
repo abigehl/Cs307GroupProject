@@ -105,7 +105,7 @@
                     <div class="rate">
                         <form action="{{ url_for('rate_recipe',rec_id=rec.id) }}" method="post">
                                 
-                        <input type="radio" id="star5" name="rate" value="5" />
+                        <input type="radio" id="star5" name="rate" value="5" checked="checked" />
                         <label for="star5" title="text" style="color: white">1</label>
                         <input type="radio" id="star4" name="rate" value="4" />
                         <label for="star4" title="text"style="color: white">2</label>
@@ -115,7 +115,7 @@
                         <label for="star2" title="text"style="color: white">4</label>
                         <input type="radio" id="star1" name="rate" value="1" />
                         <label for="star1" title="text"style="color: white">5 </label>
-                        <button type="submit" name="submit_ratings_button" class="btn btn-elegant" style="color: white">Rate</button>
+                        <button type="submit" name="submit_ratings_button" class="btn btn-elegant" style="color: white" >Rate</button>
                         </form>
                     </div>              
                     <br>
