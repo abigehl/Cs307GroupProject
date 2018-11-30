@@ -73,31 +73,31 @@
                             <!--<input class="form-control" type="text" placeholder="Enter Recipe Name" name='food'>-->
                             {{ form.hidden_tag() }}
                             {{ wtf.form_field(form.recipePic)}}
-                            {{ wtf.form_field(form.rec_name, class_="form-control", value=rec.rec_name) }}
+                            {{ wtf.form_field(form.rec_name, class_="form-control", placeholder=rec.rec_name) }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Prep Time" name='prep-time'>-->
-                            {{ wtf.form_field(form.prep_time, class_="form-control", value=rec.prep_time) }}
+                            {{ wtf.form_field(form.prep_time, class_="form-control", placeholder=rec.prep_time) }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Cook Time" name='cook-time'>-->
-                            {{ wtf.form_field(form.cook_time, class_="form-control", value=rec.cook_time) }}
+                            {{ wtf.form_field(form.cook_time, class_="form-control", placeholder=rec.cook_time) }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Description" name='description'>
                             <br>-->
                             Price Range
                             <!--<input class="form-control" type="text" placeholder="Minimum Price" name="minPrice">-->
-                            {{ wtf.form_field(form.minPrice, class_="form-control",value=rec.minPrice) }}
+                            {{ wtf.form_field(form.minPrice, class_="form-control",placeholder=rec.minPrice) }}
                             
                             <!--<input class="form-control" type="text" placeholder="Maximum Price" name="maxPrice">-->
-                            {{ wtf.form_field(form.maxPrice, class_="form-control", value=rec.maxPrice) }}
+                            {{ wtf.form_field(form.maxPrice, class_="form-control", placeholder=rec.maxPrice) }}
                             
                             <br>
                             <h4 class="my-4 h4">Enter Nutritional Facts (Optional)</h4>
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Calories" name=Calories>-->
-                            {{ wtf.form_field(form.calories, class_="form-control",value=rec.calories) }}
+                            {{ wtf.form_field(form.calories, class_="form-control",placeholder=rec.calories) }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Fat" name=Fat>-->
-                            {{ wtf.form_field(form.fat, class_="form-control", value=rec.fat) }}
+                            {{ wtf.form_field(form.fat, class_="form-control", placeholder=rec.fat) }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Cholesterol" name=Cholesterol>
                             -->
@@ -108,8 +108,8 @@
                             <br>
                             <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
                             <div id="ingr_div">
-                                {{ wtf.form_field(form.ings, id="ings", value=rec.ings) }}
-                                {{ wtf.form_field(form.tags, id="tags", value=rec.tags) }}
+                                {{ wtf.form_field(form.ings, id="ings", placeholder=rec.ings) }}
+                                {{ wtf.form_field(form.tags, id="tags", placeholder=rec.tags) }}
                             </div>
 
                             {{ wtf.form_field(form.submit, onclick="showInput()") }}
@@ -138,11 +138,11 @@
                         <br>
                         <label for="exampleFormControlTextarea1">Recipe Description (include tags/cuisine here)</label>
                         <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name="instruction"></textarea>-->
-                        {{ wtf.form_field(form.rec_description, class_="form-control rounded-0", rows="5",value=rec.rec_description) }}
+                        {{ wtf.form_field(form.rec_description, class_="form-control rounded-0", rows="5",placeholder=rec.rec_description) }}
 
                         <label for="exampleFormControlTextarea1">Enter your instructions</label>
                         <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>-->
-                        {{ wtf.form_field(form.rec_instruction, class_="form-control rounded-0", rows="5",value = rec.rec_instruction) }}
+                        {{ wtf.form_field(form.rec_instruction, class_="form-control rounded-0", rows="5",placeholder = rec.rec_instruction) }}
                     </div>
                     <style type="text/css">
                         [data-role="dynamic-fields"] > .form-inline [data-role="add"] {
