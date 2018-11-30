@@ -17,7 +17,7 @@
 
                         {% if post.post_type == "hungryFor" %}
                                 <div class="card flex bg-light" style="height:auto">
-                                    <div class="card-body flex-center">
+                                    <div class="card-body">
                                         
                                         <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p> 
                                          {% if current_user.id == post.user_id %}
@@ -38,12 +38,17 @@
                         {% endif %}
                         {% if post.post_type == "boringPost" %}
                                 <div class="card flex bg-light" style="height:auto">
-                                    <div class="card-body flex-center">
+                                    <div class="card-body">
                                         <p class="card-text mr-2 ml-2" style="width:93%"> {{ post.content }}</p>
+                                        {% if current_user.id == post.user_id %}
+
                                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>        
                                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                 <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                         </form>
+
+                                        {% endif %}
+
                                     </div>
                                 </div>
                                 <br>
@@ -52,13 +57,16 @@
                             {% if post.link_current == "" or post.link_current == null %}
                                 {% if post.content_current != "" %}
                                 <div class="card flex bg-light" style="height:auto">
-                                    <div class="card-body flex-center">
+                                    <div class="card-body">
                                         <p class="card-text mr-2 ml-2" style="width:93%"> {{ post.content_current }}</p>
+                                        {% if current_user.id == post.user_id %}
+
                                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>        
                                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                 <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                         </form>                                  
-                                    
+                                        {% endif %}
+
                                     
                                     </div>
                                 </div>
