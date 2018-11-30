@@ -736,6 +736,7 @@ def comment_post(post_id):
     comments = post_comments.query.filter_by(post_id=post_id)
 
     if commentForm.validate_on_submit():
+        print("what the fuck")
         comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id)
         db.session.add(comm)
         db.session.commit()
@@ -912,8 +913,8 @@ def showprofile(hisid):
     allposts = postss.query.filter_by(user_id=hisid)
     recipes = rec.query.filter_by(user_id=hisid)
     favRecipes = favs.query.filter_by(user_id=hisid)
-    followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", hisid)
-    following = db.engine.execute("SELECT followedname FROM followers where followerid = %s", hisid)
+    followers = db.engine.execute("SELECT * FROM followers where followedid = %s", hisid)
+    following = db.engine.execute("SELECT * FROM followers where followerid = %s", hisid)
 
     count2 = 0
 

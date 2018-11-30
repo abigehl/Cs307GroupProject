@@ -15,7 +15,7 @@
               <div class="container">
                 <div class="row">
                   <form action="{{ url_for('showrecipe', recipe_id=rec.id) }}" method="POST">
-                    <button type="submit" class="btn btn-elegant">Take me there</button>
+                    <button type="submit" class="btn btn-elegant">Take me thereBITCH</button>
                   </form>
                   <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
                     <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
@@ -23,8 +23,8 @@
                   <form action="{{ url_for('remove_follower', followedid = rec.user_id, followerid = current_user.id) }}" method="post">
                     <button type="submit" class="btn btn-default login-popup-btn" name="UNFOLLOW" value="1">UNFOLLOW {{rec.username}} </button>
                   </form>
-                  <form action="" method="post">
-                      <button type="submit" class="btn btn-elegant float-right"> <i class="fa fa-comment-o"></i></button>
+                  <form action="{{ url_for('comment_post', post_id=rec.id) }}" method="post">
+                    <button type="submit" class="btn btn-elegant float-right"><i class="fa fa-comment-o"></i></button>
                   </form>
                 </div>
               </div>
@@ -56,9 +56,6 @@
                 <form action="{{ url_for('delete_recipe', recipe_id=rec.id) }}" method="post">
                   <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                 </form>
-                <form action="" method="post">
-                    <button type="submit" class="btn btn-elegant float-right"> <i class="fa fa-comment-o"></i></button>
-                </form>
               </div>
             </div>
           </div>
@@ -81,7 +78,7 @@
               </div>
               <div class="row">
                   <form action="{{ url_for('comment_post', post_id=rec.id) }}" method="post">
-                      <button type="submit" class="btn btn-elegant float-right"> <i class="fa fa-comment-o"></i></button>
+                      <button type="submit" class="btn btn-elegant float-right"><i class="fa fa-comment-o"></i></button>
                   </form>
                   {% if current_user.id != rec.user_id%}
                     {% if  rec.followername == none %}
