@@ -24,10 +24,10 @@
 </head>
 
 <style>
- 
+
  body{
-  
-  background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54)); 
+
+  background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54));
     background-repeat: no-repeat;
     -webkit-background-size: 100%;
     -moz-background-size: 100%;
@@ -64,7 +64,7 @@
                   <div class="col-9" style="padding: 40px">
                     {% if current_user.is_authenticated %}
                     {%include 'includes/formatForFriendsRecipes.html' %}
-                    
+                    {%include 'includes/formatForNonfriendsRecipes.html' %}
                      {% endif %}
                      {%include 'includes/formatForSearchRecipes.html' %}
                   </div>
@@ -76,10 +76,13 @@
                       <form action="{{ url_for('map')}}" method="post">
                         <button type="submit" class="btn btn-default login-popup-btn " name="randomize">Nearby Store </button>
                     </form>
+                    <form action="{{ url_for('checklist')}}" method="post">
+                      <button type="submit" class="btn btn-default login-popup-btn " name="randomize">Ingredient CheckList </button>
+                  </form>
                       {% else %}
                       <div class="card background-color:transparent;">
                         <ul class="list-group list-group-flush">
-                          
+
                           <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='crepe')}}" class="card-link text-light" >Breakfast</a></li>
                           <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='lunch')}}" class="card-link text-light">Lunch</a></li>
                           <li class="list-group-item bg-dark"><a href="{{url_for('searchthings', thing='dinner')}}" class="card-link text-light">Dinner</a></li>
@@ -105,5 +108,5 @@
 
                 </div>
               </div>
- 
+
 </body>

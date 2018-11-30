@@ -34,7 +34,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	font-weight: 300;
-	max-height: 50px;
+	display: inline;
 }
 
 :focus {

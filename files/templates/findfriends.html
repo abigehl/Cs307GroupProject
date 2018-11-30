@@ -24,17 +24,23 @@
 
 <style>
     body{
-     font-family: 'Poppins', sans-serif;
-     background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54));
-           background-size: 100%;
-           margin:0;
+      background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54)); 
+    background-repeat: no-repeat;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
+    background-attachment: fixed;
+        font-family: 'Poppins', sans-serif;
+        background-size: 100%;
+        margin:0;
          }
    </style>
 
-{% block body %}
+<body>
 {% include 'includes/navbar.html' %}
           <!--/.Navbar-->
-        <body>
+  
         <form id="loginMember" role="form" action="{{ url_for('findfriends') }}" method="post">
           <p>
           <p>
@@ -49,16 +55,18 @@
           </div>
         </form>
 
-          <div>
-      {%include 'includes/formatForSearchFriends.html' %}
+      <div style="padding:50">
+              {%include 'includes/formatForSearchFriends.html' %}
 
-        </div>
-
-      {%include 'includes/formatForNonfriendsRecipes.html' %}
-
-
-        </body>
       
 
-        </html>
-        {% endblock %}
+      {%include 'includes/formatForNonfriendsRecipes.html' %}
+    </div>
+
+
+     
+      
+
+        
+
+      </body>

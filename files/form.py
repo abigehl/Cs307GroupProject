@@ -47,7 +47,7 @@ class RecipeForm(FlaskForm):
     sodium = StringField('Sodium')
     minPrice = IntegerField('Min Price')
     maxPrice = IntegerField('Max Price')
-    recipePic = FileField('Update Recipe Picture', validators=[FileAllowed(['jpg', 'png'])])
+    recipePic = FileField('Upload Recipe Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Post')
 
     def validate_price(self, minPrice, maxPrice):
