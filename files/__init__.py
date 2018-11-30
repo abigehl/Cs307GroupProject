@@ -72,6 +72,7 @@ class rec(db.Model):
         self.rating = rating
         self.number_of_ratings = number_of_ratings
 
+
 class postss(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(1000), nullable=True)
@@ -169,9 +170,8 @@ class likers(db.Model):
 
 
 class raters(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    rated_recipe = db.Column(db.Integer, nullable = False)
-    userid = db.Column(db.Integer,nullable = False)
+    rated_recipe = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.Integer, primary_key=True)
 
 #from models import users, rec, postss
 # if __name__ == '__main__':
