@@ -662,7 +662,7 @@ def add_fav(recipe_id):
     reRec_description = recipee.rec_description
     reRec_instruction = recipee.rec_instruction
     reIng_1 = recipee.ings
-    reIng_2 = recipee.tagss
+    reIng_2 = recipee.tags
     reCalories = recipee.calories
     reFat = recipee.fat
     reCholesterol = recipee.cholesterol
@@ -675,7 +675,7 @@ def add_fav(recipe_id):
 
     uuu = users.query.filter_by(id=reccc.user_id).first()
 
-    favorite = favs(fav_rec_creator = uuu.username, user_id=current_user.id, fav_rec_name=reRec_name, fav_prep_time = rePrep_time, fav_cook_time=reCook_time, fav_rec_description=reRec_description, fav_rec_instruction=reRec_instruction,fav_ing1 = reIng_1, fav_ing2 = reing_2,fav_minPrice = reMinPrice, fav_maxPrice = reMaxPrice, fav_calories=reCalories, fav_fat = reFat, fav_cholestrol = reCholesterol,fav_sodium=reSodium, recipe_id = recipe_id)
+    favorite = favs(fav_rec_creator = uuu.username, user_id=current_user.id, fav_rec_name=reRec_name, fav_prep_time = rePrep_time, fav_cook_time=reCook_time, fav_rec_description=reRec_description, fav_rec_instruction=reRec_instruction,fav_ing1 = reIng_1, fav_ing2 = reIng_2,fav_minPrice = reMinPrice, fav_maxPrice = reMaxPrice, fav_calories=reCalories, fav_fat = reFat, fav_cholestrol = reCholesterol,fav_sodium=reSodium, recipe_id = recipe_id)
     db.session.add(favorite)
     db.session.commit()
 

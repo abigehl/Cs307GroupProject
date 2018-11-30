@@ -41,7 +41,7 @@
     <body>
           <!-- Start your project here-->
           <div class="row">
-              <div class="col-12 col-sm-6 col-lg-8" style="width: 50vh; height: 50vh">
+              <div class="col-12 col-sm-6 col-lg-8" style="width: 50vh; height: auto">
                   <div class="media">
                       <img class="d-flex mr-3 p-4" src="{{ image_file }}" alt="Generic placeholder image" style="width: 200px">
                   <!--   <button type="button" class="btn btn-outline-dark-green" value="Follow">Follow</button>--> 
@@ -55,7 +55,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-6 col-lg-4" style="width: 50vh; height:35vh">
+              <div class="col-6 col-lg-4" style="width: 50vh; height:auto; padding:0">
                   <h5 class="font-weight-bold text-light" style="margin-top: 25px">
                       <div class="row">
                         <a class="nav-link text-light mr-3" href="{{ url_for('settings') }}">Settings</a>
@@ -66,8 +66,8 @@
               </div>      
             </div>
             <div class="row" style="padding:20">
-                  <div class="col-2 " style="height:50vh; padding:0; padding-left: 30px; margin:0;">
-                    <div style="height: 100vh;" >
+                  <div class="col-2 " style="height:auto; padding:0;margin:0;">
+                    <div style="height: auto;" >
                       <div>
                         <div class="card flex bg-dark nopadding" style="margin:0; width:100%; padding-left: 5px; padding-right: 7px;">
                           <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0; padding-left: 10" >Followers</h4>
@@ -112,7 +112,7 @@
                   </div>
 
 
-                  <div class="col-7" style="padding:10; margin:0; height:50vh">
+                  <div class="col-7" style="padding:10; margin:0; height:auto">
                     <div class="" style="padding:10; margin:0" >
                       
                           {% include 'includes/formatForProfileRecipes.html' %}

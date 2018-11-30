@@ -50,12 +50,12 @@
             {{ findfriends.friend(class = "form-control", placeholder = "Enter your friend's name here", style="height: 40px; padding:10px") }}
           </div>
           <p>
-          <div class="container  text-center" style="width: 100%">
+          <div class="container " style="width: 100%">
             {{ wtf.form_field(findfriends.submit)}}
           </div>
         </form>
 
-      <div style="padding:50">
+      <div class="flex-start flex-content-center" style="padding:50;">
               {%include 'includes/formatForSearchFriends.html' %}
 
       
