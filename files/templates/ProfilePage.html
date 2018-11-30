@@ -41,7 +41,7 @@
     <body>
           <!-- Start your project here-->
           <div class="row">
-              <div class="col-12 col-sm-6 col-lg-8" style="width: 50vh; height: auto">
+              <div class="col-12 col-sm-6 col-lg-8" style="width: auto; height: auto">
                   <div class="media">
                       <img class="d-flex mr-3 p-4" src="{{ image_file }}" alt="Generic placeholder image" style="width: 200px">
                   <!--   <button type="button" class="btn btn-outline-dark-green" value="Follow">Follow</button>--> 
@@ -95,7 +95,7 @@
                             </a>
                           </div>
                           {% endfor %}
-                          <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0; padding-left: 10" >Following</h4>
+                          <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0;" >Following</h4>
 
                           {% for followed in following%}
                           <div class="card-body" >
@@ -112,7 +112,7 @@
                   </div>
 
 
-                  <div class="col-7" style="padding:10; margin:0; height:auto">
+                  <div class="col-7" style="padding:0; margin:0; height:auto">
                     <div class="" style="padding:10; margin:0" >
                       
                           {% include 'includes/formatForProfileRecipes.html' %}
@@ -120,7 +120,8 @@
                       
                     </div>
                   </div>
-                  <div class="col-2"  style="padding:10; margin:0;">
+                  
+                  <div class="col-2"  style="padding:0; margin:0;">
                       {% include 'includes/favoritesBlock.html' %}
                   </div>
             </div>
