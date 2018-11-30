@@ -220,10 +220,7 @@ def homepage():
                                         ORDER BY dateposted desc;", current_user.id, current_user.id, current_user.id)
 
     else:
-         allrecipes = db.engine.execute("SELECT rec.id as id, rec_name, rec_description, user_id, recipePic, dateposted, username, rating, number_of_ratings  from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) \
-                                        UNION \
-                                        select postss.id, content_current, content, user_id, link_current, post_date, username, a.id, nlikes from  (postss  left join (select id , username from users) as a on postss.user_id = a.id) \
-                                        ORDER BY dateposted desc;")
+        allrecipes = db.engine.execute("SELECT * FROM rec WHERE 1 = 0")
 
 
     if form.validate_on_submit():
@@ -328,12 +325,8 @@ def searchadvanced(things):
         words = things.split(';')
         words= list(filter(None, words))
         print(words)
-
-        words = ' '.join(words)
-        keywords_sufix = parser_search_sufix(words)
-        recipes = db.engine.execute("SELECT * FROM (SELECT * FROM rec WHERE ((MATCH (rec_name, rec_description, rec_instruction, ings, tags) \
-                    AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd", words, keywords_sufix)
-
+        words=" ".join(words)
+        recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ings, tags) AGAINST (%s IN BOOLEAN MODE)))", words)
         return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
 
     return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
@@ -481,8 +474,6 @@ def profile():
     allposts = postss.query.filter_by(user_id=current_user.id)
 
     recipes = rec.query.filter_by(user_id=current_user.id)
-    
-
     favRecipes = favs.query.filter_by(user_id=current_user.id)
 
     image_file = url_for('static', filename='Images/' + current_user.profilePic)
@@ -570,8 +561,8 @@ def create_recipe():
 def showrecipe(recipe_id):
 
     formsearch = RecipeSearchForm()
+    recc = rec.query.get_or_404(recipe_id)
 
-    recc = db.engine.execute("SELECT * from (select * from rec where id = %s) as a left join raters on raters.userid = %s and raters.rated_recipe = %s LIMIT 1", recipe_id, current_user.id, recipe_id).first()
 
     if recc.number_of_ratings is 0: 
         totalRating = 0
@@ -644,9 +635,9 @@ def delete_recipe(recipe_id):
 @login_required
 def favorites():
     formsearch = RecipeSearchForm()
-    favorites = favs.query.filter_by(user_id=current_user.id)
-
-    return render_template('favoritesPage.html', title='Favorites Page', favorites=favorites, form5=formsearch)
+    favsss = favs.query.filter_by(user_id=current_user.id)
+ 
+    return render_template('favoritesPage.html',title='Favorites Page', favorites=favsss, form5=formsearch)
 
 ##############################################################################3
 @app.route("/favorites/<int:recipe_id>/add", methods=['POST', 'GET'])
@@ -660,6 +651,7 @@ def add_fav(recipe_id):
     reRec_description = recipee.rec_description
     reRec_instruction = recipee.rec_instruction
     reIng_1 = recipee.ings
+    reIng_2 = recipee.tagss
     reCalories = recipee.calories
     reFat = recipee.fat
     reCholesterol = recipee.cholesterol
@@ -668,7 +660,11 @@ def add_fav(recipe_id):
     reMaxPrice = recipee.maxPrice
     recipe_id = recipee.id
 
-    favorite = favs(user_id=current_user.id, fav_rec_name=reRec_name, fav_prep_time = rePrep_time, fav_cook_time=reCook_time, fav_rec_description=reRec_description, fav_rec_instruction=reRec_instruction,fav_ing1 = reIng_1,fav_minPrice = reMinPrice, fav_maxPrice = reMaxPrice, fav_calories=reCalories, fav_fat = reFat, fav_cholestrol = reCholesterol,fav_sodium=reSodium, recipe_id = recipe_id)
+    reccc = rec.query.filter_by(id=recipe_id).first()
+
+    uuu = users.query.filter_by(id=reccc.user_id).first()
+
+    favorite = favs(fav_rec_creator = uuu.username, user_id=current_user.id, fav_rec_name=reRec_name, fav_prep_time = rePrep_time, fav_cook_time=reCook_time, fav_rec_description=reRec_description, fav_rec_instruction=reRec_instruction,fav_ing1 = reIng_1, fav_ing2 = reing_2,fav_minPrice = reMinPrice, fav_maxPrice = reMaxPrice, fav_calories=reCalories, fav_fat = reFat, fav_cholestrol = reCholesterol,fav_sodium=reSodium, recipe_id = recipe_id)
     db.session.add(favorite)
     db.session.commit()
 
@@ -703,8 +699,7 @@ def delete_fav(fav_id):
 @app.route("/post/<int:post_id>/comment", methods=['POST', 'GET'])
 @login_required
 def comment_post(post_id):
-    formsearch = RecipeSearchForm()
-    post = postss.query.filter_by(id=post_id).first()
+
     commentForm = CommentForm()
     if commentForm.validate_on_submit():
         comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id)
@@ -713,7 +708,7 @@ def comment_post(post_id):
 
         return redirect(url_for('all_comments'))
 
-    return render_template('testComment.html', commentForm=commentForm,  form5 = formsearch, post=post)
+    return render_template('testComment.html', commentForm=commentForm)
 
 @app.route("/allComments", methods=['POST', 'GET'])
 @login_required
@@ -878,7 +873,7 @@ def showprofile(hisid):
     formNormalText = PostForm()
     formCurrent = PostFormCurrentlyEating()
 
-    allposts = postss.query.filter_by(user_id=hisid)
+    allposts = postss.query.all()
     recipes = rec.query.filter_by(user_id=hisid)
     favRecipes = favs.query.filter_by(user_id=hisid)
     followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", hisid)
@@ -936,11 +931,14 @@ def rate_recipe(rec_id):
         db.engine.execute("UPDATE rec SET rating = %s, number_of_ratings = %s where id = %s",str(rat),str(numRatings),rec_id)
             
 
-    formsearch = RecipeSearchForm()
-    recc = db.engine.execute("SELECT * from (select * from rec where id = %s) as a left join raters on raters.userid = %s and raters.rated_recipe = %s LIMIT 1", rec_id, current_user.id, rec_id).first()
+    formsearch = RecipeSearchForm("SELECT COUNT(id) FROM raters WHERE rated_recipe = = 1")
+    recc = rec.query.get_or_404(rec_id)
 
 
 
+
+    a = db.engine.execute()
+    
     if recc.number_of_ratings is 0: 
         totalRating = 0
     else:

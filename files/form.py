@@ -3,7 +3,7 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, IntegerField, HiddenField
 from wtforms.fields.html5 import DecimalRangeField
-from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired, ValidationError, Optional
+from wtforms.validators import InputRequired, Email, Length, EqualTo, DataRequired, ValidationError, Optional, NumberRange
 from files.__init__ import users, rec, postss
 
 
@@ -41,12 +41,12 @@ class RecipeForm(FlaskForm):
 
     ings = HiddenField()
     tags = HiddenField()
-    calories = IntegerField('Calories')
+    calories = StringField('Calories')
     fat = StringField('Fat')
     cholesterol = StringField('Cholesterol')
     sodium = StringField('Sodium')
-    minPrice = IntegerField('Min Price')
-    maxPrice = IntegerField('Max Price')
+    minPrice = IntegerField('Min Price', validators = [DataRequired(), NumberRange(min=0, message = "Enter a valid minimum price")])
+    maxPrice = IntegerField('Max Price', validators = [DataRequired(), NumberRange(min=0, message = "Enter a valid maximum price")])
     recipePic = FileField('Upload Recipe Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Post')
 

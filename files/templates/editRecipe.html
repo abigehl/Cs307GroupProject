@@ -1,4 +1,3 @@
-
 {% import "bootstrap/wtf.html" as wtf %}
 
 <head>
@@ -21,100 +20,101 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
+
 </head>
 
 <style>
         body{
          font-family: 'Poppins', sans-serif;
-         background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54));
+               background-image: url(/static/Images/bg.png);
                background-size: 100%;
                margin:0;
              }
+             .tags
+             {
+                 background-color: white;
+                 min-width: 50;
+                 min-height: 100;
+             }
+             .roundt {
+                background-color: #d5dfe2;
+                display: inline;
+                height: 20;
+                border-radius: 50px;
+                border: 50px;
+                padding: 5px 5px 5px 5px;
+                padding-right: 7px;
+                padding-left: 7px;
+                position: relative;
+              } 
        </style>
 
 {% block body %}
 {% include 'includes/navbar.html' %}
-
-    <main class=" pt-4">
-        <!--<form action="{{ url_for('create_recipe') }}" method="POST">-->
-        <form action="" method = "POST" enctype="multipart/form-data" > 
-
-            <h5 class="text-center text-light">Edit Recipe</h5>
-            <div class="container text-light mt-5">
-
+<div style="background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54));">
+    
+        <form action="" method = "POST" enctype="multipart/form-data"> 
+            <br>
+            <h5 class="text-light text-left" style="padding-top: 0 px; padding-left: 20; font-size: 40; margin: 10">Create a Recipe</h5>
+            <div class="container text-light " style="padding-top: 20 px">
+                <div class="row">
                 <!--Grid row-->
-                <div class="row wow fadeIn">
+            
 
                     <!--Grid column-->
-                    <div class="col-md-6 mb-4">
-
-                       <!-- <img src="../static/Images/lasagna.jpg" class="img-fluid" alt="">-->
-                       <label for="inputurl" class="col-sm-4 col-form-label">Recipe Thumbnail</label>
-                       <div class="col-sm-8">
-                           <input type="text" class="form-control" id="inputurl" placeholder="Input Image Url", name = 'rec_url'>
-                       </div>
-
-                    </div>
+                   
                     <!--Grid column-->
 
                     <!--Grid column-->
-                    <div class="col-md-6 mb-4">
+                    <div class="col-md-4" >
 
                         <!--Content-->
-                        <div class="p-4">
-
-                            <!-- <div class="mb-3">
-                        <a href="">
-                            <span class="badge purple mr-1">Italian</span>
-                        </a>
-                        <a href="">
-                            <span class="badge blue mr-1">Hot</span>
-                        </a>
-                        <a href="">
-                            <span class="badge red mr-1">Trash</span>
-                        </a>
-                    </div>
-                     -->
+                        <div class="p-4" >
                             <!--<input class="form-control" type="text" placeholder="Enter Recipe Name" name='food'>-->
                             {{ form.hidden_tag() }}
-
                             {{ wtf.form_field(form.recipePic)}}
-                            <br>
-                            {{ wtf.form_field(form.rec_name, class_="form-control", placeholder="Enter Recipe Name", value=rec.rec_name) }}
+                            {{ wtf.form_field(form.rec_name, class_="form-control", value=rec.rec_name) }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Prep Time" name='prep-time'>-->
-                            {{ wtf.form_field(form.prep_time, class_="form-control", placeholder="Enter Prep Time", value="999") }}
+                            {{ wtf.form_field(form.prep_time, class_="form-control", value=rec.prep_time) }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Cook Time" name='cook-time'>-->
-                            {{ wtf.form_field(form.cook_time, class_="form-control", placeholder="Enter Cook Time", value=rec.cook_time) }}
+                            {{ wtf.form_field(form.cook_time, class_="form-control", value=rec.cook_time) }}
                             <br>
                             <!--<input class="form-control" type="text" placeholder="Enter Description" name='description'>
                             <br>-->
                             Price Range
                             <!--<input class="form-control" type="text" placeholder="Minimum Price" name="minPrice">-->
-                            {{ wtf.form_field(form.minPrice, class_="form-control", placeholder="Minimum Price", value=rec.minPrice) }}
-                            <br>
+                            {{ wtf.form_field(form.minPrice, class_="form-control",value=rec.minPrice) }}
+                            
                             <!--<input class="form-control" type="text" placeholder="Maximum Price" name="maxPrice">-->
-                            {{ wtf.form_field(form.maxPrice, class_="form-control", placeholder="Maximum Price", value=rec.maxPrice) }}
+                            {{ wtf.form_field(form.maxPrice, class_="form-control", value=rec.maxPrice) }}
+                            
                             <br>
-                            <label for="exampleFormControlTextarea1">Recipe Description (include tags/cuisine here)</label>
-                            <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name="instruction"></textarea>-->
-                            {{ wtf.form_field(form.rec_description, class_="form-control rounded-0", rows="5",placeholder=rec.rec_description) }}
+                            <h4 class="my-4 h4">Enter Nutritional Facts (Optional)</h4>
                             <br>
-
-                            <div class="row d-flex justify-content-left wow fadeIn">
-
-                                <div class="col-md-6 text-left">
-
-                                    <h4 class="my-4 h4">Enter Ingredients</h4>
-                                    <!--<input class="form-control" type="text" placeholder="Ingredient 1" name="ing1">-->
-                                    {{ wtf.form_field(form.ings, class_="form-control", type="text", value=rec.ing_1) }}
-                                    <br>
-                                    <!--<input class="form-control" type="text" placeholder="Ingredient 2" name="ing2">-->
-                                    
-                                    <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
-                                </div>
+                            <!--<input class="form-control" type="text" placeholder="Calories" name=Calories>-->
+                            {{ wtf.form_field(form.calories, class_="form-control",value=rec.calories) }}
+                            <br>
+                            <!--<input class="form-control" type="text" placeholder="Fat" name=Fat>-->
+                            {{ wtf.form_field(form.fat, class_="form-control", value=rec.fat) }}
+                            <br>
+                            <!--<input class="form-control" type="text" placeholder="Cholesterol" name=Cholesterol>
+                            -->
+                            {{ wtf.form_field(form.cholesterol, class_="form-control", value=rec.cholesterol) }}
+                            <br>
+                            <!--<input class="form-control" type="text" placeholder="Sodium" name=Sodium>-->
+                            {{ wtf.form_field(form.sodium, class_="form-control", value=rec.sodium) }}
+                            <br>
+                            <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
+                            <div id="ingr_div">
+                                {{ wtf.form_field(form.ings, id="ings", value=rec.ings) }}
+                                {{ wtf.form_field(form.tags, id="tags", value=rec.tags) }}
                             </div>
+
+                            {{ wtf.form_field(form.submit, onclick="showInput()") }}
+
+                           
                             <!--</form>-->
 
                         </div>
@@ -123,48 +123,230 @@
                     </div>
                     <!--Grid column-->
 
-                </div>
+              
                 <!--Grid row-->
 
-                <hr>
+            
 
                 <!--Grid row-->
 
                 <!--Grid column-->
-                <div class="col-md-6 text-left">
+                <div class="col-md-8">
 
                     <br>
                     <div class="form-group">
+                        <br>
+                        <label for="exampleFormControlTextarea1">Recipe Description (include tags/cuisine here)</label>
+                        <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5" name="instruction"></textarea>-->
+                        {{ wtf.form_field(form.rec_description, class_="form-control rounded-0", rows="5",value=rec.rec_description) }}
+
                         <label for="exampleFormControlTextarea1">Enter your instructions</label>
                         <!--<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>-->
-                        {{ wtf.form_field(form.rec_instruction, class_="form-control rounded-0", rows="5", placeholder=rec.rec_instruction) }}
+                        {{ wtf.form_field(form.rec_instruction, class_="form-control rounded-0", rows="5",value = rec.rec_instruction) }}
                     </div>
-                    <h4 class="my-4 h4">Enter Nutritional Facts (Optional)</h4>
-                    <br>
-                    <!--<input class="form-control" type="text" placeholder="Calories" name=Calories>-->
-                    {{ wtf.form_field(form.calories, class_="form-control", value=rec.calories) }}
-                    <br>
-                    <!--<input class="form-control" type="text" placeholder="Fat" name=Fat>-->
-                    {{ wtf.form_field(form.fat, class_="form-control", value=rec.fat) }}
-                    <br>
-                    <!--<input class="form-control" type="text" placeholder="Cholesterol" name=Cholesterol>
-                    -->
-                    {{ wtf.form_field(form.cholesterol, class_="form-control", value=rec.cholesterol) }}
-                    <br>
-                    <!--<input class="form-control" type="text" placeholder="Sodium" name=Sodium>-->
-                    {{ wtf.form_field(form.sodium, class_="form-control", value=rec.sodium) }}
-                    <br>
-                    <!--<button type="submit" class="btn btn-dark-green" value="Submit">Save</button>-->
-                    {{ wtf.form_field(form.submit) }}
+                    <style type="text/css">
+                        [data-role="dynamic-fields"] > .form-inline [data-role="add"] {
+                            display: none;
+                        }
+
+                        [data-role="dynamic-fields"] > .form-inline:last-child [data-role="add"] {
+                            display: inline-block;
+                        }
+
+                        [data-role="dynamic-fields"] > .form-inline:last-child [data-role="remove"] {
+                            display: none;
+                        }
+                    </style>
+
+                    <div class="row d-flex justify-content-left wow fadeIn">
+                        <h2 class="my-4 h2">Enter Ingredients</h2>
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div data-role="dynamic-fields">
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <!--<label class="sr-only" for="field-name">Field Name</label>-->
+                                                <input type="text" class="form-control" id="text-field" placeholder="Ingredient" name="arr" autocomplete="off">
+                                            </div>
+                                            
+                                            <button class="btn btn-danger" data-role="remove">
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-primary" data-role="add">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </button>
+                                        </div>  <!-- /div.form-inline -->
+                                    </div>  <!-- /div[data-role="xdynamic-fields"] -->
+                                </div>  <!-- /div.col-md-12 -->
+                            </div>  <!-- /div.row -->
+                        </div>
+                        <!--</form>-->
+
+                        <!--<form>
+                           <button onclick="showInput()">SHOW_INGREDIENTS</button>
+                        </form>-->
+
+                        <p><span id='display'></span></p>
+                    </div>
+                    <label for="tags" style="padding-top: 50">Tags</label>
+                    <div class="container" style="border-radius: 10px; background-color: white; min-width: 50; min-height: 100;padding-bottom: 10;  ">
+                        <input autocomplete= "off" class="form-control\" id="searchinput" type="text" style="border: 0px; background: transparent; min-width:800; outline: none; -webkit-box-shadow:none; -moz-box-shadow:none; box-shadow: none; cursor: default; " placeholder="Type to input tags...">
+                        <br>  
+                        <div id="contain" style="padding-top: 10" ></div>
+                    </div>
+                    <!--<form>
+                        <button onclick="showInput()">SHOW_TAGS</button>
+                    </form>-->
                 </div>
                 <!--Grid column-->
-
+            </div>
             </div>
             <!--Grid row-->
             <!--Grid row-->
             <!--Grid row-->
         </form>
-    </main>
 
+
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $(document).on(
+            'click',
+            '[data-role="dynamic-fields"] > .form-inline [data-role="add"]',
+            function(e) {
+                e.preventDefault();
+                var container = $(this).closest('[data-role="dynamic-fields"]');
+                new_field_group = container.children().filter('.form-inline:first-child').clone();
+                new_field_group.find('input').each(function(){
+                    $(this).val('');
+                });
+                container.append(new_field_group);
+            }
+        );
+        // Remove button click
+        $(document).on(
+            'click',
+            '[data-role="dynamic-fields"] > .form-inline [data-role="remove"]',
+            function(e) {
+                e.preventDefault();
+                $(this).closest('.form-inline').remove();
+            }         
+        );
+
+        // Add button click
+       
+    });
+
+    //tags stuff
+    var tags= new Array();
+    var idnum=0;
+
+    function showInput() {
+        var container = $(this).closest('[data-role="dynamic-fields"]');
+        var x = document.getElementsByName("arr");
+        var ingr_arr = new Array();
+
+        var i;
+        for (i = 0; i < x.length; i++) {
+            ingr_arr.push(x[i]);
+        }
+ 
+        var ingr_str = new String();
+        var tags_str = new String();
+
+        for (var k=0;k<ingr_arr.length;k++) {
+            //document.write(ingr_arr[k].value + ", ");
+            ingr_str += ingr_arr[k].value + " ` ";
+        }
+
+        //document.write(tags.length);
+
+        for (var z=0;z<tags.length;z++) {
+            tags_str += tags[z] + " ` ";
+        }
+
+        //document.write(ingr_str + "...." + tags_str);
+
+        document.getElementById("ings").value = ingr_str;
+        document.getElementById("tags").value = tags_str;
+
+        //document.write(formElement.name);
+        //document.write(document.getElementsByName("arr[]").length);
+    
+    }
+
+
+   function deleteob( i)
+    {
+      var oof=tags.splice(i,1);
+      
+      var container = document.getElementById("contain");
+      
+      var hold="";
+      var i=0;
+      idnum--;
+                  while(i<idnum)
+                  {
+                    var temp='<p class="form-control roundt" style="color:black;" onclick="deleteob('+i+');" id="'+i+'tag ">&#10006   ';
+                  temp+=tags[i];
+                  temp+='</p>';
+                  temp+='&nbsp';
+                      hold+=temp;
+                      i++;
+                  }
+                   // container.appendChild(document.createTextNode(number));
+                
+                  container.innerHTML=hold;
+                  
+    }
+
+ 
+    var input = document.getElementById("searchinput");
+    input.addEventListener("keyup", function(event) {
+    
+      var o=document.getElementById("searchinput").value;
+        if (event.keyCode === 13 && o && o!=" ") {
+          
+             // Number of inputs to create
+                  var number = document.getElementById("searchinput").value;
+                  var container = document.getElementById("contain");
+                  document.getElementById("searchinput").value="";
+                  submit+=";;"+number;  
+                  tags[idnum]=number;
+                  idnum++;
+                  var i=0;
+                  var hold="";
+                  while(i<idnum)
+                  {
+                    var temp='<p class="form-control roundt" style="color:black;" onclick="deleteob('+i+');" id="'+i+'tag ">&#10006   ';
+                  temp+=tags[i];
+                  temp+='</p>';
+                  temp+='&nbsp';
+                      hold+=temp;
+                      i++;
+                  }
+                   // container.appendChild(document.createTextNode(number));
+                
+                  container.innerHTML=hold;
+                     
+                  
+            
+        }
+    });
+
+    //prevents form being submitted when trying to input tags by pressing enter
+    $(document).ready(function() {
+      $(window).keydown(function(event){
+        if(event.keyCode == 13) {
+          event.preventDefault();
+          return false;
+        }
+      });
+    });
+
+</script>
 
 {% endblock %}
