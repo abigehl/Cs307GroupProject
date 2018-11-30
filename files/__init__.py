@@ -58,7 +58,7 @@ class rec(db.Model):
     tags = db.Column('tags', db.String(500), nullable=False)
     minPrice = db.Column('minPrice', db.Integer)
     maxPrice = db.Column('maxprice', db.Integer)
-    calories = db.Column('calories', db.String(10),default ="")
+         = db.Column('calories', db.String(10),default ="")
     fat = db.Column('fat', db.String(10), default="")
     cholesterol = db.Column('cholesterol', db.String(10), default="")
     sodium = db.Column('sodium', db.String(10), default="")
