@@ -61,13 +61,15 @@
                                 </div>
                                 <br>
                         {% endif %}
+                        
                         {% if post.post_type == "currentlyEating" %}
                             {% if post.link_current == "" or post.link_current == null %}
                                 {% if post.content_current != "" %}
+                                <br>
                                 <div class="card flex bg-light" style="height:auto">
                                     <div class="card-body">
                                             <div class="float-left">
-                                                    <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p> 
+                                                    <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content_current }}</p> 
                                                     </div>
                                                     <div class="row float-right">
                                                      {% if current_user.id == post.user_id %}

@@ -526,9 +526,6 @@ def delete_post(post_id):
 def update_post(post_id):
     post = postss.query.get(post_id)
 
-    # print("post content: " + post.content)
-    # string = post.content.split(" ", 4)[4]
-    # print(string)
 
     formsearch = RecipeSearchForm()
 
@@ -539,7 +536,26 @@ def update_post(post_id):
         db.session.commit()
         return redirect(url_for('profile'))
 
-    return render_template('editPost.html', form=form, form5=formsearch, post=post)
+    form3 = PostForm()
+    if form3.validate_on_submit():
+        db.engine.execute("UPDATE postss SET content = %s WHERE ID = %s", form3.contentNormal.data, post_id)
+        db.session.commit()
+        return redirect(url_for('profile'))
+        
+    form2 = PostFormCurrentlyEating()
+    if form2.validate_on_submit():
+        db.engine.execute("UPDATE postss SET content_current = %s, link_current = %s WHERE ID = %s", form2.contentCurrent.data, form2.linkCurrent.data, post_id)
+        db.session.commit()
+        return redirect(url_for('profile'))
+
+
+
+    if post.post_type == "hungryFor":
+        return render_template('editPost.html', form=form, form5=formsearch, post=post)
+    elif post.post_type == "currentlyEating":
+        return render_template('editPost2.html', form=form2, form5=formsearch, post=post)
+    else:
+        return render_template('editPost3.html', form=form3, form5=formsearch, post=post)
 
 ######################################################################## CREATE NEW RECIPE ########################################################################
 @app.route("/recipe/new", methods=['GET', 'POST'])
@@ -721,7 +737,9 @@ def comment_post(post_id):
         db.session.add(comm)
         db.session.commit()
         argh='/post/'+str(post_id)+'/comment/' 
-        return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments)
+        comments2 = post_comments.query.filter_by(post_id=post_id)
+
+        return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments2)
 
     return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments)
 
