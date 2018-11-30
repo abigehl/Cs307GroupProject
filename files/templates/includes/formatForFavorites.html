@@ -5,7 +5,7 @@
    {% if favorites %}
     {% for rec in favorites %}
     {% if rec.user_id==current_user.id %}
-    <div class="card-body flex-center" style="">
+    <div class="card-body flex-center" >
         <div class="card-body bg-dark">
             <p class="h4 text-light" style="padding-left: 5px"> {{rec.fav_rec_name}}</p>
             <img src="../static/Images/spicy.jpg" alt="Spicy pepper recipe"  width="100" class="rounded float-right">
