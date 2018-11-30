@@ -7,7 +7,7 @@ from files import app, db, bcrypt, mail
 from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
                         UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
                         RecipeSearchForm, RecipeSearchForm, CommentForm, FindFriends)
-from files.__init__ import users, rec, postss, favs, post_comments, followers, likers, raters
+from files.__init__ import users, rec, postss, favs, post_comments, followers, likers, raters, recipe_comments
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -282,13 +282,18 @@ def search():
         if is_filled(formsearch.keyWord.data):
             keywords = parser_first_round(formsearch.keyWord.data)
             keywords_sufix = parser_search_sufix(formsearch.keyWord.data)
+            print(keywords_sufix)
 
             print(keywords)
 
             recipes = db.engine.execute("SELECT * FROM (SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND \
                 ((MATCH (rec_name, rec_description, rec_instruction, ings, tags) \
                     AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd", minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
+
+
             return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
+
+
 
         else:
 
@@ -573,7 +578,6 @@ def create_recipe():
 
         if form.recipePic.data:
             recipe_file = save_picture(form.recipePic.data)
-
             recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ings=form.ings.data, tags=form.tags.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data, recipePic=recipe_file)
         else:
             print("RECIPE NAME: " + form.rec_name.data)

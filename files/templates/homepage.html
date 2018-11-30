@@ -63,11 +63,13 @@
                   <div class="col-9" style="padding: 40px">
                     {% if current_user.is_authenticated %}
                     {%include 'includes/formatForFriendsRecipes.html' %}
-                    {%include 'includes/formatForNonfriendsRecipes.html' %}
+                    {%include 'includes/formatForSearchRecipes.html' %}
                     {% else %}
                     {%include 'includes/formatForNotloggedIn.html' %}
                      {% endif %}
-                     {%include 'includes/formatForSearchRecipes.html' %}
+
+                     
+                    
                   </div>
                   <div class="col-2"  style="padding-top: 40px;">
                       {% if current_user.is_authenticated %}

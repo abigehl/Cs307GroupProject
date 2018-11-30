@@ -94,6 +94,14 @@ class post_comments(db.Model):
     def __repr__(self):
         return "post_comments('{self.post_id}')"
 
+class recipe_comments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    recipe_id = db.Column(db.Integer, nullable=False)
+    commentContent = db.Column(db.String(5000))
+    user_id = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return "post_comments('{self.post_id}')"
 
 class users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
