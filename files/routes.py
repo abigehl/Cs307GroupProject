@@ -950,16 +950,12 @@ def showprofile(hisid):
     favRecipes = favs.query.filter_by(user_id=hisid)
     followers = db.engine.execute("SELECT * FROM followers where followedid = %s", hisid)
     following = db.engine.execute("SELECT * FROM followers where followerid = %s", hisid)
-<<<<<<< HEAD
-=======
 
     flag = "hello"
 
     for x in followers:
         if x.followedid == hisid: 
             flag = "hello2"
-
->>>>>>> 3ad4691bca60fa7c64ebdbd713600d8ed6a7f977
 
     count2 = 0
 
