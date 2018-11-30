@@ -77,31 +77,31 @@
                             <!-- <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left"> -->
                             <!--description needs to show a certain length of description-->
                             <a href="">
-                              <div class="row" style="background-color: darkblue;">
-                                <div class="col-sm">
-                                   <p class="card-text mr-2 ml-2" >{{ follower.followername }}</p>
-                                </div>
-                                <div class="col-sm">
-                                  {% if follower.online != "0" %}
-                                    <span style="height: 12px;width: 12px;background-color: #1fc124;border-radius: 6px;
+                              <div class="row" style="">
+                                
+                                   <p class="card-text mr-2 ml-2" ><a class="text-light nav-link" href="{{ url_for('showprofile', hisid = follower.followerid) }}">{{ follower.followername }} &#9657;</a></p>
+                              
+                                
+                                  <!-- {% if follower.online != "0" %}
+                                    background-color: rgb(214, 214, 253);
+                                 <span style="height: 12px;width: 12px;background-color: #ade9af;border-radius: 6px;
                             float: right;margin-top: 5px;"></span>
                                   {% else %}
-                                    <span style="height: 12px;width: 12px;background-color: #8a8a8a;border-radius: 6px;
+                                    <span style="height: 12px;width: 12px;background-color: #4d4a4a;border-radius: 6px;
                             float: right;margin-top: 5px;"></span>
-                                  {% endif %}
-                                </div>
+                                  {% endif %}-->  
+                              
                              
                               </div>
                             </a>
                           </div>
                           {% endfor %}
-                          <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0;" >Following</h4>
+                          <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0; padding-left:10" >Following</h4>
 
                           {% for followed in following%}
-                          <div class="card-body" >
-                            <!-- <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left"> -->
-                            <!--description needs to show a certain length of description-->
-                            <p class="card-text mr-2 ml-2">{{ followed.followedname }}</p>
+                          <div class="card-body">
+                            <p class="card-text text-light ">{{ followed.followedname }}<a class="text-light" href="{{ url_for('showprofile', hisid = followed.followedid) }}"> &#9657;</a></p>
+                            
                           </div>
                           {% endfor %}
 
@@ -113,7 +113,7 @@
 
 
                   <div class="col-8" style="padding:0; margin:0; height:auto">
-                    <div class="" style="padding:10; margin:0" >
+                    <div class="" style="padding:0; margin:0" >
                       
                           {% include 'includes/formatForProfileRecipes.html' %}
                           {% include 'includes/formatForGroupPosts.html' %}

@@ -454,8 +454,8 @@ def logout():
 @login_required
 def profile():
 
-    followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", current_user.id)
-    following = db.engine.execute("SELECT followedname FROM followers where followerid = %s", current_user.id)
+    followers = db.engine.execute("SELECT * FROM followers where followedid = %s", current_user.id)
+    following = db.engine.execute("SELECT * FROM followers where followerid = %s", current_user.id)
     formsearch = RecipeSearchForm()
 
     form = PostFormHungryFor()
@@ -904,6 +904,11 @@ def showprofile(hisid):
     # users = db.engine.execute("SELECT * FROM users WHERE id = %s", hisid)
     userss = users.query.filter_by(id = hisid).first()
 
+    # followers = db.engine.execute("SELECT * FROM followers where followerid = %s", current_user.id)
+
+
+
+   
 
     image_file = url_for('static', filename='Images/' + userss.profilePic)
 
@@ -915,8 +920,15 @@ def showprofile(hisid):
     allposts = postss.query.filter_by(user_id=hisid)
     recipes = rec.query.filter_by(user_id=hisid)
     favRecipes = favs.query.filter_by(user_id=hisid)
-    followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", hisid)
-    following = db.engine.execute("SELECT followedname FROM followers where followerid = %s", hisid)
+    followers = db.engine.execute("SELECT * FROM followers where followedid = %s", hisid)
+    following = db.engine.execute("SELECT * FROM followers where followerid = %s", hisid)
+
+    flag = "hello"
+
+    for x in followers:
+        if x.followedid == hisid: 
+            flag = "hello2"
+
 
     count2 = 0
 
@@ -929,13 +941,13 @@ def showprofile(hisid):
         count = count + 1
 
     if count == 0 and count2 != 0:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
     elif count == 0 and count2 == 0:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
     elif count != 0 and count2 == 0:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
     else:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file,recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file,recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
 
 
 ####################################################### RATE RECIPE ######################################################
