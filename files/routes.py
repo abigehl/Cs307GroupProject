@@ -282,13 +282,18 @@ def search():
         if is_filled(formsearch.keyWord.data):
             keywords = parser_first_round(formsearch.keyWord.data)
             keywords_sufix = parser_search_sufix(formsearch.keyWord.data)
+            print(keywords_sufix)
 
             print(keywords)
 
             recipes = db.engine.execute("SELECT * FROM (SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND \
                 ((MATCH (rec_name, rec_description, rec_instruction, ings, tags) \
                     AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd", minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
+
+
             return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
+
+
 
         else:
 
@@ -454,8 +459,8 @@ def logout():
 @login_required
 def profile():
 
-    followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", current_user.id)
-    following = db.engine.execute("SELECT followedname FROM followers where followerid = %s", current_user.id)
+    followers = db.engine.execute("SELECT * FROM followers where followedid = %s", current_user.id)
+    following = db.engine.execute("SELECT * FROM followers where followerid = %s", current_user.id)
     formsearch = RecipeSearchForm()
 
     form = PostFormHungryFor()
@@ -573,7 +578,6 @@ def create_recipe():
 
         if form.recipePic.data:
             recipe_file = save_picture(form.recipePic.data)
-
             recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ings=form.ings.data, tags=form.tags.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data, recipePic=recipe_file)
         else:
             print("RECIPE NAME: " + form.rec_name.data)
@@ -928,6 +932,11 @@ def showprofile(hisid):
     # users = db.engine.execute("SELECT * FROM users WHERE id = %s", hisid)
     userss = users.query.filter_by(id = hisid).first()
 
+    # followers = db.engine.execute("SELECT * FROM followers where followerid = %s", current_user.id)
+
+
+
+   
 
     image_file = url_for('static', filename='Images/' + userss.profilePic)
 
@@ -941,6 +950,16 @@ def showprofile(hisid):
     favRecipes = favs.query.filter_by(user_id=hisid)
     followers = db.engine.execute("SELECT * FROM followers where followedid = %s", hisid)
     following = db.engine.execute("SELECT * FROM followers where followerid = %s", hisid)
+<<<<<<< HEAD
+=======
+
+    flag = "hello"
+
+    for x in followers:
+        if x.followedid == hisid: 
+            flag = "hello2"
+
+>>>>>>> 3ad4691bca60fa7c64ebdbd713600d8ed6a7f977
 
     count2 = 0
 
@@ -953,13 +972,13 @@ def showprofile(hisid):
         count = count + 1
 
     if count == 0 and count2 != 0:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
     elif count == 0 and count2 == 0:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
     elif count != 0 and count2 == 0:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
     else:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file,recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file,recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
 
 
 ####################################################### RATE RECIPE ######################################################

@@ -130,7 +130,7 @@ class PriceRangeForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-    commentBox = TextAreaField(validators=[DataRequired()])
+    commentBox = TextAreaField("",validators=[DataRequired()])
     submitComment = SubmitField("Post Comment")
 
 
