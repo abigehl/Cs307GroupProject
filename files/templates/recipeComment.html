@@ -45,18 +45,8 @@ background-attachment: fixed;
   <div class="card flex bg-light" style="height:80 ; padding: 20">
       <div class="card-body flex-center">
           
-          <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p> 
-          {% if current_user.id == post.user_id %}
-          <form action="{{ url_for('update_post', post_id=post.id) }}" method="post">
-              <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
-          </form>                                  
-          <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
-                  <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
-          </form>
-          
-          {% endif %}
-      
-     
+          <p class="card-text mr-2 ml-2" style="width:93%">{{ post.rec_name }}</p> 
+           
       </div>
   </div>
   <form name="form" method="post">
@@ -70,17 +60,17 @@ background-attachment: fixed;
 
 {% for com in comments %}
 <div class="card flex bg-light" style="height:auto ; padding: 20">
-<div class="card-body flex-center" style="padding:20"> 
-<p class="card-text mr-2 ml-2" style="font-size:20">
-        
-        {{com.user_id}}:
-</p> 
-<p class="card-text mr-2 ml-2" style="width:93%">
-          {{com.commentPost}}
-</p> 
-<form action="{{ url_for('delete_comment', comment_id=com.id) }}" method="post">
-    <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
-</form>
+<div class="card-body flex-center" style="padding:50; height: 20%"> 
+  <p class="card-text mr-2 ml-2" style="font-size:20">
+          
+          {{com.userid}}
+  </p> 
+  <p class="card-text mr-2 ml-2" style="width:93%">
+            {{com.commentContent}}
+  </p> 
+  <form action="" method="post">
+      <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
+  </form>
 </div>
 </div>
 <br>

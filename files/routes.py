@@ -282,13 +282,18 @@ def search():
         if is_filled(formsearch.keyWord.data):
             keywords = parser_first_round(formsearch.keyWord.data)
             keywords_sufix = parser_search_sufix(formsearch.keyWord.data)
+            print(keywords_sufix)
 
             print(keywords)
 
             recipes = db.engine.execute("SELECT * FROM (SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND \
                 ((MATCH (rec_name, rec_description, rec_instruction, ings, tags) \
                     AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd", minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
+
+
             return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
+
+
 
         else:
 
@@ -454,8 +459,8 @@ def logout():
 @login_required
 def profile():
 
-    followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", current_user.id)
-    following = db.engine.execute("SELECT followedname FROM followers where followerid = %s", current_user.id)
+    followers = db.engine.execute("SELECT * FROM followers where followedid = %s", current_user.id)
+    following = db.engine.execute("SELECT * FROM followers where followerid = %s", current_user.id)
     formsearch = RecipeSearchForm()
 
     form = PostFormHungryFor()
@@ -573,7 +578,6 @@ def create_recipe():
 
         if form.recipePic.data:
             recipe_file = save_picture(form.recipePic.data)
-
             recipe = rec(rec_name=form.rec_name.data, prep_time=form.prep_time.data, cook_time=form.cook_time.data, rec_description=form.rec_description.data, rec_instruction=form.rec_instruction.data, ings=form.ings.data, tags=form.tags.data, calories=form.calories.data, fat=form.fat.data, cholesterol=form.cholesterol.data, sodium=form.sodium.data, user_id=current_user.id, minPrice=form.minPrice.data, maxPrice=form.maxPrice.data, recipePic=recipe_file)
         else:
             print("RECIPE NAME: " + form.rec_name.data)
@@ -728,12 +732,12 @@ def delete_fav(fav_id):
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # COMMENT SECTION
 #--------------------------------------------------------------------------------------------------------------------------------------------
-
 @app.route("/post/<int:post_id>/comment/", methods=['POST', 'GET'])
 @login_required
 def comment_post(post_id):
 
     formsearch = RecipeSearchForm() 
+    print("post " + str(post_id))
     post = postss.query.filter_by(id=post_id).first() 
     commentForm = CommentForm()
     comments = post_comments.query.filter_by(post_id=post_id)
@@ -749,12 +753,36 @@ def comment_post(post_id):
 
     return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments)
 
+@app.route("/recipe/<int:rec_id>/comment/", methods=['POST', 'GET'])
+@login_required
+def comment_recipe(rec_id):
+
+    formsearch = RecipeSearchForm() 
+    print("recipe " + str(rec_id))
+    recc = rec.query.filter_by(id=rec_id).first() 
+    commentForm = CommentForm()
+    comments = recipe_comments.query.filter_by(recipe_id=rec_id)
+
+    if commentForm.validate_on_submit():
+        comm = recipe_comments(recipe_id = rec_id, commentContent=commentForm.commentBox.data, userid = current_user.id)
+        db.session.add(comm)
+        db.session.commit()
+        argh='/recipe/'+str(rec_id)+'/comment/' 
+        comments2 = recipe_comments.query.filter_by(recipe_id=rec_id)
+
+        return render_template('recipeComment.html', commentForm=commentForm, form5=formsearch, post=recc, comments=comments2)
+
+    return render_template('recipeComment.html', commentForm=commentForm, form5=formsearch, post=recc, comments=comments)
+
 @app.route("/allComments", methods=['POST', 'GET'])
 @login_required
 def all_comments():
     formsearch = RecipeSearchForm() 
     allComments = post_comments.query.filter_by(post_id=65)
     return render_template('testComment2.html', allComments = allComments, form5=formsearch)
+
+
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # COMMENT SECTION
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -904,6 +932,11 @@ def showprofile(hisid):
     # users = db.engine.execute("SELECT * FROM users WHERE id = %s", hisid)
     userss = users.query.filter_by(id = hisid).first()
 
+    # followers = db.engine.execute("SELECT * FROM followers where followerid = %s", current_user.id)
+
+
+
+   
 
     image_file = url_for('static', filename='Images/' + userss.profilePic)
 
@@ -915,8 +948,15 @@ def showprofile(hisid):
     allposts = postss.query.filter_by(user_id=hisid)
     recipes = rec.query.filter_by(user_id=hisid)
     favRecipes = favs.query.filter_by(user_id=hisid)
-    followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", hisid)
-    following = db.engine.execute("SELECT followedname FROM followers where followerid = %s", hisid)
+    followers = db.engine.execute("SELECT * FROM followers where followedid = %s", hisid)
+    following = db.engine.execute("SELECT * FROM followers where followerid = %s", hisid)
+
+    flag = "hello"
+
+    for x in followers:
+        if x.followedid == hisid: 
+            flag = "hello2"
+
 
     count2 = 0
 
@@ -929,13 +969,13 @@ def showprofile(hisid):
         count = count + 1
 
     if count == 0 and count2 != 0:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
     elif count == 0 and count2 == 0:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
     elif count != 0 and count2 == 0:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
     else:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file,recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file,recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
 
 
 ####################################################### RATE RECIPE ######################################################
@@ -992,3 +1032,4 @@ def delete_comment(comment_id):
     current_db_sessions.commit()
 
     return redirect(url_for('profile'))
+

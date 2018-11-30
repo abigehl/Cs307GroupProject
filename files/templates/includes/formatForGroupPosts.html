@@ -1,12 +1,12 @@
       
-            <h4 class="animated fadeIn mb-4 text-center text-light mt-2 " >Your Posts</h4>
+            <h4 class="animated fadeIn mb-4 text-center text-light mt-2 " ></h4>
           
                 {% if allPosts %}
                 {% else %}
                 <div class="card flex bg-light" style="height:auto">
                     <div class="card-body text-center">
                         
-                        <p class="card-text mr-2 ml-2" style="width:93%">Post some stuff!!!</p> 
+                        <p class="card-text mr-2 ml-2" style="width:93%">No posts :(</p> 
                          
                        
                     </div>
@@ -14,14 +14,17 @@
                 {% endif %}
                 {% for post in allPosts %}
                     
-
+                
                         {% if post.post_type == "hungryFor" %}
-                                <div class="card flex bg-light" style="height:auto">
+                                <div class="card flex bg-light" style="height:auto;">
                                     <div class="card-body ">
                                         <div class="float-left">
                                         <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p> 
                                         </div>
                                         <div class="row float-right">
+                                                <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
+                                                        <button type="submit" class="btn btn-elegant float-right"> <i class="fa fa-comment-o"></i></button>
+                                                    </form>
                                          {% if current_user.id == post.user_id %}
                                         <form action="{{ url_for('update_post', post_id=post.id) }}" method="post">
                                             <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
@@ -29,11 +32,27 @@
                                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                 <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                         </form>
+                                       
+                                   
+                                    {% else %}
+                                        {% if  post.rating == none %}
+                                            <form action="{{ url_for('add_like', postid = post.id )}}" method="post">
+                                                <button type="submit" class="btn btn-default login-popup-btn" name="LIKE" value="1">LIKE
+                                                </button>
+                                            </form>
+                                            <p class="card-text text-light"> {{post.number_of_ratings}} likes </p>
+                                        
+                                        {% else %}
+
+                                            <form action="{{ url_for('remove_like', postid = post.id) }}" method="post">
+                                                <button type="submit" class="btn btn-default login-popup-btn" name="REMOVELIKE" value="1">LIKED </button>
+                                                
+                                            </form>
+                                            <p class="card-text text-light"> {{post.number_of_ratings}} likes </p>
+                                        {% endif %}
 
                                     {% endif %}
-                                    <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
-                                        <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
-                                </form>
+                                    
                                 </div>
                                     
                                   
@@ -42,12 +61,15 @@
                                 <br>
                         {% endif %}
                         {% if post.post_type == "boringPost" %}
-                                <div class="card flex bg-light" style="height:auto">
+                                <div class="card bg-light" style="height:auto">
                                     <div class="card-body">
                                             <div class="float-left">
                                                     <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p> 
                                                     </div>
                                                     <div class="row float-right">
+                                                            <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
+                                                                    <button type="submit" class="btn btn-elegant float-right"> <i class="fa fa-comment-o"></i></button>
+                                                                </form>
                                                      {% if current_user.id == post.user_id %}
                                                     <form action="{{ url_for('update_post', post_id=post.id) }}" method="post">
                                                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
@@ -55,6 +77,11 @@
                                                     <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                             <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                                     </form>
+<<<<<<< HEAD
+=======
+                                                   
+                                               
+>>>>>>> 80f850360a84232d4fc08ba5c8529f7bc94ca376
                                                 {% endif %}
                                                 <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
                                                     <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
@@ -69,12 +96,15 @@
                             {% if post.link_current == "" or post.link_current == null %}
                                 {% if post.content_current != "" %}
                                 <br>
-                                <div class="card flex bg-light" style="height:auto">
+                                <div class="card bg-light" style="height:auto">
                                     <div class="card-body">
                                             <div class="float-left">
                                                     <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content_current }}</p> 
                                                     </div>
                                                     <div class="row float-right">
+                                                            <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
+                                                                    <button type="submit" class="btn btn-elegant float-right"> <i class="fa fa-comment-o"></i></button>
+                                                                </form>
                                                      {% if current_user.id == post.user_id %}
                                                     <form action="{{ url_for('update_post', post_id=post.id) }}" method="post">
                                                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
@@ -82,7 +112,12 @@
                                                     <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                             <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                                     </form>
+<<<<<<< HEAD
 
+=======
+                                                
+                                                
+>>>>>>> 80f850360a84232d4fc08ba5c8529f7bc94ca376
                                                 {% endif %}
 
                                                 <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
@@ -97,11 +132,14 @@
                             {% endif %}
                             {% if post.content_current == "" or post.content_current == null %}
                                 {% if post.link != null %}
-                                <div class="card flex bg-light" style="height:auto">
+                                <div class="card bg-light" style="height:auto">
                                     <div class="card-body">
                                             <div class="float-left">
                                         <p class="card-text mr-2 ml-2" style="width:93%">The link to is recipe I'm currently eating is: {{ post.link_current }}</p>
                                             </div>
+                                            <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
+                                                    <button type="submit" class="btn btn-elegant float-right"> <i class="fa fa-comment-o"></i></button>
+                                                </form>
                                             {% if current_user.id == post.user_id %}
                                             <form action="{{ url_for('update_post', post_id=post.id) }}" method="post">
                                                 <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
@@ -109,11 +147,9 @@
                                             <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                     <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                             </form>
-
+                                        
                                         {% endif %}
-                                        <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
-                                            <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
-                                    </form>
+
                                             </div>
                                     </div>
                                 </div>
