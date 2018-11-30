@@ -6,7 +6,7 @@ from pusher import Pusher
 from files import app, db, bcrypt, mail
 from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
                         UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
-                        RecipeSearchForm,  RecipeSearchForm, CommentForm, FindFriends)
+                        RecipeSearchForm, RecipeSearchForm, CommentForm, FindFriends)
 from files.__init__ import users, rec, postss, favs, post_comments, followers, likers, raters
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
@@ -48,6 +48,7 @@ pusher = Pusher(
   cluster='us2',
   ssl=True
 )
+
 
 def send_reset_email(user):
     token = user.get_reset_token()
@@ -100,6 +101,7 @@ def parser_first_round(key_words):
     keywords = ' '.join(keywords)
     return keywords
 
+
 def parser_search_sufix(key_words):
     remove_list = ['with', 'the']
     keywords = key_words
@@ -108,7 +110,7 @@ def parser_search_sufix(key_words):
     keywords = ' '.join([i for i in keywords if i not in remove_list])
     output = []
     for i in keywords.split():
-        element = i[len(i)-3:len(i)]
+        element = i[len(i) - 3:len(i)]
         output.append(element)
     keywords = ' '.join(word for word in output)
     keywords = re.sub(r'\b\w{1,1}\b', '', keywords)
@@ -148,7 +150,7 @@ def reset_token(token):
         return redirect(url_for('homepage'))
 
     user = users.verify_reset_token(token)
-    #token is invalid or expired
+    # token is invalid or expired
     print(token)
     if user is None:
         flash('That is an invalid or expired token', 'warning')
@@ -198,13 +200,15 @@ def signup():
     return render_template('register.html', title='Register', form=form)
 
 ################################################################## HOME ##########################################
+
+
 @app.route('/', methods=['GET', 'POST'])
 #@login_required
 def homepage():
 
     formsearch = RecipeSearchForm()
 
-    #favRecipes = favs.query.filter_by(user_id=current_user.id)
+    # favRecipes = favs.query.filter_by(user_id=current_user.id)
     form = PostFormHungryFor()
     if current_user.is_authenticated:
         # allrecipes = db.engine.execute("SELECT rec_name, rec_description, user_id, recipePic, dateposted, username, followername, rating from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) left join followers on (followers.followedid = rec.user_id and followerid = %s)", current_user.id)
@@ -221,7 +225,6 @@ def homepage():
 
     else:
         allrecipes = db.engine.execute("SELECT * FROM rec WHERE 1 = 0")
-
 
     if form.validate_on_submit():
         toSend = "I am hungry for " + form.content.data
@@ -249,9 +252,11 @@ def homepage():
         flash('Your post has created', 'success')
         return redirect(url_for('homepage'))
 
-    return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, allrecipes = allrecipes)
+    return render_template('homepage.html', title='Home', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, allrecipes=allrecipes)
 
 ################################################################## RECIPE SEARCH ###################################################
+
+
 @app.route('/search', methods=['GET', 'POST'])
 def search():
 
@@ -259,7 +264,6 @@ def search():
     form = PostFormHungryFor()
     formNormalText = PostForm()
     formCurrent = PostFormCurrentlyEating()
-
 
     if request.method == 'POST':
 
@@ -276,20 +280,20 @@ def search():
             keywords = parser_first_round(formsearch.keyWord.data)
             keywords_sufix = parser_search_sufix(formsearch.keyWord.data)
 
+            print(keywords)
+
             recipes = db.engine.execute("SELECT * FROM (SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND \
                 ((MATCH (rec_name, rec_description, rec_instruction, ings, tags) \
-                    AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd",minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
-            return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
-
+                    AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd", minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
+            return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
 
         else:
 
             recipes = db.engine.execute("SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s )", minmax[1], minmax[0], calories[0], calories[1])
-            return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes = recipes)
+            return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
 
+    return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
 
-
-    return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
 
 @app.route('/searchthing/<string:thing>', methods=['GET', 'POST'])
 def searchthings(thing):
@@ -300,12 +304,13 @@ def searchthings(thing):
     formCurrent = PostFormCurrentlyEating()
 
     if thing is "":
-        return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
+        return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
 
     else:
 
-        recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ings, tags) AGAINST (%s IN BOOLEAN MODE)))", thing)
-        return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
+        recipes = db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ings, tags) AGAINST (%s IN BOOLEAN MODE)))", thing)
+        return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
+
 
 @app.route('/searchadvanced/<string:things>', methods=['GET', 'POST'])
 def searchadvanced(things):
@@ -319,15 +324,22 @@ def searchadvanced(things):
 
     if things is "":
 
-        return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
+        return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent)
 
     else:
         words = things.split(';')
-        words= list(filter(None, words))
+        words = list(filter(None, words))
         print(words)
-        words=" ".join(words)
-        recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ings, tags) AGAINST (%s IN BOOLEAN MODE)))", words)
-        return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
+        words = " ".join(words)
+        words = parser_first_round(words)
+        keywords_sufix = parser_search_sufix(words)
+
+
+        recipes = db.engine.execute("SELECT * FROM (SELECT * FROM rec WHERE \
+                ((MATCH (rec_name, rec_description, rec_instruction, ings, tags) \
+                    AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd",
+                     words, keywords_sufix)
+        return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
 
     return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
 
@@ -407,7 +419,7 @@ def googleSignin():
 
 @app.route('/facebookSignin', methods=['GET', 'POST'])
 def facebookSignin():
-    #form = LoginForm()
+    # form = LoginForm()
     if not facebook.authorized:
         print("new user")
         return redirect(url_for("facebook.login"))
@@ -514,9 +526,9 @@ def delete_post(post_id):
 def update_post(post_id):
     post = postss.query.get(post_id)
 
-    #print("post content: " + post.content)
-    #string = post.content.split(" ", 4)[4]
-    #print(string)
+    # print("post content: " + post.content)
+    # string = post.content.split(" ", 4)[4]
+    # print(string)
 
     formsearch = RecipeSearchForm()
 
@@ -573,7 +585,7 @@ def showrecipe(recipe_id):
     return render_template('recipespage.html', title=recc.rec_name, rec=recc, form5=formsearch,totalRating=round(totalRating, 1))
     
 
-###################################################################### RECIPE UPDATE ###########################################################################3
+# RECIPE UPDATE ###########################################################################3
 @app.route("/recipe/<int:recipe_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_recipe(recipe_id):
@@ -638,7 +650,7 @@ def favorites():
  
     return render_template('favoritesPage.html',title='Favorites Page', favorites=favsss, form5=formsearch)
 
-##############################################################################3
+# 3
 @app.route("/favorites/<int:recipe_id>/add", methods=['POST', 'GET'])
 @login_required
 def add_fav(recipe_id):
@@ -720,15 +732,15 @@ def all_comments():
     allComments = post_comments.query.filter_by(post_id=65)
     return render_template('testComment2.html', allComments = allComments, form5=formsearch)
 #--------------------------------------------------------------------------------------------------------------------------------------------
-#COMMENT SECTION
+# COMMENT SECTION
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
 @app.route("/discovery", methods=['POST', 'GET'])
 @login_required
 def discovery():
 
-    #recipes = rec.query.all();
-    #posts = postss.query.all();
+    # recipes = rec.query.all();
+    # posts = postss.query.all();
     obj = rec.query.count()
     recipes = rec.query.order_by(func.rand()).first()
     recuser = users.query.get(recipes.user_id)
@@ -865,7 +877,7 @@ def add_like(postid):
 def showprofile(hisid):
 
 
-    #users = db.engine.execute("SELECT * FROM users WHERE id = %s", hisid)
+    # users = db.engine.execute("SELECT * FROM users WHERE id = %s", hisid)
     userss = users.query.filter_by(id = hisid).first()
 
 
@@ -876,7 +888,7 @@ def showprofile(hisid):
     formNormalText = PostForm()
     formCurrent = PostFormCurrentlyEating()
 
-    allposts = postss.query.all()
+    allposts = postss.query.filter_by(user_id=hisid)
     recipes = rec.query.filter_by(user_id=hisid)
     favRecipes = favs.query.filter_by(user_id=hisid)
     followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", hisid)
