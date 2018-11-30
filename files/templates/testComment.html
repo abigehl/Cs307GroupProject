@@ -70,17 +70,17 @@ background-attachment: fixed;
 
 {% for com in comments %}
 <div class="card flex bg-light" style="height:auto ; padding: 20">
-<div class="card-body flex-center" style="padding:20"> 
-<p class="card-text mr-2 ml-2" style="font-size:20">
-        
-        {{com.user_id}}:
-</p> 
-<p class="card-text mr-2 ml-2" style="width:93%">
-          {{com.commentPost}}
-</p> 
-<form action="" method="post">
-    <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
-</form>
+<div class="card-body flex-center" style="padding:50; height: 20%"> 
+  <p class="card-text mr-2 ml-2" style="font-size:20">
+          
+          {{com.user_id}}:
+  </p> 
+  <p class="card-text mr-2 ml-2" style="width:93%">
+            {{com.commentPost}}
+  </p> 
+  <form action="" method="post">
+      <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
+  </form>
 </div>
 </div>
 <br>

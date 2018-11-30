@@ -15,7 +15,7 @@
               <div class="container">
                 <div class="row">
                   <form action="{{ url_for('showrecipe', recipe_id=rec.id) }}" method="POST">
-                    <button type="submit" class="btn btn-elegant">Take me thereBITCH</button>
+                    <button type="submit" class="btn btn-elegant">Take me there</button>
                   </form>
                   <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
                     <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
@@ -23,9 +23,9 @@
                   <form action="{{ url_for('remove_follower', followedid = rec.user_id, followerid = current_user.id) }}" method="post">
                     <button type="submit" class="btn btn-default login-popup-btn" name="UNFOLLOW" value="1">UNFOLLOW {{rec.username}} </button>
                   </form>
-                  <form action="{{ url_for('comment_post', post_id=rec.id) }}" method="post">
+                  <!--<form action="{{ url_for('comment_recipe', rec_id=rec.id) }}" method="post">
                     <button type="submit" class="btn btn-elegant float-right"><i class="fa fa-comment-o"></i></button>
-                  </form>
+                  </form>-->
                 </div>
               </div>
           </div>

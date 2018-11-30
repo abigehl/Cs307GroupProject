@@ -728,23 +728,43 @@ def delete_fav(fav_id):
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # COMMENT SECTION
 #--------------------------------------------------------------------------------------------------------------------------------------------
-
 @app.route("/post/<int:post_id>/comment/", methods=['POST', 'GET'])
 @login_required
 def comment_post(post_id):
 
     formsearch = RecipeSearchForm() 
+    print("post " + str(post_id))
     post = postss.query.filter_by(id=post_id).first() 
     commentForm = CommentForm()
     comments = post_comments.query.filter_by(post_id=post_id)
 
     if commentForm.validate_on_submit():
-        print("what the fuck")
         comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id)
         db.session.add(comm)
         db.session.commit()
         argh='/post/'+str(post_id)+'/comment/' 
         comments2 = post_comments.query.filter_by(post_id=post_id)
+
+        return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments2)
+
+    return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments)
+
+@app.route("/recipe/<int:rec_id>/comment/", methods=['POST', 'GET'])
+@login_required
+def comment_recipe(rec_id):
+
+    formsearch = RecipeSearchForm() 
+    print("recipe " + str(rec_id))
+    recc = rec.query.filter_by(id=rec_id).first() 
+    commentForm = CommentForm()
+    comments = post_comments_recipe.query.filter_by(rec_id=rec_id)
+
+    if commentForm.validate_on_submit():
+        comm = post_comments_recipe(rec_id = rec_id, commentPost=commentForm.commentBox.data, user_id = current_user.id)
+        db.session.add(comm)
+        db.session.commit()
+        argh='/recipe/'+str(rec_id)+'/comment/' 
+        comments2 = post_comments_recipe.query.filter_by(rec_id=rec_id)
 
         return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments2)
 
@@ -756,6 +776,9 @@ def all_comments():
     formsearch = RecipeSearchForm() 
     allComments = post_comments.query.filter_by(post_id=65)
     return render_template('testComment2.html', allComments = allComments, form5=formsearch)
+
+
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # COMMENT SECTION
 #--------------------------------------------------------------------------------------------------------------------------------------------
