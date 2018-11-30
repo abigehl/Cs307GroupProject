@@ -224,7 +224,10 @@ def homepage():
                                         ORDER BY dateposted desc;", current_user.id, current_user.id, current_user.id)
 
     else:
-        allrecipes = db.engine.execute("SELECT * FROM rec WHERE 1 = 0")
+        allrecipes = db.engine.execute("SELECT rec.id as id, rec_name, rec_description, user_id, recipePic, dateposted, username, rating, number_of_ratings  from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) \
+                                        UNION \
+                                        select postss.id, content_current, content, user_id, link_current, post_date, username, a.id, nlikes from  (postss  left join (select id , username from users) as a on postss.user_id = a.id) \
+                                        ORDER BY dateposted desc;")
 
     if form.validate_on_submit():
         toSend = "I am hungry for " + form.content.data

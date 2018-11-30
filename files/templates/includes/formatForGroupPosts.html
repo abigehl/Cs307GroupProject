@@ -1,6 +1,6 @@
-{% block body %}         
+      
             <h4 class="animated fadeIn mb-4 text-center text-light mt-2 " >Your Posts</h4>
-            {% block content %}
+          
                 {% if allPosts %}
                 {% else %}
                 <div class="card flex bg-light" style="height:auto">
@@ -32,9 +32,10 @@
                                         <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
                                             <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
                                     </form>
+                                    {% endif %}
                                 </div>
                                     
-                                    {% endif %}
+                                  
                                     </div>
                                 </div>
                                 <br>
@@ -57,6 +58,7 @@
                                                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
                                                 </form>
                                                 {% endif %}
+                                            </div>
                                     </div>
                                 </div>
                                 <br>
@@ -83,6 +85,7 @@
                                                         <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
                                                 </form>
                                                 {% endif %}
+                                                </div>
                                     </div>
                                 </div>
                                 <br>
@@ -107,7 +110,7 @@
                                                 <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
                                         </form>
                                         {% endif %}
-
+                                            </div>
                                     </div>
                                 </div>
                                 <br>
@@ -117,6 +120,4 @@
 
                     {% endif %}
                 {% endfor %}
-            {% endblock content %}
-
-{% endblock %}
+          
