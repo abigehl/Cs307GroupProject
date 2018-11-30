@@ -478,7 +478,7 @@ def profile():
         flash('Your post has created', 'success')
         return redirect(url_for('profile'))
 
-    allposts = postss.query.all()
+    allposts = postss.query.filter_by(user_id=current_user.id)
 
     recipes = rec.query.filter_by(user_id=current_user.id)
     
