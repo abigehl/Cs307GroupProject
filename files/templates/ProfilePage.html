@@ -25,8 +25,14 @@
 
 <style>
  body{
-  font-family: 'Poppins', sans-serif;
-  background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54));
+  background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54)); 
+    background-repeat: no-repeat;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
+    background-attachment: fixed;
+        font-family: 'Poppins', sans-serif;
         background-size: 100%;
         margin:0;
       }
@@ -62,15 +68,31 @@
             <div class="row" style="padding:20">
                   <div class="col-2 " style="height:50vh; padding:0; padding-left: 30px; margin:0;">
                     <div style="height: 100vh;" >
-                      <div  >
-                        <div class="card flex bg-dark nopadding" style="padding:0; margin:0; width:100%">
+                      <div>
+                        <div class="card flex bg-dark nopadding" style="margin:0; width:100%; padding-left: 5px; padding-right: 7px;">
                           <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0; padding-left: 10" >Followers</h4>
                         
                           {% for follower in followers%}
                           <div class="card-body" >
                             <!-- <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left"> -->
                             <!--description needs to show a certain length of description-->
-                            <p class="card-text mr-2 ml-2" >{{ follower.followername }}</p>
+                            <a href="">
+                              <div class="row" style="background-color: darkblue;">
+                                <div class="col-sm">
+                                   <p class="card-text mr-2 ml-2" >{{ follower.followername }}</p>
+                                </div>
+                                <div class="col-sm">
+                                  {% if follower.online != "0" %}
+                                    <span style="height: 12px;width: 12px;background-color: #1fc124;border-radius: 6px;
+                            float: right;margin-top: 5px;"></span>
+                                  {% else %}
+                                    <span style="height: 12px;width: 12px;background-color: #8a8a8a;border-radius: 6px;
+                            float: right;margin-top: 5px;"></span>
+                                  {% endif %}
+                                </div>
+                             
+                              </div>
+                            </a>
                           </div>
                           {% endfor %}
                           <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0; padding-left: 10" >Following</h4>

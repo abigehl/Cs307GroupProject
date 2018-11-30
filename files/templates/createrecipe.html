@@ -168,7 +168,7 @@
                                         <div class="form-inline">
                                             <div class="form-group">
                                                 <!--<label class="sr-only" for="field-name">Field Name</label>-->
-                                                <input type="text" class="form-control" id="text-field" placeholder="Ingredient" name="arr">
+                                                <input type="text" class="form-control" id="text-field" placeholder="Ingredient" name="arr" autocomplete="off">
                                             </div>
                                             
                                             <button class="btn btn-danger" data-role="remove">
@@ -259,13 +259,13 @@
 
         for (var k=0;k<ingr_arr.length;k++) {
             //document.write(ingr_arr[k].value + ", ");
-            ingr_str += ingr_arr[k].value + ",";
+            ingr_str += ingr_arr[k].value + " ` ";
         }
 
         //document.write(tags.length);
 
         for (var z=0;z<tags.length;z++) {
-            tags_str += tags[z] + ",";
+            tags_str += tags[z] + " ` ";
         }
 
         //document.write(ingr_str + "...." + tags_str);

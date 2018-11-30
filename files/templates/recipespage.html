@@ -77,6 +77,9 @@
 
                 <img class="d-flex mr-3 p-4" src="/static/Images/{{rec.recipePic}}" alt="recipe image" style="width: 350px">
 
+                <h4 class="my-4 h4 text-light">Instructions: </h4>
+                <p class="text-light">{{rec.rec_instruction}}</p>
+
 
             </div>
             <!--Grid column-->
@@ -151,40 +154,40 @@
 
         <hr>
 
-        <!--Grid row-->
-        <div class="row d-flex justify-content-left wow fadeIn">
-
-            <!--Grid column-->
-            <div class="col-md-6 text-left">
-
+        <div class="container">
+          <div class="row">
+            <div class="col">
                 <h4 class="my-4 h4 text-light">Ingredients</h4>
 
-                <p class="text-light">{{rec.rec_instruction}}</p>
+                <ul class="list-group" id="ingrdiv" style="width:30vh">
+                    <p style="visibility: hidden;" id="ingr_string">{{rec.ings}}</p>
 
+                </ul>
             </div>
-            <!--Grid column-->
+            <div class="col">
+                <h4 class="my-4 h4 text-light">Tags</h4>
 
+                <ul class="list-group" id="tagsdiv" style="width:30vh">
+                    <p style="visibility: hidden;" id="tags_string">{{rec.tags}}</p>
+
+                </ul>
+               
+            </div>
+            <div class="col">
+                <h4 style="visibility: hidden;" class="my-4 h4 text-light">Tags</h4>
+                <p style="visibility: hidden;">....</p>
+                <ul class="list-group" style="width:30vh">
+                    <li class="list-group-item">Calories:{{rec.calories}}</li>
+                    <li class="list-group-item">Fat:{{rec.fat}}</li>
+                    <li class="list-group-item">Cholesterol:{{rec.cholesterol}}</li>
+                    <li class="list-group-item">Sodium:{{rec.sodium}}</li>
+                </ul>
+            </div>
+          </div>
         </div>
-        <!--Grid row-->
-        <ul class="list-group " style="width:30vh">
-            <li class="list-group-item">{{rec.ing_1}}</li>
-            <li class="list-group-item">{{rec.ing_2}}</li>
-            <li class="list-group-item">{{rec.ing_3}}</li>
-            <li class="list-group-item">{{rec.ing_4}}</li>
-            <li class="list-group-item">{{rec.ing_5}}</li>
-            <li class="list-group-item">{{rec.ing_6}}</li>
-            <li class="list-group-item">{{rec.ing_7}}</li>
-            <li class="list-group-item">{{rec.ing_8}}</li>
-            <li class="list-group-item">{{rec.ing_9}}</li>
-            <li class="list-group-item">{{rec.ing_10}}</li>
-        </ul>
+
+
         <br>
-        <ul class="list-group " style="width:30vh">
-            <li class="list-group-item">Calories:{{rec.calories}}</li>
-            <li class="list-group-item">Fat:{{rec.fat}}</li>
-            <li class="list-group-item">Cholesterol:{{rec.cholesterol}}</li>
-            <li class="list-group-item">Sodium:{{rec.sodium}}</li>
-        </ul>
         <!--Grid row-->
         <div class="row wow fadeIn"></div>
         <!--Grid row-->
@@ -194,6 +197,32 @@
         function myFunction(x) {
             x.classList.toggle("fa-thumbs-down");
         }
+
+        //for dynamic ingredients
+        function whatever() {
+            document.write("ingr_string: " + document.getElementById("tags_string").innerHTML);
+        }
+
+        //parsing dynamic ingredients
+        window.onload = function() {
+            var ingr_string = document.getElementById("ingr_string").innerHTML;
+            var ingr_array = ingr_string.split(' ` ') 
+
+            var tags_string = document.getElementById("tags_string").innerHTML;
+            var tags_array = tags_string.split(' ` ') 
+
+            for (var i=0;i<ingr_array.length;i++) {
+                $('#ingrdiv').append("<li class='list-group-item'>"+ingr_array[i]+"</li>");
+            }
+
+            for (var k=0;k<tags_array.length;k++) {
+                $('#tagsdiv').append("<li class='list-group-item'>"+tags_array[k]+"</li>");
+            }
+
+            //document.write("ingr_arr: " + ingr_array.length);
+        };
+        
+
     </script>
 </main>
 {% endblock content %}

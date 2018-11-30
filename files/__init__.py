@@ -2,7 +2,6 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Index, func
-
 from flask_bootstrap import Bootstrap
 from flask_bcrypt import Bcrypt
 from flask_mail import Mail
@@ -154,6 +153,7 @@ class favs(db.Model):
     fav_fat = db.Column(db.String(10), default="")
     fav_cholestrol = db.Column(db.String(10), default="")
     fav_sodium = db.Column(db.String(10), default="")
+    recipe_id = db.Column(db.Integer)
 
 
 class followers(db.Model):
