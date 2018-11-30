@@ -1021,3 +1021,15 @@ def rate_recipe(rec_id):
     return render_template('recipespage.html', title=recc.rec_name, rec=recc, form5=formsearch,totalRating=round(totalRating, 1))
 
 
+
+@app.route('/post/<int:comment_id>/delete', methods=['POST'])
+@login_required
+def delete_comment(comment_id):
+    post = post_comments.query.filter_by(id=comment_id).first()
+
+    current_db_sessions = db.session.object_session(post)
+    current_db_sessions.delete(post)
+    current_db_sessions.commit()
+
+    return redirect(url_for('profile'))
+
