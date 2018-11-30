@@ -1,0 +1,22 @@
+{
+  "name": "help_me_recipe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anniex325/help_me_recipe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anniex325/help_me_recipe/issues"
+  },
+  "homepage": "https://github.com/anniex325/help_me_recipe#readme",
+  "dependencies": {
+    "todomvc-app-css": "^2.1.2"
+  }
+}

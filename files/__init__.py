@@ -2,7 +2,6 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Index, func
-
 from flask_bootstrap import Bootstrap
 from flask_bcrypt import Bcrypt
 from flask_mail import Mail
