@@ -743,7 +743,7 @@ def comment_post(post_id):
     comments = post_comments.query.filter_by(post_id=post_id)
 
     if commentForm.validate_on_submit():
-        comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id)
+        comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id, username = current_user.username)
         db.session.add(comm)
         db.session.commit()
         argh='/post/'+str(post_id)+'/comment/' 
