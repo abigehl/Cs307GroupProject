@@ -77,20 +77,11 @@
                             <!-- <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left"> -->
                             <!--description needs to show a certain length of description-->
                             <a href="">
-                              <div class="row" style="">
-                                
-                                   <p class="card-text mr-2 ml-2" ><a class="text-light nav-link" href="{{ url_for('showprofile', hisid = follower.followerid) }}">{{ follower.followername }} &#9657;</a></p>
-                              
-                                
-                                  <!-- {% if follower.online != "0" %}
-                                    background-color: rgb(214, 214, 253);
-                                 <span style="height: 12px;width: 12px;background-color: #ade9af;border-radius: 6px;
-                            float: right;margin-top: 5px;"></span>
-                                  {% else %}
-                                    <span style="height: 12px;width: 12px;background-color: #4d4a4a;border-radius: 6px;
-                            float: right;margin-top: 5px;"></span>
-                                  {% endif %}-->  
-                              
+
+                              <div class="row">
+                                <div class="col-sm">
+                                   <p class="card-text mr-2 ml-2" >{{ follower.followername }}</p>
+                                </div>
                              
                               </div>
                             </a>

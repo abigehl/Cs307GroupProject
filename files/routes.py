@@ -732,12 +732,12 @@ def delete_fav(fav_id):
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # COMMENT SECTION
 #--------------------------------------------------------------------------------------------------------------------------------------------
-
 @app.route("/post/<int:post_id>/comment/", methods=['POST', 'GET'])
 @login_required
 def comment_post(post_id):
 
     formsearch = RecipeSearchForm() 
+    print("post " + str(post_id))
     post = postss.query.filter_by(id=post_id).first() 
     commentForm = CommentForm()
     comments = post_comments.query.filter_by(post_id=post_id)
@@ -753,12 +753,36 @@ def comment_post(post_id):
 
     return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments)
 
+@app.route("/recipe/<int:rec_id>/comment/", methods=['POST', 'GET'])
+@login_required
+def comment_recipe(rec_id):
+
+    formsearch = RecipeSearchForm() 
+    print("recipe " + str(rec_id))
+    recc = rec.query.filter_by(id=rec_id).first() 
+    commentForm = CommentForm()
+    comments = recipe_comments.query.filter_by(recipe_id=rec_id)
+
+    if commentForm.validate_on_submit():
+        comm = recipe_comments(recipe_id = rec_id, commentContent=commentForm.commentBox.data, userid = current_user.id)
+        db.session.add(comm)
+        db.session.commit()
+        argh='/recipe/'+str(rec_id)+'/comment/' 
+        comments2 = recipe_comments.query.filter_by(recipe_id=rec_id)
+
+        return render_template('recipeComment.html', commentForm=commentForm, form5=formsearch, post=recc, comments=comments2)
+
+    return render_template('recipeComment.html', commentForm=commentForm, form5=formsearch, post=recc, comments=comments)
+
 @app.route("/allComments", methods=['POST', 'GET'])
 @login_required
 def all_comments():
     formsearch = RecipeSearchForm() 
     allComments = post_comments.query.filter_by(post_id=65)
     return render_template('testComment2.html', allComments = allComments, form5=formsearch)
+
+
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # COMMENT SECTION
 #--------------------------------------------------------------------------------------------------------------------------------------------
