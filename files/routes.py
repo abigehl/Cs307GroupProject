@@ -220,7 +220,10 @@ def homepage():
                                         ORDER BY dateposted desc;", current_user.id, current_user.id, current_user.id)
 
     else:
-        allrecipes = db.engine.execute("SELECT * FROM rec WHERE 1 = 0")
+         allrecipes = db.engine.execute("SELECT rec.id as id, rec_name, rec_description, user_id, recipePic, dateposted, username, rating, number_of_ratings  from  (rec  left join (select id, username from users) as a on rec.user_id = a.id) \
+                                        UNION \
+                                        select postss.id, content_current, content, user_id, link_current, post_date, username, a.id, nlikes from  (postss  left join (select id , username from users) as a on postss.user_id = a.id) \
+                                        ORDER BY dateposted desc;")
 
 
     if form.validate_on_submit():
@@ -326,7 +329,9 @@ def searchadvanced(things):
         words= list(filter(None, words))
         print(words)
         words = ' '.join(words)
-        recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ings, tags) AGAINST (%s IN BOOLEAN MODE)))", words)
+        keywords_sufix = parser_search_sufix(words)
+        recipes = db.engine.execute("SELECT * FROM (SELECT * FROM rec WHERE ((MATCH (rec_name, rec_description, rec_instruction, ings, tags) \
+                    AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd", words, keywords_sufix)
         return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
 
     return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent)
@@ -474,6 +479,8 @@ def profile():
     allposts = postss.query.all()
 
     recipes = rec.query.filter_by(user_id=current_user.id)
+    
+
     favRecipes = favs.query.filter_by(user_id=current_user.id)
 
     image_file = url_for('static', filename='Images/' + current_user.profilePic)

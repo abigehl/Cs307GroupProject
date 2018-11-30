@@ -65,6 +65,8 @@
                     {% if current_user.is_authenticated %}
                     {%include 'includes/formatForFriendsRecipes.html' %}
                     {%include 'includes/formatForNonfriendsRecipes.html' %}
+                    {% else %}
+                    {%include 'includes/formatForNotloggedIn.html' %}
                      {% endif %}
                      {%include 'includes/formatForSearchRecipes.html' %}
                   </div>
