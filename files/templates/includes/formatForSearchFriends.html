@@ -1,20 +1,30 @@
-{% block body %}         
+       
            
-            {% block content %}
+        
 
                 {% for friend in friends %}
                     {% if friend.id != current_user.id %}
                   
-                    <div class="card flex" style="height:500px; padding-left: 250px; padding-right: 300px">
-                        <div class="card-body bg-light" style="padding:30">
-                          
-                      
-                            <div class="row">
-                                            <div style="padding:10">
-                                            <img class="d-flex mr-3 p-4" src="{{ image_file }}" alt="Generic placeholder image" style="width: 200px; padding-right:30">
-                                            <p class="card-text mr-2 ml-2 " style="font-size: 30"><br>{{ friend.username }}</p> 
-                                        </div>
-                                    
+                   
+                        <div class="card-body bg-dark" >
+                           
+                          <div class="row">
+                                <div class="col">
+                                    <div class="row" style="padding-left:10; padding-bottom: 0">
+                                    <img class="rounded" src="../static/Images/{{friend.profilePic}}" style="width: auto; height:100px">
+                                    <div class="col" style="padding-bottom: 0; padding-top: 0">
+                                    <p class="card-text mr-2 ml-2 text-light float-left " style="font-size: 30; padding-left: 10; padding-top: 60">{{ friend.username }} :</p>
+                                    <p class="card-text mr-2 ml-2 text-light float-left " style="font-size: 10; padding-left: 1; padding-top: 0">{{ friend.firstName }}</p> 
+                                    <p class="card-text mr-2 ml-2 text-light float-left " style="font-size: 10; padding-left: 1; padding-top: 20">{{ friend.lastName }}</p>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                            <div class="row">
+                                                   
+                                            </div>  
+                                </div>
+                                <div class="col">
                                     {% if  friend.followername == none %}
                                
 	                                      <form action="{{ url_for('add_follower', followedid = friend.id, followedname = friend.username) }}" method="post">
@@ -34,16 +44,53 @@
                                                 <!--<a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>-->
                                                 <button type="submit" class="btn btn-elegant">SHOW PROFILE</button>
                                            </form>
+                                        </div>  
                                         </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row" style="padding-left:10">
+                                    
+                                    <p class="card-text mr-2 ml-2 text-light float-left " style="font-size: 10; padding-left: 1; padding-top: 0">{{ friend.firstName }}</p> 
+                                    <p class="card-text mr-2 ml-2 text-light float-left " style="font-size: 10; padding-left: 1; padding-top: 20">{{ friend.lastName }}</p>
+                                    </div>
+                                    </div>
+                
+                                <div class="col">
+                                            <div class="row">
+                                                   
+                                            </div>  
+                                </div>
+                                <div class="col">
+                                    {% if  friend.followername == none %}
+                               
+	                                      <form action="{{ url_for('add_follower', followedid = friend.id, followedname = friend.username) }}" method="post">
+	                                          <button type="submit" class="btn btn-default login-popup-btn" name="FOLLOW" value="1">FOLLOW {{friend.username}}</button>
+	                                      </form>
                                 
-                           
-                          </div>
+                                    
+                                        {% else %}
+                                   
+	                                      <form action="{{ url_for('remove_follower', followedid = friend.id, followerid = current_user.id) }}" method="post">
+	                                          <button type="submit" class="btn btn-default login-popup-btn" name="UNFOLLOW" value="1">UNFOLLOW {{friend.username}} </button>
+	                                      </form>
+                                
+                                    	{% endif %}
+                               
+                                    	   <form action="{{ url_for('showprofile', hisid = friend.id) }}" method="POST">
+                                                <!--<a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>-->
+                                                <button type="submit" class="btn btn-elegant">SHOW PROFILE</button>
+                                           </form>
+                                        </div>  
+                                        </div>
+                    
+                       
+
                     </div>
                           
 
                     {% endif %}
                 {% endfor %}
-            {% endblock content %}
+      
 
-{% endblock %}
+
 

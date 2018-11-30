@@ -162,13 +162,13 @@
               
                 <button type="button" class="btn btn-link btn-sm text-light mr-auto" style="padding:0;padding-top: 5; text-decoration: none"><li><a class="nav-link text-light" href="{{ url_for('profile') }}">My Profile</a></li></button>
                 <button type="button" class="btn btn-link btn-sm px-3 text-light" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false" >
-                  <span class="caret text-light" style="font-size: 20; padding-top: 5"> 	&#9663; </span>
+                  aria-expanded="false"  style="padding-top: 15" >
+                  <span class="caret text-light" style="font-size: 20;"> 	&#9663; </span>
                 </button>
                 <ul class="dropdown-menu bg-light text-dark" style="width:200px ">
                     <li><a class="text-dark"  href="{{ url_for('settings') }}">To my settings!</a></li>
                     <li> <a class="text-dark"  href="{{ url_for('create_recipe') }}">Post a recipe!</a></li>
-                    <li><a class="text-dark"  href="{{ url_for('homepage') }}">View my friends!</a></li>
+               
                     <li><a class="text-dark"  href="{{ url_for('favorites') }}">View my favorites!</a></li>
                     <li><a class="text-dark"  href="{{ url_for('findfriends') }}">Find friends!</a></li>
                     <div class="dropdown-divider"></div>
@@ -177,7 +177,7 @@
             </div>
             
           <li class="nav-item" style="padding-top: 15 ">
-              <button type="button" class="btn btn-link btn-sm" style="text-decoration: none" ><li><a class="nav-link text-light" href="{{ url_for('logout') }}" >Logout</a></li></button>
+              <button type="button" class="btn btn-link btn-sm" style="text-decoration: none" ><li><a class="nav-link text-light" href="{{ url_for('logout') }}" style="padding-top: 15" >Logout</a></li></button>
           </li>
           {% else %}
           <li class="nav-item" style="padding-top: 15 ">
