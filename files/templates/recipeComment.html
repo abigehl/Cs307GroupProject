@@ -68,11 +68,11 @@ background-attachment: fixed;
   <p class="card-text mr-2 ml-2" style="width:93%">
             {{com.commentContent}}
   </p> 
-  <form action="" method="post">
-      <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
-  </form>
+  <form action="{{ url_for('delete_comment_recipe', comment_id=com.id) }}" method="post">
+    <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
+</form>
 </div>
-</div>
+</div>s
 <br>
 {% endfor %}
 
