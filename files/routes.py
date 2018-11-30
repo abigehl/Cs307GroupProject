@@ -743,7 +743,7 @@ def comment_post(post_id):
     comments = post_comments.query.filter_by(post_id=post_id)
 
     if commentForm.validate_on_submit():
-        comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id)
+        comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id, username = current_user.username)
         db.session.add(comm)
         db.session.commit()
         argh='/post/'+str(post_id)+'/comment/' 
@@ -1019,4 +1019,16 @@ def rate_recipe(rec_id):
 
     return render_template('recipespage.html', title=recc.rec_name, rec=recc, form5=formsearch,totalRating=round(totalRating, 1))
 
+
+
+@app.route('/post/<int:comment_id>/delete', methods=['POST'])
+@login_required
+def delete_comment(comment_id):
+    post = post_comments.query.filter_by(id=comment_id).first()
+
+    current_db_sessions = db.session.object_session(post)
+    current_db_sessions.delete(post)
+    current_db_sessions.commit()
+
+    return redirect(url_for('profile'))
 
