@@ -32,9 +32,7 @@
                                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                 <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                         </form>
-                                        <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
-                                            <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
-                                    </form>
+                                       
                                    
                                     {% else %}
                                         {% if  post.rating == none %}
@@ -79,9 +77,7 @@
                                                     <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                             <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                                     </form>
-                                                    <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
-                                                        <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
-                                                </form>
+                                                   
                                                
                                                 {% endif %}
                                             </div>
