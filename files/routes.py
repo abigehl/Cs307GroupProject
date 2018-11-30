@@ -325,6 +325,7 @@ def searchadvanced(things):
         words = things.split(';')
         words= list(filter(None, words))
         print(words)
+        words=" ".join(words)
         recipes=db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ings, tags) AGAINST (%s IN BOOLEAN MODE)))", words)
         return render_template('homepage.html', form5=formsearch,  form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
 
