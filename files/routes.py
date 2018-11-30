@@ -5,7 +5,7 @@ from files import app, db, bcrypt, mail
 from files.form import (LoginForm, RegisterForm, RecipeForm, RequestResetForm, ResetPasswordForm,
                         UpdateProfileForm, PostForm, PostFormHungryFor, PostFormCurrentlyEating,
                         RecipeSearchForm,  RecipeSearchForm, CommentForm, FindFriends)
-from files.__init__ import users, rec, postss, favs, post_comments, followers, likers
+from files.__init__ import users, rec, postss, favs, post_comments, followers, likers, raters
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -549,9 +549,20 @@ def create_recipe():
 ###################################################################### FULL RECIPE DISPLAY ######################################################################
 @app.route("/recipe/<int:recipe_id>", methods=['POST'])
 def showrecipe(recipe_id):
+
     formsearch = RecipeSearchForm()
     recc = rec.query.get_or_404(recipe_id)
-    return render_template('recipespage.html', title=recc.rec_name, rec=recc, form5=formsearch)
+
+
+    if recc.number_of_ratings is 0: 
+        totalRating = 0
+    else:
+        totalRating = recc.rating/recc.number_of_ratings
+
+    # checkRating = raters.query.filter_by(rated_recipe = recipe_id, userid = current_user.id)
+    
+    return render_template('recipespage.html', title=recc.rec_name, rec=recc, form5=formsearch,totalRating=round(totalRating, 1))
+    
 
 ###################################################################### RECIPE UPDATE ###########################################################################3
 @app.route("/recipe/<int:recipe_id>/update", methods=['GET', 'POST'])
@@ -855,3 +866,49 @@ def showprofile(hisid):
         return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
     else:
         return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file,recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+
+
+####################################################### RATE RECIPE ######################################################
+@app.route("/rate/<int:rec_id>", methods=['POST', 'GET'])
+@login_required
+def rate_recipe(rec_id):
+    if request.method=='POST':
+        ratings = request.form['rate']
+
+        rat = 0
+
+        if ratings == "5":
+            rat = 1
+        elif ratings == "4":
+            rat = 2
+        elif ratings == "3":
+            rat = 3
+        elif ratings == "2":
+            rat = 4
+        elif ratings == "1":
+            rat = 5
+
+        addRate = raters(rated_recipe = rec_id,userid=current_user.id)
+        db.session.add(addRate)
+        db.session.commit()
+        
+        rate = rec.query.filter_by(id=rec_id).first()
+
+        rat = rat + rate.rating
+        numRatings = rate.number_of_ratings + 1
+       
+        db.engine.execute("UPDATE rec SET rating = %s, number_of_ratings = %s where id = %s",str(rat),str(numRatings),rec_id)
+            
+
+    formsearch = RecipeSearchForm()
+    recc = rec.query.get_or_404(rec_id)
+
+
+    if recc.number_of_ratings is 0: 
+        totalRating = 0
+    else:
+        totalRating = recc.rating/recc.number_of_ratings
+
+    return render_template('recipespage.html', title=recc.rec_name, rec=recc, form5=formsearch,totalRating=round(totalRating, 1))
+
+

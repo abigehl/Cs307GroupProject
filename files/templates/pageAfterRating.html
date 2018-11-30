@@ -96,35 +96,13 @@
                             <span class="badge red mr-1">Bestseller</span>
                         </a>
                     </div>
-                    {% if rec.user_id != current_user.id %}
-
-
-                    <div class="rate">
-                        <form action="{{ url_for('rate_recipe',rec_id=rec.id) }}" method="post">
-                                
-                        <input type="radio" id="star5" name="rate" value="5" />
-                        <label for="star5" title="text" style="color: white">1</label>
-                        <input type="radio" id="star4" name="rate" value="4" />
-                        <label for="star4" title="text"style="color: white">2</label>
-                        <input type="radio" id="star3" name="rate" value="3" />
-                        <label for="star3" title="text"style="color: white">3</label>
-                        <input type="radio" id="star2" name="rate" value="2" />
-                        <label for="star2" title="text"style="color: white">4</label>
-                        <input type="radio" id="star1" name="rate" value="1" />
-                        <label for="star1" title="text"style="color: white">5 </label>
-                        <button type="submit" name="submit_ratings_button" class="btn btn-elegant" style="color: white">Rate</button>
-                        </form>
-                    </div>
-                    
-                    <br>
-                    <br>
-                    <br>
-                    {% endif %}
- 
+                     
                     <p class="lead font-weight-bold text-light">
                         {{ rec.rec_name }}
                     </p>
-                    <p class="text-light">Rating: {{totalRating}} ({{rec.number_of_ratings}} ratings)</p>
+                    <p class="text-light">Rating:{{totalRating}}</p>
+
+                    <p class="text-light">Difficulty:</p>
                     <p class="text-light">Prep Time: {{rec.prep_time}}</p>
                     <p class="text-light">Cook Time: {{rec.cook_time}}</p>
                     <p class="text-light">Minimum Price: {{rec.minPrice}}</p>
