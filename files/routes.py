@@ -757,18 +757,18 @@ def comment_recipe(rec_id):
     print("recipe " + str(rec_id))
     recc = rec.query.filter_by(id=rec_id).first() 
     commentForm = CommentForm()
-    comments = post_comments_recipe.query.filter_by(rec_id=rec_id)
+    comments = recipe_comments.query.filter_by(recipe_id=rec_id)
 
     if commentForm.validate_on_submit():
-        comm = post_comments_recipe(rec_id = rec_id, commentPost=commentForm.commentBox.data, user_id = current_user.id)
+        comm = recipe_comments(recipe_id = rec_id, commentContent=commentForm.commentBox.data, userid = current_user.id)
         db.session.add(comm)
         db.session.commit()
         argh='/recipe/'+str(rec_id)+'/comment/' 
-        comments2 = post_comments_recipe.query.filter_by(rec_id=rec_id)
+        comments2 = recipe_comments.query.filter_by(recipe_id=rec_id)
 
-        return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments2)
+        return render_template('recipeComment.html', commentForm=commentForm, form5=formsearch, post=recc, comments=comments2)
 
-    return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments)
+    return render_template('recipeComment.html', commentForm=commentForm, form5=formsearch, post=recc, comments=comments)
 
 @app.route("/allComments", methods=['POST', 'GET'])
 @login_required
