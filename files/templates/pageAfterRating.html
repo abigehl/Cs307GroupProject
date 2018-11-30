@@ -77,9 +77,6 @@
 
                 <img class="d-flex mr-3 p-4" src="/static/Images/{{rec.recipePic}}" alt="recipe image" style="width: 350px">
 
-                <h4 class="my-4 h4 text-light">Instructions: </h4>
-                <p class="text-light">{{rec.rec_instruction}}</p>
-
 
             </div>
             <!--Grid column-->
@@ -99,35 +96,13 @@
                             <span class="badge red mr-1">Bestseller</span>
                         </a>
                     </div>
-                    {% if rec.user_id != current_user.id %}
-
-
-                    <div class="rate">
-                        <form action="{{ url_for('rate_recipe',rec_id=rec.id) }}" method="post">
-                                
-                        <input type="radio" id="star5" name="rate" value="5" />
-                        <label for="star5" title="text" style="color: white">1</label>
-                        <input type="radio" id="star4" name="rate" value="4" />
-                        <label for="star4" title="text"style="color: white">2</label>
-                        <input type="radio" id="star3" name="rate" value="3" />
-                        <label for="star3" title="text"style="color: white">3</label>
-                        <input type="radio" id="star2" name="rate" value="2" />
-                        <label for="star2" title="text"style="color: white">4</label>
-                        <input type="radio" id="star1" name="rate" value="1" />
-                        <label for="star1" title="text"style="color: white">5 </label>
-                        <button type="submit" name="submit_ratings_button" class="btn btn-elegant" style="color: white">Rate</button>
-                        </form>
-                    </div>
-                    
-                    <br>
-                    <br>
-                    <br>
-                    {% endif %}
- 
+                     
                     <p class="lead font-weight-bold text-light">
                         {{ rec.rec_name }}
                     </p>
-                    <p class="text-light">Rating: {{totalRating}} ({{rec.number_of_ratings}} ratings)</p>
+                    <p class="text-light">Rating:{{totalRating}}</p>
+
+                    <p class="text-light">Difficulty:</p>
                     <p class="text-light">Prep Time: {{rec.prep_time}}</p>
                     <p class="text-light">Cook Time: {{rec.cook_time}}</p>
                     <p class="text-light">Minimum Price: {{rec.minPrice}}</p>
@@ -154,40 +129,40 @@
 
         <hr>
 
-        <div class="container">
-          <div class="row">
-            <div class="col">
+        <!--Grid row-->
+        <div class="row d-flex justify-content-left wow fadeIn">
+
+            <!--Grid column-->
+            <div class="col-md-6 text-left">
+
                 <h4 class="my-4 h4 text-light">Ingredients</h4>
 
-                <ul class="list-group" id="ingrdiv" style="width:30vh">
-                    <p style="visibility: hidden;" id="ingr_string">{{rec.ings}}</p>
+                <p class="text-light">{{rec.rec_instruction}}</p>
 
-                </ul>
             </div>
-            <div class="col">
-                <h4 class="my-4 h4 text-light">Tags</h4>
+            <!--Grid column-->
 
-                <ul class="list-group" id="tagsdiv" style="width:30vh">
-                    <p style="visibility: hidden;" id="tags_string">{{rec.tags}}</p>
-
-                </ul>
-               
-            </div>
-            <div class="col">
-                <h4 style="visibility: hidden;" class="my-4 h4 text-light">Tags</h4>
-                <p style="visibility: hidden;">....</p>
-                <ul class="list-group" style="width:30vh">
-                    <li class="list-group-item">Calories:{{rec.calories}}</li>
-                    <li class="list-group-item">Fat:{{rec.fat}}</li>
-                    <li class="list-group-item">Cholesterol:{{rec.cholesterol}}</li>
-                    <li class="list-group-item">Sodium:{{rec.sodium}}</li>
-                </ul>
-            </div>
-          </div>
         </div>
-
-
+        <!--Grid row-->
+        <ul class="list-group " style="width:30vh">
+            <li class="list-group-item">{{rec.ing_1}}</li>
+            <li class="list-group-item">{{rec.ing_2}}</li>
+            <li class="list-group-item">{{rec.ing_3}}</li>
+            <li class="list-group-item">{{rec.ing_4}}</li>
+            <li class="list-group-item">{{rec.ing_5}}</li>
+            <li class="list-group-item">{{rec.ing_6}}</li>
+            <li class="list-group-item">{{rec.ing_7}}</li>
+            <li class="list-group-item">{{rec.ing_8}}</li>
+            <li class="list-group-item">{{rec.ing_9}}</li>
+            <li class="list-group-item">{{rec.ing_10}}</li>
+        </ul>
         <br>
+        <ul class="list-group " style="width:30vh">
+            <li class="list-group-item">Calories:{{rec.calories}}</li>
+            <li class="list-group-item">Fat:{{rec.fat}}</li>
+            <li class="list-group-item">Cholesterol:{{rec.cholesterol}}</li>
+            <li class="list-group-item">Sodium:{{rec.sodium}}</li>
+        </ul>
         <!--Grid row-->
         <div class="row wow fadeIn"></div>
         <!--Grid row-->
@@ -197,32 +172,6 @@
         function myFunction(x) {
             x.classList.toggle("fa-thumbs-down");
         }
-
-        //for dynamic ingredients
-        function whatever() {
-            document.write("ingr_string: " + document.getElementById("tags_string").innerHTML);
-        }
-
-        //parsing dynamic ingredients
-        window.onload = function() {
-            var ingr_string = document.getElementById("ingr_string").innerHTML;
-            var ingr_array = ingr_string.split(' ` ') 
-
-            var tags_string = document.getElementById("tags_string").innerHTML;
-            var tags_array = tags_string.split(' ` ') 
-
-            for (var i=0;i<ingr_array.length;i++) {
-                $('#ingrdiv').append("<li class='list-group-item'>"+ingr_array[i]+"</li>");
-            }
-
-            for (var k=0;k<tags_array.length;k++) {
-                $('#tagsdiv').append("<li class='list-group-item'>"+tags_array[k]+"</li>");
-            }
-
-            //document.write("ingr_arr: " + ingr_array.length);
-        };
-        
-
     </script>
 </main>
 {% endblock content %}

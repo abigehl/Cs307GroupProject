@@ -65,10 +65,12 @@ class rec(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
     recipePic = db.Column(db.String(80), default="spicy.jpg")
     dateposted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    rating = db.Column(db.Integer)
+    number_of_ratings = db.Column(db.Integer)
 
-    def __repr__(self):
-        return 'rec({self.rec_name}, {self.prep_time}, {self.cook_time}, {self.rec_instruction}, {self.rec_description}, {self.fat}, {self.cholesterol}, {self.sodium}, {self.calories})'
-
+    def __init__(self, rating=rating, number_of_ratings=number_of_ratings):
+        self.rating = rating
+        self.number_of_ratings = number_of_ratings
 
 class postss(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -164,6 +166,12 @@ class followers(db.Model):
 class likers(db.Model):
     liked_post = db.Column(db.Integer, primary_key=True)
     userid = db.Column(db.Integer, primary_key=True)
+
+
+class raters(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    rated_recipe = db.Column(db.Integer, nullable = False)
+    userid = db.Column(db.Integer,nullable = False)
 
 #from models import users, rec, postss
 # if __name__ == '__main__':
