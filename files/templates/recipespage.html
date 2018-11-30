@@ -197,10 +197,10 @@
         //parsing dynamic ingredients
         window.onload = function() {
             var ingr_string = document.getElementById("ingr_string").innerHTML;
-            var ingr_array = ingr_string.split(',') 
+            var ingr_array = ingr_string.split(' ` ') 
 
             var tags_string = document.getElementById("tags_string").innerHTML;
-            var tags_array = tags_string.split(',') 
+            var tags_array = tags_string.split(' ` ') 
 
             for (var i=0;i<ingr_array.length;i++) {
                 $('#ingrdiv').append("<li class='list-group-item'>"+ingr_array[i]+"</li>");
