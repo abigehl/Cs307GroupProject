@@ -696,26 +696,30 @@ def delete_fav(fav_id):
 # COMMENT SECTION
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
-@app.route("/post/<int:post_id>/comment", methods=['POST', 'GET'])
+@app.route("/post/<int:post_id>/comment/", methods=['POST', 'GET'])
 @login_required
 def comment_post(post_id):
 
+    formsearch = RecipeSearchForm() 
+    post = postss.query.filter_by(id=post_id).first() 
     commentForm = CommentForm()
+    comments = post_comments.query.filter_by(post_id=post_id)
+
     if commentForm.validate_on_submit():
         comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id)
         db.session.add(comm)
         db.session.commit()
+        argh='/post/'+str(post_id)+'/comment/' 
+        return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments)
 
-        return redirect(url_for('all_comments'))
-
-    return render_template('testComment.html', commentForm=commentForm)
+    return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments)
 
 @app.route("/allComments", methods=['POST', 'GET'])
 @login_required
 def all_comments():
-
+    formsearch = RecipeSearchForm() 
     allComments = post_comments.query.filter_by(post_id=65)
-    return render_template('testComment2.html', allComments = allComments)
+    return render_template('testComment2.html', allComments = allComments, form5=formsearch)
 #--------------------------------------------------------------------------------------------------------------------------------------------
 #COMMENT SECTION
 #--------------------------------------------------------------------------------------------------------------------------------------------
