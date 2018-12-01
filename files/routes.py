@@ -288,7 +288,10 @@ def search():
 
             recipes = db.engine.execute("SELECT * FROM (SELECT * FROM rec WHERE (minPrice <= %s AND maxprice >= %s) AND ( calories >= %s AND calories <= %s ) AND \
                 ((MATCH (rec_name, rec_description, rec_instruction, ings, tags) \
-                    AGAINST (%s IN BOOLEAN MODE))OR (rec_name LIKE %s ))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd", minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix)
+                    AGAINST (%s IN BOOLEAN MODE)))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd \
+                    UNION \
+                    SELECT * FROM (SELECT * FROM rec where rec_name LIKE %s)  as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd  \
+                    ", minmax[1], minmax[0], calories[0], calories[1], keywords, keywords_sufix )
 
 
             return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
@@ -316,7 +319,8 @@ def searchthings(thing):
 
     else:
 
-        recipes = db.engine.execute("SELECT * FROM rec WHERE((MATCH (rec_name, rec_description, rec_instruction, ings, tags) AGAINST (%s IN BOOLEAN MODE)))", thing)
+        recipes = db.engine.execute("SELECT * FROM (SELECT * FROM rec WHERE ((MATCH (rec_name, ings, tags) \
+                AGAINST (%s IN BOOLEAN MODE)))) as b left join (select id as useridd, username from users) as a on b.user_id = a.useridd;", thing)
         return render_template('homepage.html', form5=formsearch, form=form, form2=formNormalText, form3=formCurrent, recipes=recipes)
 
 
@@ -940,11 +944,14 @@ def showprofile(hisid):
     formNormalText = PostForm()
     formCurrent = PostFormCurrentlyEating()
 
-    allposts = postss.query.filter_by(user_id=hisid)
+ 
     recipes = rec.query.filter_by(user_id=hisid)
     favRecipes = favs.query.filter_by(user_id=hisid)
     followers = db.engine.execute("SELECT * FROM followers where followedid = %s", hisid)
     following = db.engine.execute("SELECT * FROM followers where followerid = %s", hisid)
+
+    allposts = db.engine.execute("SELECT * from (select * from postss where user_id = %s) as a left join likers on a.id = likers.liked_post and likers.userid = %s ;",
+        hisid, current_user.id )
 
     flag = "hello"
 
