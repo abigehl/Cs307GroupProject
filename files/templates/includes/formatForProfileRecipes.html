@@ -3,8 +3,8 @@
  
     {% for rec in recipes %}
               
-                    <div class="card-body" style="height:auto; padding-top: 0">
-                        <div class="card-body bg-dark">
+                    <div class="card-body" style="height:auto; padding-top: 0;">
+                        <div class="card-body bg-dark" style="border-radius:10px;">
                             <p class="h4 text-light" style="padding-left: 5px"> {{rec.rec_name}}</p>
                             <img class="rounded" src="../static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="max-width: 200px; max-height:150px">
                             <p class="card-text mr-2 ml-2 text-light" style="padding-right: 100px; height: auto">{{rec.rec_description}}</p>
@@ -19,6 +19,9 @@
                                 <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
                                     <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
                                 </form>
+                                <form action="{{ url_for('comment_recipe', rec_id=rec.id) }}" method="post">
+                                    <button type="submit" class="btn btn-elegant float-right"><i class="fa fa-comment-o"></i></button>
+                                  </form>
                                 {% if current_user.id == rec.user_id %}
                                 <form action="{{ url_for('update_recipe', recipe_id=rec.id) }}" method="post">
                                   <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
@@ -35,11 +38,11 @@
 
     {% endfor %}
     {% if recipes==null  %}
-    <div class="card flex bg-light" style="height:auto">
+    <div class="card flex bg-dark" style="height:auto">
       <div class="card-body">
           
-          <p class="card-text mr-2 ml-2" style="width:93%">Make some recipes!</p> 
-           
+          <p class="card-text mr-2 ml-2" style="width:93%">No recipes :(</p> 
+          
          
       </div>
   </div>

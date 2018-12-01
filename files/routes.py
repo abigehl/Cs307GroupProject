@@ -454,8 +454,8 @@ def logout():
 @login_required
 def profile():
 
-    followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", current_user.id)
-    following = db.engine.execute("SELECT followedname FROM followers where followerid = %s", current_user.id)
+    followers = db.engine.execute("SELECT * FROM followers where followedid = %s", current_user.id)
+    following = db.engine.execute("SELECT * FROM followers where followerid = %s", current_user.id)
     formsearch = RecipeSearchForm()
 
     form = PostFormHungryFor()
@@ -727,18 +727,18 @@ def delete_fav(fav_id):
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # COMMENT SECTION
 #--------------------------------------------------------------------------------------------------------------------------------------------
-
 @app.route("/post/<int:post_id>/comment/", methods=['POST', 'GET'])
 @login_required
 def comment_post(post_id):
 
     formsearch = RecipeSearchForm() 
+    print("post " + str(post_id))
     post = postss.query.filter_by(id=post_id).first() 
     commentForm = CommentForm()
     comments = post_comments.query.filter_by(post_id=post_id)
 
     if commentForm.validate_on_submit():
-        comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id)
+        comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id, username = current_user.username)
         db.session.add(comm)
         db.session.commit()
         argh='/post/'+str(post_id)+'/comment/' 
@@ -748,12 +748,36 @@ def comment_post(post_id):
 
     return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments)
 
+@app.route("/recipe/<int:rec_id>/comment/", methods=['POST', 'GET'])
+@login_required
+def comment_recipe(rec_id):
+
+    formsearch = RecipeSearchForm() 
+    print("recipe " + str(rec_id))
+    recc = rec.query.filter_by(id=rec_id).first() 
+    commentForm = CommentForm()
+    comments = recipe_comments.query.filter_by(recipe_id=rec_id)
+
+    if commentForm.validate_on_submit():
+        comm = recipe_comments(recipe_id = rec_id, commentContent=commentForm.commentBox.data, userid = current_user.id)
+        db.session.add(comm)
+        db.session.commit()
+        argh='/recipe/'+str(rec_id)+'/comment/' 
+        comments2 = recipe_comments.query.filter_by(recipe_id=rec_id)
+
+        return render_template('recipeComment.html', commentForm=commentForm, form5=formsearch, post=recc, comments=comments2)
+
+    return render_template('recipeComment.html', commentForm=commentForm, form5=formsearch, post=recc, comments=comments)
+
 @app.route("/allComments", methods=['POST', 'GET'])
 @login_required
 def all_comments():
     formsearch = RecipeSearchForm() 
     allComments = post_comments.query.filter_by(post_id=65)
     return render_template('testComment2.html', allComments = allComments, form5=formsearch)
+
+
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 # COMMENT SECTION
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -903,6 +927,11 @@ def showprofile(hisid):
     # users = db.engine.execute("SELECT * FROM users WHERE id = %s", hisid)
     userss = users.query.filter_by(id = hisid).first()
 
+    # followers = db.engine.execute("SELECT * FROM followers where followerid = %s", current_user.id)
+
+
+
+   
 
     image_file = url_for('static', filename='Images/' + userss.profilePic)
 
@@ -914,8 +943,14 @@ def showprofile(hisid):
     allposts = postss.query.filter_by(user_id=hisid)
     recipes = rec.query.filter_by(user_id=hisid)
     favRecipes = favs.query.filter_by(user_id=hisid)
-    followers = db.engine.execute("SELECT followername FROM followers where followedid = %s", hisid)
-    following = db.engine.execute("SELECT followedname FROM followers where followerid = %s", hisid)
+    followers = db.engine.execute("SELECT * FROM followers where followedid = %s", hisid)
+    following = db.engine.execute("SELECT * FROM followers where followerid = %s", hisid)
+
+    flag = "hello"
+
+    for x in followers:
+        if x.followedid == hisid: 
+            flag = "hello2"
 
     count2 = 0
 
@@ -928,13 +963,13 @@ def showprofile(hisid):
         count = count + 1
 
     if count == 0 and count2 != 0:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
     elif count == 0 and count2 == 0:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent)
     elif count != 0 and count2 == 0:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
     else:
-        return render_template('ProfilePageOthers.html', title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file,recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
+        return render_template('ProfilePageOthers.html',flag = flag, title='Profile', form5=formsearch, followers = followers, following = following, users = userss, image_file=image_file,recipes=recipes, allPosts=allposts, form=form, form2=formNormalText, form3=formCurrent, favRecipes=favRecipes)
 
 
 ####################################################### RATE RECIPE ######################################################
@@ -979,4 +1014,27 @@ def rate_recipe(rec_id):
 
     return render_template('recipespage.html', title=recc.rec_name, rec=recc, form5=formsearch,totalRating=round(totalRating, 1))
 
+
+
+@app.route('/post/<int:comment_id>/delete', methods=['POST'])
+@login_required
+def delete_comment(comment_id):
+    post = post_comments.query.filter_by(id=comment_id).first()
+
+    current_db_sessions = db.session.object_session(post)
+    current_db_sessions.delete(post)
+    current_db_sessions.commit()
+
+    return redirect(url_for('profile'))
+
+@app.route('/recipe/<int:comment_id>/deleteComment', methods=['POST'])
+@login_required
+def delete_comment_recipe(comment_id):
+    post = recipe_comments.query.filter_by(id=comment_id).first()
+
+    current_db_sessions = db.session.object_session(post)
+    current_db_sessions.delete(post)
+    current_db_sessions.commit()
+
+    return redirect(url_for('profile'))
 
