@@ -3,7 +3,7 @@
           
                 {% if allPosts %}
                 {% else %}
-                <div class="card flex bg-light" style="height:auto">
+                <div class="card flex bg-light" style="height:auto; border-radius:10px;">
                     <div class="card-body text-center">
                         
                         <p class="card-text mr-2 ml-2" style="width:93%">No posts :(</p> 
@@ -16,44 +16,44 @@
                     
                 
                         {% if post.post_type == "hungryFor" %}
-                                <div class="card flex bg-light" style="height:auto;">
-                                    <div class="card-body ">
+                                <div class="card flex bg-light" style="height:auto; width: 96%; margin-left: 2%">
+                                    <div class="card-body" style="border-radius:30px;">
                                         <div class="float-left">
                                         <p class="card-text mr-2 ml-2" style="width:93%">{{ post.content }}</p> 
                                         </div>
                                         <div class="row float-right">
-                                                <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
-                                                        <button type="submit" class="btn btn-elegant float-right"> <i class="fa fa-comment-o"></i></button>
-                                                    </form>
-                                         {% if current_user.id == post.user_id %}
-                                        <form action="{{ url_for('update_post', post_id=post.id) }}" method="post">
-                                            <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
-                                        </form>                                  
-                                        <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
-                                                <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
-                                        </form>
+                                            <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
+                                                    <button type="submit" class="btn btn-elegant float-right"> <i class="fa fa-comment-o"></i></button>
+                                                </form>
+                                             {% if current_user.id == post.user_id %}
+                                            <form action="{{ url_for('update_post', post_id=post.id) }}" method="post">
+                                                <button type="submit" class="btn btn-elegant"> <i class="fa fa-pencil"></i></button>
+                                            </form>                                  
+                                            <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
+                                                    <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
+                                            </form>
+                                           
                                        
-                                   
-                                    {% else %}
-                                        {% if  post.rating == none %}
-                                            <form action="{{ url_for('add_like', postid = post.id )}}" method="post">
-                                                <button type="submit" class="btn btn-default login-popup-btn" name="LIKE" value="1">LIKE
-                                                </button>
-                                            </form>
-                                            <p class="card-text text-light"> {{post.number_of_ratings}} likes </p>
-                                        
                                         {% else %}
+                                            {% if  post.rating == none %}
+                                                <form action="{{ url_for('add_like', postid = post.id )}}" method="post">
+                                                    <button type="submit" class="btn btn-default login-popup-btn" name="LIKE" value="1">LIKE
+                                                    </button>
+                                                </form>
+                                                <p class="card-text text-light"> {{post.number_of_ratings}} likes </p>
+                                            
+                                            {% else %}
 
-                                            <form action="{{ url_for('remove_like', postid = post.id) }}" method="post">
-                                                <button type="submit" class="btn btn-default login-popup-btn" name="REMOVELIKE" value="1">LIKED </button>
-                                                
-                                            </form>
-                                            <p class="card-text text-light"> {{post.number_of_ratings}} likes </p>
+                                                <form action="{{ url_for('remove_like', postid = post.id) }}" method="post">
+                                                    <button type="submit" class="btn btn-default login-popup-btn" name="REMOVELIKE" value="1">LIKED </button>
+                                                    
+                                                </form>
+                                                <p class="card-text text-light"> {{post.number_of_ratings}} likes </p>
+                                            {% endif %}
+
                                         {% endif %}
-
-                                    {% endif %}
                                     
-                                </div>
+                                        </div>
                                     
                                   
                                     </div>
@@ -77,12 +77,16 @@
                                                     <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                             <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                                     </form>
+<<<<<<< HEAD
                                                    
                                                
+=======
+
+>>>>>>> 52f51a87ebc2172fb7f8589897647b1e3bf840c8
                                                 {% endif %}
-                                                <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
+                                                <!--<form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
                                                     <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
-                                                </form>
+                                                </form>-->
                                             </div>
                                     </div>
                                 </div>
@@ -109,8 +113,7 @@
                                                     <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
                                                             <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                                                     </form>
-                                                
-                                                
+                                    
                                                 {% endif %}
 
                                                 <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
@@ -153,4 +156,4 @@
 
                     {% endif %}
                 {% endfor %}
-          
+        

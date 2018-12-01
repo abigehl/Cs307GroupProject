@@ -1,44 +1,42 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block body %}
 <form>
+    <div class="card background-color:transparent; bg-dark">
+        <a class="animated fadeIn mb-4 center text-light mt-2 " href="{{ url_for('favorites') }}" style="padding-left: 10" >Your Favorites</a>
         
-
-                <div class="card background-color:transparent; bg-dark">
-                    <a class="animated fadeIn mb-4 center text-light mt-2 " href="{{ url_for('favorites') }}" style="padding-left: 10" >Your Favorites</a>
-                    
-                        {% for rec in favRecipes %}
-                            <div class="card-body">
-                                <div class="card-body bg-dark">
-                                        {% set class_gated = "true" %}
-                                    <p class="card-text mr-2 ml-2">{{rec.fav_rec_name}}</p>
-                                    <p class="card-text mr-2 ml-2">{{rec.fav_rec_description}}</p>
-                                   
-                                </div>
-                            </div>
-                        <br>
-                                
-                        jwsad;lafjkdskla
-                        {% endfor %}
-                
-
-
+            {% for rec in favRecipes %}
+                <div class="card-body">
+                    <div class="card-body bg-dark">
+                            {% set class_gated = "true" %}
+                        <p class="card-text mr-2 ml-2">{{rec.fav_rec_name}}</p>
+                        <p class="card-text mr-2 ml-2">{{rec.fav_rec_description}}</p>
                        
-                        {% if favRecipes == null %}
-                        
-                        <div class="card-body flex-center">
-                                <div class="card-body bg-dark">
-                                    <p class="card-text mr-2 ml-2">Go Favorite Recipes!!</p>
-                                   
-                                </div>
-
-                            
-                        
-                        </div>
-                    
-                        <br>  
-                        {% endif %}
-                        <br>
+                    </div>
                 </div>
+            <br>
+                    
+            jwsad;lafjkdskla
+            {% endfor %}
+    
+
+
+           
+            {% if favRecipes == null %}
+            
+            <div class="card-body flex-center">
+                    <div class="card-body bg-dark">
+                        <p class="card-text mr-2 ml-2">Go Favorite Recipes!!</p>
+                       
+                    </div>
+
+                
+            
+            </div>
+        
+            <br>  
+            {% endif %}
+            <br>
+    </div>
              
 </form>
 {% endblock %}

@@ -957,7 +957,6 @@ def showprofile(hisid):
         if x.followedid == hisid: 
             flag = "hello2"
 
-
     count2 = 0
 
     for x in recipes:
