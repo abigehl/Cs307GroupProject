@@ -23,14 +23,14 @@
                                 <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
                                     <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
                                 </form>
-                                <form action="{{ url_for('comment_recipe', rec_id=rec.id) }}" method="post">
-                                    <button type="submit" class="btn btn-elegant float-right"><i class="fa fa-comment-o"></i></button>
-                                  </form>
+                               
 
                                       <form action="{{ url_for('add_follower', followedid = rec.user_id, followedname = rec.username) }}" method="post">
                                           <button type="submit" class="btn btn-default login-popup-btn" name="UNFOLLOW" value="1">FOLLOW {{rec.username}} </button>
                                       </form>
-
+ <form action="{{ url_for('comment_recipe', rec_id=rec.id) }}" method="post">
+                                  <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
+                          </form>
                                       
 
                                     {% endif %}
@@ -40,9 +40,7 @@
 
                                 {% endif %}
 
-                                <form action="{{ url_for('comment_recipe', recipe_id=rec.id) }}" method="post">
-                                  <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
-                          </form>
+                               
                               </div>
                             </div>
                           </div>
@@ -56,8 +54,11 @@
                   <div class="card-body bg-dark" >
                     <div class="container">
                       <div class="row">                 
-                        <p class="card-text text-light">By {{rec.username }} ( {{ rec.dateposted }} ) : 
-                            {{ rec.rec_description }}</p> 
+                        {% if rec.rec_name == none %}
+                        <p class="card-text text-light">{{rec.username }}  : {{ rec.rec_description }} </p> 
+                        {% else %}
+                        <p class="card-text text-light">{{rec.username }}  : {{ rec.rec_name }} </p> 
+                        {% endif %}
                       </div>
 
                       <div class="row"> 
@@ -83,9 +84,7 @@
                                               <button type="submit" class="btn btn-default login-popup-btn" name="LIKE" value="1">LIKE
                                               </button>
                                           </form>
-                                          <form action="{{ url_for('comment_post', post_id=rec.id) }}" method="post">
-                                            <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
-                                    </form>
+                                  
                                           <p class="card-text text-light"> {{rec.number_of_ratings}} likes </p>
                                         
                                         {% else %}
@@ -94,9 +93,7 @@
                                               <button type="submit" class="btn btn-default login-popup-btn" name="REMOVELIKE" value="1">LIKED </button>
                                               
                                           </form>
-                                          <form action="{{ url_for('comment_post', post_id=rec.id) }}" method="post">
-                                            <button type="submit" class="btn btn-elegant"> <i class="fa fa-comment-o"></i></button>
-                                    </form>
+                                          
                                           <p class="card-text text-light"> {{rec.number_of_ratings}} likes </p>
                                         {% endif %}
                                        

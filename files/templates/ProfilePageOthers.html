@@ -82,7 +82,7 @@
                         <div class="card flex bg-dark nopadding" style="padding:0; margin:0; width:100%">
                           <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0; padding-left: 10" >Followers</h4>
                         
-                          {% for follower in followers%}
+                          {% for follower in following%}
                           <div class="card-body" >
                             <!-- <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left"> -->
                             <!--description needs to show a certain length of description-->
@@ -96,7 +96,7 @@
                           <div class="card-body" >
                             <!-- <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left"> -->
                             <!--description needs to show a certain length of description-->
-                            <p class="card-text text-light ">{{ followed.followedname }}<a class="text-light" href="{{ url_for('showprofile', hisid = followed.followedid) }}"> &#9657;</a></p>
+                            <p class="card-text text-light "><a class="text-light" href="{{ url_for('showprofile', hisid = followed.followedid) }}">{{ followed.followedname }} &#9657;</a></p>
                           
                           </div>
                           {% endfor %}
