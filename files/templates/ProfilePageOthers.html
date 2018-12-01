@@ -77,34 +77,7 @@
             </div>
             <div class="row" style="padding:20">
                   <div class="col-2 " style="height:auto; padding:0; padding-left: 30px; margin:0;">
-                    <div style="height: auto;" >
-                      <div  >
-                        <div class="card flex bg-dark nopadding" style="padding:0; margin:0; width:100%">
-                          <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0; padding-left: 10" >Followers</h4>
-                        
-                          {% for follower in following%}
-                          <div class="card-body" >
-                            <!-- <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left"> -->
-                            <!--description needs to show a certain length of description-->
-                            <p class="card-text mr-2 ml-2" ><a class="text-light nav-link" href="{{ url_for('showprofile', hisid = follower.followerid) }}">{{ follower.followername }} &#9657;</a></p>
-                              
-                          </div>
-                          {% endfor %}
-                          <h4 class="animated fadeIn mb-4 text-light mt-2" style="padding:0; padding-left: 10" >Following</h4>
-
-                          {% for followed in following%}
-                          <div class="card-body" >
-                            <!-- <img src="../static/Images/emptyProf.png" alt="Ben" height="50" width="55" class="left"> -->
-                            <!--description needs to show a certain length of description-->
-                            <p class="card-text text-light "><a class="text-light" href="{{ url_for('showprofile', hisid = followed.followedid) }}">{{ followed.followedname }} &#9657;</a></p>
-                          
-                          </div>
-                          {% endfor %}
-
-                        </div>
-
-                      </div>
-                    </div>
+                  
                   </div>
 
 
