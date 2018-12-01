@@ -38,7 +38,7 @@
         <div class="card-body bg-dark" >
             <p class="h4 text-light" style="padding-left: 5px"> {{rec.rec_name}}  </p>
             <p class="text-light" style="font-size:10; padding: 0">( {{ rec.dateposted }} )</p>
-            <img class="rounded float-right" src="static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="max-width: 200px; max-height:150px">
+            <img class="rounded float-right" src="../static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="max-width: 200px; max-height:150px">
             <p class="card-text mr-2 ml-2 text-light" style="padding-right: 100px; height: auto">{{rec.rec_description}}</p>
             <p class="left card-text mr-2 ml-2 text-light">By: {{rec.username}}</p>
       
@@ -56,6 +56,9 @@
                 <form action="{{ url_for('delete_recipe', recipe_id=rec.id) }}" method="post">
                   <button type="submit" class="btn btn-elegant"> <i class="fa fa-trash"></i></button>
                 </form>
+                <form action="{{ url_for('comment_recipe', rec_id=rec.id) }}" method="post">
+                    <button type="submit" class="btn btn-elegant float-right"><i class="fa fa-comment-o"></i></button>
+                  </form>
               </div>
             </div>
           </div>

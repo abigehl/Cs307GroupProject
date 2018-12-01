@@ -1032,3 +1032,14 @@ def delete_comment(comment_id):
 
     return redirect(url_for('profile'))
 
+@app.route('/recipe/<int:comment_id>/deleteComment', methods=['POST'])
+@login_required
+def delete_comment_recipe(comment_id):
+    post = recipe_comments.query.filter_by(id=comment_id).first()
+
+    current_db_sessions = db.session.object_session(post)
+    current_db_sessions.delete(post)
+    current_db_sessions.commit()
+
+    return redirect(url_for('profile'))
+
