@@ -99,7 +99,8 @@ class recipe_comments(db.Model):
     recipe_id = db.Column(db.Integer, nullable=False)
     commentContent = db.Column(db.String(5000))
     userid = db.Column(db.Integer, nullable=False)
-    
+    username = db.Column(db.String(100))
+
     def __repr__(self):
         return "post_comments('{self.post_id}')"
 

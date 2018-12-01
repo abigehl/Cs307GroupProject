@@ -735,43 +735,43 @@ def delete_fav(fav_id):
 @login_required
 def comment_post(post_id):
 
-    formsearch = RecipeSearchForm() 
-    print("post " + str(post_id))
-    post = postss.query.filter_by(id=post_id).first() 
     commentForm = CommentForm()
     comments = post_comments.query.filter_by(post_id=post_id)
+    post = postss.query.filter_by(id=post_id).first()
+
+
+    formsearch = RecipeSearchForm()
+
 
     if commentForm.validate_on_submit():
         comm = post_comments(post_id = post_id, commentPost=commentForm.commentBox.data, user_id = current_user.id, username = current_user.username)
         db.session.add(comm)
         db.session.commit()
-        argh='/post/'+str(post_id)+'/comment/' 
-        comments2 = post_comments.query.filter_by(post_id=post_id)
+        
+        return redirect(url_for('comment_post', post_id = post_id))
 
-        return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments2)
+    return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post,post_id = post_id, comments=comments)
 
-    return render_template('testComment.html', commentForm=commentForm, form5=formsearch, post=post, comments=comments)
-
-@app.route("/recipe/<int:rec_id>/comment/", methods=['POST', 'GET'])
+@app.route("/recipe/<int:recipe_id>/comment/", methods=['POST', 'GET'])
 @login_required
-def comment_recipe(rec_id):
+def comment_recipe(recipe_id):
 
-    formsearch = RecipeSearchForm() 
-    print("recipe " + str(rec_id))
-    recc = rec.query.filter_by(id=rec_id).first() 
     commentForm = CommentForm()
-    comments = recipe_comments.query.filter_by(recipe_id=rec_id)
+    comments = recipe_comments.query.filter_by(recipe_id=recipe_id)
+    post = rec.query.filter_by(id=recipe_id).first()
+
+
+    formsearch = RecipeSearchForm()
+
 
     if commentForm.validate_on_submit():
-        comm = recipe_comments(recipe_id = rec_id, commentContent=commentForm.commentBox.data, userid = current_user.id)
+        comm = recipe_comments(recipe_id = recipe_id, commentContent=commentForm.commentBox.data, userid = current_user.id, username = current_user.username)
         db.session.add(comm)
         db.session.commit()
-        argh='/recipe/'+str(rec_id)+'/comment/' 
-        comments2 = recipe_comments.query.filter_by(recipe_id=rec_id)
+        
+        return redirect(url_for('comment_recipe', recipe_id = recipe_id))
 
-        return render_template('recipeComment.html', commentForm=commentForm, form5=formsearch, post=recc, comments=comments2)
-
-    return render_template('recipeComment.html', commentForm=commentForm, form5=formsearch, post=recc, comments=comments)
+    return render_template('recipeComment.html', commentForm=commentForm, form5=formsearch, post=post,post_id = recipe_id, comments=comments)
 
 @app.route("/allComments", methods=['POST', 'GET'])
 @login_required
@@ -1023,25 +1023,29 @@ def rate_recipe(rec_id):
 
 
 
-@app.route('/post/<int:comment_id>/delete', methods=['POST'])
+@app.route('/post/<int:comment_id>/delete_comment_post', methods=['POST'])
 @login_required
-def delete_comment(comment_id):
+def delete_comment_on_post(comment_id):
     post = post_comments.query.filter_by(id=comment_id).first()
 
     current_db_sessions = db.session.object_session(post)
     current_db_sessions.delete(post)
     current_db_sessions.commit()
 
-    return redirect(url_for('profile'))
+    return redirect(url_for('comment_post',post_id=post.post_id))
 
-@app.route('/recipe/<int:comment_id>/deleteComment', methods=['POST'])
+@app.route('/post/<int:comment_id>/delete_comment_recipe', methods=['POST'])
 @login_required
-def delete_comment_recipe(comment_id):
+def delete_comment_on_recipe(comment_id):
     post = recipe_comments.query.filter_by(id=comment_id).first()
 
     current_db_sessions = db.session.object_session(post)
     current_db_sessions.delete(post)
     current_db_sessions.commit()
 
-    return redirect(url_for('profile'))
+    return redirect(url_for('comment_recipe',recipe_id=post.recipe_id))
+
+
+
+
 
