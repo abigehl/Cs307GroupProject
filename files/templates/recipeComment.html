@@ -18,13 +18,43 @@
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
     <style>
+
             body{
-             font-family: 'Poppins', sans-serif;
-             background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54));
-                   background-size: 100%;
-                   margin:0;
-                 }
-           </style>
+                background-image: linear-gradient(to top right, rgb(158, 211, 127), rgb(3, 54, 54));
+                        font-family: 'Poppins', sans-serif;
+                        background-size: 100%;
+                        margin:0
+                      } 
+                      .rate {
+                        /*border: 1px solid #cccccc;*/
+                        float: left;
+                        height: 46px;
+                        padding: 0 10px;
+                    }
+        
+                    .rate:not(:checked) > input {
+                        position: absolute;
+                        top: -9999px;
+                    }
+        
+                    .rate:not(:checked) > label {
+                        float: right;
+                        width: 1em;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        cursor: pointer;
+                        font-size: 30px;
+                        color: #ccc;
+                    }
+        
+                    .rate:not(:checked) > label:before { content: '★ '; }
+        
+                    .rate > input:checked ~ label { color: #ffc700; }
+        
+                    .rate:not(:checked) > label:hover, .rate:not(:checked) > label:hover ~ label { color: #deb217; }
+        
+                    .rate > input:checked + label:hover, .rate > input:checked + label:hover ~ label, .rate > input:checked ~ label:hover, .rate > input:checked ~ label:hover ~ label, .rate > label:hover ~ input:checked ~ label { color: #c59b08; }    
+                      </style>
 </head>
 
 {% block body %}  
@@ -33,27 +63,175 @@
     <br>
       <div class="">
           <br>
-
-            <div class="card flex bg-ligh flex-center" style="height:100px ;margin-left: 10%;  width: 80%">
-                    <div class="card-body flex-center" style="padding:20"> 
-                    <p class="card-text mr-2 ml-2" style="font-size:100">
-                        </p> 
-                        <p class="card-text mr-2 ml-2" style="width:93%; font-size: 30px;">
-                          {{post.rec_name}}
-                        </p> 
+          <main class=" pt-4">
+                <div class="container dark-grey-text mt-5">
+            
+                    <!--Grid row-->
+                    <div class="row wow fadeIn">
+            
+                        <!--Grid column-->
+                        <div class="col-md-6 mb-4">
+            
+                            <img class="d-flex mr-3 p-4" src="../static/Images/{{post.recipePic}}" alt="recipe image" style="width: 350px">
+            
+                            <h4 class="my-4 h4 text-light">Instructions: </h4>
+                            <p class="text-light">{{post.rec_instruction}}</p>
+            
+            
+                        </div>
+                        <!--Grid column-->
+                        <div class="col-md-6 mb-4">
+            
+            
+                            <!--Content-->
+                            <div class="p-4">
+                                <div class="mb-3">
+                                    <a href="">
+                                        <span class="badge purple mr-1">Category 2</span>
+                                    </a>
+                                    <a href="">
+                                        <span class="badge blue mr-1">New</span>
+                                    </a>
+                                    <a href="">
+                                        <span class="badge red mr-1">Bestseller</span>
+                                    </a>
+                                </div>
+                                {% if post.user_id != current_user.id %}
+            
+                                {% if post.rated_recipe == none %}
+                                <div class="rate">
+                                    <form action="{{ url_for('rate_recipe',rec_id=post.id) }}" method="post">
+                                            
+                                    <input type="radio" id="star5" name="rate" value="5" checked="checked" />
+                                    <label for="star5" title="text" style="color: white">1</label>
+                                    <input type="radio" id="star4" name="rate" value="4" />
+                                    <label for="star4" title="text"style="color: white">2</label>
+                                    <input type="radio" id="star3" name="rate" value="3" />
+                                    <label for="star3" title="text"style="color: white">3</label>
+                                    <input type="radio" id="star2" name="rate" value="2" />
+                                    <label for="star2" title="text"style="color: white">4</label>
+                                    <input type="radio" id="star1" name="rate" value="1" />
+                                    <label for="star1" title="text"style="color: white">5 </label>
+                                    <button type="submit" name="submit_ratings_button" class="btn btn-elegant" style="color: white" >Rate</button>
+                                    </form>
+                                </div>              
+                                <br>
+                                <br>
+                                <br>
+                                {% endif %}
+                                {% endif %}
+             
+                                <p class="lead font-weight-bold text-light">
+                                    {{ post.rec_name }}
+                                </p>
+                                <p class="text-light">Rating: {{totalRating}} ({{post.number_of_ratings}} ratings)</p>
+                                <p class="text-light">Prep Time: {{post.prep_time}}</p>
+                                <p class="text-light">Cook Time: {{post.cook_time}}</p>
+                                <p class="text-light">Minimum Price: {{post.minPrice}}</p>
+                                <p class="text-light">Maximum Price: {{post.maxprice}}</p>
+                                <!--<p class="lead font-weight-bold">Description</p>-->
+            
+                                <p class="text-light">{{post.rec_description}}</p>
+            
+                                <form action="{{ url_for('add_fav', recipe_id=post.id) }}" method="post">
+                                    <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
+                                </form>
+            
                             </div>
-                            </div>
+            
+                            <!--Content-->
+            
+                        </div>
+                        <!--Grid column-->
+            
+                    </div>
+                    <!--Grid row-->
+            
+                    <hr>
+            
+                    <div class="container">
+                      <div class="row">
+                        <div class="col">
+                            <h4 class="my-4 h4 text-light">Ingredients</h4>
+            
+                            <ul class="list-group" id="ingrdiv" style="width:30vh">
+                                <p style="visibility: hidden;" id="ingr_string">{{post.ings}}</p>
+            
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <h4 class="my-4 h4 text-light">Tags</h4>
+            
+                            <ul class="list-group" id="tagsdiv" style="width:30vh">
+                                <p style="visibility: hidden;" id="tags_string">{{post.tags}}</p>
+            
+                            </ul>
+                           
+                        </div>
+                        <div class="col">
+                            <h4 style="visibility: hidden;" class="my-4 h4 text-light">Tags</h4>
+                            <p style="visibility: hidden;">....</p>
+                            <ul class="list-group" style="width:30vh">
+                                <li class="list-group-item">Calories:{{post.calories}}</li>
+                                <li class="list-group-item">Fat:{{post.fat}}</li>
+                                <li class="list-group-item">Cholesterol:{{post.cholesterol}}</li>
+                                <li class="list-group-item">Sodium:{{post.sodium}}</li>
+                            </ul>
+                        </div>
+                      </div>
+                    </div>
+            
+            
+                    <br>
+                    <!--Grid row-->
+                    <div class="row wow fadeIn"></div>
+                    <!--Grid row-->
+            
+                </div>
+                <script>
+                    function myFunction(x) {
+                        x.classList.toggle("fa-thumbs-down");
+                    }
+            
+                    //for dynamic ingredients
+                    function whatever() {
+                        document.write("ingr_string: " + document.getElementById("tags_string").innerHTML);
+                    }
+            
+                    //parsing dynamic ingredients
+                    window.onload = function() {
+                        var ingr_string = document.getElementById("ingr_string").innerHTML;
+                        var ingr_array = ingr_string.split(' ` ') 
+            
+                        var tags_string = document.getElementById("tags_string").innerHTML;
+                        var tags_array = tags_string.split(' ` ') 
+            
+                        for (var i=0;i<ingr_array.length;i++) {
+                            $('#ingrdiv').append("<li class='list-group-item'>"+ingr_array[i]+"</li>");
+                        }
+            
+                        for (var k=0;k<tags_array.length;k++) {
+                            $('#tagsdiv').append("<li class='list-group-item'>"+tags_array[k]+"</li>");
+                        }
+            
+                        //document.write("ingr_arr: " + ingr_array.length);
+                    };
+                    
+            
+                </script>
+            </main>
+            <hr>
           <form action="" method="POST" enctype="multipart/form-data">
                     {{ commentForm.hidden_tag() }}
                     {{ wtf.form_field(commentForm.commentBox, style="margin-left: 10%;width: 80%") }}
-                    {{ wtf.form_field(commentForm.submitComment, style="margin-left: 45%;width: 10%") }}
+                    {{ wtf.form_field(commentForm.submitComment, style="margin-left: 60%;width: 30%") }}
                  
                     
             </form>
         </div>
       </div>
     <br>
-
+    
       {% for com in comments %}
         <div class="card flex bg-light" style="height:auto ;margin-left: 10%;  width: 80%">
         <div class="card-body flex-center" style="padding:20"> 
