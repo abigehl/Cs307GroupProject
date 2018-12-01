@@ -5,19 +5,28 @@
 
       {% if current_user.id != rec.user_id %}
         {% if  rec.followername != none %}
-        <div class="card-body" style="padding: 10; padding-bottom: 20;">
-          <div class="card-body bg-dark" style="border-radius:10px;">
-
-            <div class="container">
-              <div class="row">
-                <div class="col-md">
-                  <p class="h4 text-light" style="padding-left: 5px"> {{rec.rec_name}} </p>
-                  <p class="text-light" style="font-size:10; padding: 0">( {{ rec.dateposted }} )</p>
-                  <p class="card-text mr-2 ml-2 text-light" style="height:auto">{{rec.rec_description}}</p>
-                  <p class="left card-text mr-2 ml-2 text-light">By: {{rec.username}}</p>
-                </div>
-                <div class="col-md">
-                  <img class="rounded float-right" src="static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="max-width: 200px; max-height:150px; padding-bottom: 5px">
+        
+        <div class="card-body" style="padding: 10; padding-bottom: 20">
+          <div class="card-body bg-dark" style="">
+            <p class="h4 text-light" style="padding-left: 5px"> {{rec.rec_name}} </p>
+            <p class="text-light" style="font-size:10; padding: 0">( {{ rec.dateposted }} )</p>
+            <img class="rounded float-right" src="static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="max-width: 200px; max-height:150px">
+            <p class="card-text mr-2 ml-2 text-light" style="padding-right: 100px; height:auto">{{rec.rec_description}}</p>
+            <p class="left card-text mr-2 ml-2 text-light">By: {{rec.username}}</p>          
+              <div class="container">
+                <div class="row">
+                  <form action="{{ url_for('showrecipe', recipe_id=rec.id) }}" method="POST">
+                    <button type="submit" class="btn btn-elegant">Take me there</button>
+                  </form>
+                  <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
+                    <button type="submit" class="btn btn-elegant"> <i class="fa fa-star"></i></button>
+                  </form>
+                  <form action="{{ url_for('remove_follower', followedid = rec.user_id, followerid = current_user.id) }}" method="post">
+                    <button type="submit" class="btn btn-default login-popup-btn" name="UNFOLLOW" value="1">UNFOLLOW {{rec.username}} </button>
+                  </form>
+                  <form action="{{ url_for('comment_recipe', recipe_id=rec.id) }}" method="post">
+                    <button type="submit" class="btn btn-elegant float-right"><i class="fa fa-comment-o"></i></button>
+                  </form>
                 </div>
               </div>
               <br>
@@ -72,7 +81,6 @@
                 <form action="{{ url_for('comment_recipe', rec_id=rec.id) }}" method="post">
                   <button type="submit" class="btn btn-elegant float-right btn-lg"><i class="fa fa-comment-o"></i></button>
                 </form>
-                         
               </div>
             </div>
           </div>
