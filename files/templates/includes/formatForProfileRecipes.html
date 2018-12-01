@@ -2,45 +2,39 @@
   {% block content %}
  
     {% for rec in recipes %}
-              
-<<<<<<< HEAD
-                    <div class="card-body" style="height:auto; padding-top: 0">
-                        <div class="card-body bg-light">
-                            <p class="h4 text-dark" style="padding-left: 5px"> {{rec.rec_name}}</p>
-=======
-                    <div class="card-body" style="height:auto; padding-top: 0;">
-                        <div class="card-body bg-dark" style="border-radius:10px;">
-                            <p class="h4 text-light" style="padding-left: 5px"> {{rec.rec_name}}</p>
->>>>>>> 52f51a87ebc2172fb7f8589897647b1e3bf840c8
-                            <img class="rounded" src="../static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="max-width: 200px; max-height:150px">
-                            <p class="card-text mr-2 ml-2 text-dark" style="padding-right: 100px; height: auto">{{rec.rec_description}}</p>
-                            
-                      
-                            <div class="container">
-                              <div class="row">
-                                <form action="{{ url_for('showrecipe', recipe_id=rec.id) }}" method="POST">
-                                                    <!--<a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>-->
-                                                    <button type="submit" class="btn btn-success">Take me there</button>
-                                            </form>
-                                <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
-                                    <button type="submit" class="btn btn-success"> <i class="fa fa-star"></i></button>
+            
+        <div class="card-body" style="height:auto; padding-top: 0;">
+            <div class="card-body bg-dark" style="border-radius:10px;">
+                <p class="h4 text-light" style="padding-left: 5px"> {{rec.rec_name}}</p>
+                <img class="rounded" src="../static/Images/{{rec.recipePic}} " alt="Generic placeholder image" style="max-width: 200px; max-height:150px">
+                <p class="card-text mr-2 ml-2 text-dark" style="padding-right: 100px; height: auto">{{rec.rec_description}}</p>
+                
+          
+                <div class="container">
+                  <div class="row">
+                    <form action="{{ url_for('showrecipe', recipe_id=rec.id) }}" method="POST">
+                                        <!--<a href="#" class="card-link text-light" style="padding-left: 5px">Take me there</a>-->
+                                        <button type="submit" class="btn btn-dark-green">Take me there</button>
                                 </form>
-                                <form action="{{ url_for('comment_recipe', recipe_id=rec.id) }}" method="post">
-                                    <button type="submit" class="btn btn-success float-right"><i class="fa fa-comment-o"></i></button>
-                                  </form>
-                                {% if current_user.id == rec.user_id %}
-                                <form action="{{ url_for('update_recipe', recipe_id=rec.id) }}" method="post">
-                                  <button type="submit" class="btn btn-success"> <i class="fa fa-pencil"></i></button>
-                                </form>
-                                <form action="{{ url_for('delete_recipe', recipe_id=rec.id) }}" method="post">
-                                  <button type="submit" class="btn btn-warning0"> <i class="fa fa-trash"></i></button>
-                                </form>
-                                {% endif %}
-                              </div>
-                            </div>
-                          </div>
-                    </div>
-                <br>
+                    <form action="{{ url_for('add_fav', recipe_id=rec.id) }}" method="post">
+                        <button type="submit" class="btn btn-dark-green btn-lg"> <i class="fa fa-star"></i></button>
+                    </form>
+                    <form action="{{ url_for('comment_recipe', recipe_id=rec.id) }}" method="post">
+                        <button type="submit" class="btn btn-dark-green float-right btn-lg"><i class="fa fa-comment-o"></i></button>
+                      </form>
+                    {% if current_user.id == rec.user_id %}
+                    <form action="{{ url_for('update_recipe', recipe_id=rec.id) }}" method="post">
+                      <button type="submit" class="btn btn-dark-green btn-lg"> <i class="fa fa-pencil"></i></button>
+                    </form>
+                    <form action="{{ url_for('delete_recipe', recipe_id=rec.id) }}" method="post">
+                      <button type="submit" class="btn btn-dark-green btn-lg"> <i class="fa fa-trash"></i></button>
+                    </form>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+        </div>
+    <br>
 
     {% endfor %}
     {% if recipes==null  %}
